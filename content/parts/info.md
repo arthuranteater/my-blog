@@ -2,4 +2,4 @@
 title: info
 ---
 
-I am a front-end web developer. I used to be a web designer too, but now I concentrate on the code.
+I love new things and sharing what I've learned! Please feel free to leave a comment, share, or contact me!
