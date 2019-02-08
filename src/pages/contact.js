@@ -7,7 +7,7 @@ import Main from "../components/Main";
 import Article from "../components/Main/Article";
 import PageHeader from "../components/Page/PageHeader";
 import Content from "../components/Main/Content";
-import Form from "../components/ContactForm";
+import Subscribe from "../components/Subscribe";
 import config from "../../content/meta/config";
 
 const styles = theme => ({});
@@ -16,12 +16,12 @@ const Contact = () => {
   return (
     <Main>
       <Article>
-        <PageHeader title="Contact" />
+        <PageHeader title="Subscribe" />
         <Content>
-          Feel free to contact me by email: <Obfuscate email={config.contactEmail} /> or use the
-          form below.
+          Enter your email below to subscribe!
         </Content>
-        <Form />
+        <br></br>
+        <Subscribe />
       </Article>
     </Main>
   );

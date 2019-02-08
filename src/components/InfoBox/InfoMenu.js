@@ -28,6 +28,10 @@ const InfoMenu = props => {
 
   return (
     <nav className={classes.infoMenu}>
+      <Link to="/contact/" onClick={linkOnClick} className={classes.link} data-shape="closed">
+        Subscribe
+      </Link>
+      <a className={classes.link} href="https://www.huntcodes.co/#contact" target="_blank" >contact</a>
       {pages.map((page, i) => {
         const { fields, frontmatter } = page.node;
         return (
@@ -42,9 +46,8 @@ const InfoMenu = props => {
           </Link>
         );
       })}
-      <Link to="/contact/" onClick={linkOnClick} className={classes.link} data-shape="closed">
-        Contact
-      </Link>
+      <a className={classes.link} href="https://www.huntcodes.co/#porjects" target="_blank" >projects</a>
+
     </nav>
   );
 };

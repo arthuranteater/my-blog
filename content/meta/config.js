@@ -1,9 +1,9 @@
 const colors = require("../../src/styles/colors");
 
 module.exports = {
-  siteTitle: "arthuranter - coding blog", // <title>
-  shortSiteTitle: "arthuranter - coding blog", // <title> ending for posts and pages
-  siteDescription: "Sharing code.",
+  siteTitle: "arthuranter - code review", // <title>
+  shortSiteTitle: "arthuranter - cr", // <title> ending for posts and pages
+  siteDescription: "Place to share best practices for coding and new technologies!",
   siteUrl: "",
   pathPrefix: "",
   siteImage: "",
@@ -13,10 +13,10 @@ module.exports = {
   authorTwitterAccount: "Hunt Applegate",
   // info
   infoTitle: "arthurantear",
-  infoTitleNote: "coding blog",
+  infoTitleNote: "nerd stuff",
   // manifest.json
-  manifestName: "coding blog",
-  manifestShortName: "coding blog", // max 12 characters
+  manifestName: "code review",
+  manifestShortName: "cr", // max 12 characters
   manifestStartUrl: "/",
   manifestBackgroundColor: colors.background,
   manifestThemeColor: colors.background,
@@ -26,6 +26,6 @@ module.exports = {
   // social
   authorSocialLinks: [
     { name: "github", url: "https://github.com/arthuranteater" },
-    { name: "twitter", url: "https://twitter.com/arthurantear" },
+    { name: "twitter", url: "https://twitter.com/arthuranteater" },
   ]
 };

@@ -34,6 +34,7 @@
     "webpack-bundle-analyzer": "^2.13.1"
   },
   "dependencies": {
+    "@emotion/core": "^10.0.7",
     "@material-ui/core": "^1.4.0",
     "@material-ui/icons": "^1.1.0",
     "color": "^3.0.0",
@@ -42,6 +43,7 @@
     "gatsby-link": "^1.6.46",
     "gatsby-plugin-algolia": "^0.0.4",
     "gatsby-plugin-catch-links": "^1.0.24",
+    "gatsby-plugin-emotion": "^4.0.3",
     "gatsby-plugin-feed": "^1.3.25",
     "gatsby-plugin-google-analytics": "^1.0.31",
     "gatsby-plugin-jss": "^1.5.14",
@@ -53,6 +55,7 @@
     "gatsby-plugin-react-svg": "^1.1.1",
     "gatsby-plugin-sharp": "^1.6.48",
     "gatsby-plugin-sitemap": "^1.2.25",
+    "gatsby-plugin-typography": "^2.2.7",
     "gatsby-remark-component": "^1.1.3",
     "gatsby-remark-copy-linked-files": "^1.5.37",
     "gatsby-remark-external-links": "^0.0.4",
@@ -78,9 +81,12 @@
     "react-popper": "0.10.4",
     "react-redux": "^5.0.6",
     "react-share": "^2.2.0",
+    "react-typography": "^0.16.18",
     "rebound": "^0.1.0",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
-    "screenfull": "^3.3.2"
+    "screenfull": "^3.3.2",
+    "typography": "^0.16.18",
+    "typography-theme-kirkham": "^0.16.18"
   }
 }
