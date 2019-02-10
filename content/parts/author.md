@@ -2,4 +2,4 @@
 title: author
 ---
 
-**Mr. Gatsby** Proin ornare ligula eu tellus tempus elementum. Aenean [bibendum](/) iaculis mi, nec blandit lacus interdum vitae. Vestibulum non nibh risus, a scelerisque purus. :hearts:
+**arthuranteater** Thanks for reading the post! I'm a software engineer from Denver, Colorado. To read more about me [click here](https://www.huntcodes.co/#about)

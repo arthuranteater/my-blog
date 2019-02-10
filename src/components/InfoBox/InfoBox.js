@@ -66,7 +66,7 @@ class InfoBox extends React.Component {
   };
 
   render() {
-    const { classes, parts, pages, navigatorPosition, navigatorShape } = this.props;
+    const { classes, parts, pages, cheatsheets, navigatorPosition, navigatorShape } = this.props;
     const info = parts.find(el => el.node.frontmatter.title === "info");
 
     return (
@@ -84,7 +84,7 @@ class InfoBox extends React.Component {
         <div className={classes.wrapper}>
           {info && <InfoText info={info} />}
           <SocialIcons />
-          {pages && <InfoMenu pages={pages} linkOnClick={this.menulinkOnClick} />}
+          {pages && <InfoMenu pages={pages} cheatsheets={cheatsheets} linkOnClick={this.menulinkOnClick} />}
         </div>
       </aside>
     );

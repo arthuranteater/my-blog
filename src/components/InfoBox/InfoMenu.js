@@ -24,12 +24,16 @@ const styles = theme => ({
 });
 
 const InfoMenu = props => {
-  const { classes, pages, linkOnClick } = props;
+  const { cheatsheets, classes, pages, linkOnClick } = props;
+  console.log(cheatsheets)
 
   return (
     <nav className={classes.infoMenu}>
-      <Link to="/contact/" onClick={linkOnClick} className={classes.link} data-shape="closed">
+      <Link to="/subscribe/" onClick={linkOnClick} className={classes.link} data-shape="closed">
         Subscribe
+      </Link>
+      <Link cheatsheats={cheatsheets} to="/cheatsheets/" onClick={linkOnClick} className={classes.link} data-shape="closed">
+        cheatsheets
       </Link>
       <a className={classes.link} href="https://www.huntcodes.co/#contact" target="_blank" >contact</a>
       {pages.map((page, i) => {
@@ -46,7 +50,7 @@ const InfoMenu = props => {
           </Link>
         );
       })}
-      <a className={classes.link} href="https://www.huntcodes.co/#porjects" target="_blank" >projects</a>
+      <a className={classes.link} href="https://www.huntcodes.co/#projects" target="_blank" >projects</a>
 
     </nav>
   );

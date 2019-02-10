@@ -26,7 +26,7 @@ const InfoBox = asyncComponent(
       .then(module => {
         return module;
       })
-      .catch(error => {}),
+      .catch(error => { }),
   <Loading
     overrides={{ width: `${theme.info.sizes.width}px`, height: "100vh", right: "auto" }}
     afterRight={true}
@@ -87,7 +87,7 @@ class Layout extends React.Component {
         <Navigator posts={data.posts.edges} />
         <ActionsBar categories={this.categories} />
         <InfoBar pages={data.pages.edges} parts={data.parts.edges} />
-        {this.props.isWideScreen && <InfoBox pages={data.pages.edges} parts={data.parts.edges} />}
+        {this.props.isWideScreen && <InfoBox pages={data.pages.edges} parts={data.parts.edges} cheatsheets={data.cheatsheets.edges} />}
       </LayoutWrapper>
     );
   }
@@ -169,6 +169,16 @@ export const guery = graphql`
       }
     }
     parts: allMarkdownRemark(filter: { id: { regex: "//parts//" } }) {
+      edges {
+        node {
+          html
+          frontmatter {
+            title
+          }
+        }
+      }
+    }
+    cheatsheets: allMarkdownRemark(filter: { id: { regex: "//cheatsheets//" } }) {
       edges {
         node {
           html

@@ -1,4 +1,6 @@
-# Mac Shortcuts
+---
+title: Mac Shortcuts
+---
 
 
 

@@ -12,7 +12,7 @@ import config from "../../content/meta/config";
 
 const styles = theme => ({});
 
-const Contact = () => {
+const SubscribePage = () => {
   return (
     <Main>
       <Article>
@@ -27,8 +27,8 @@ const Contact = () => {
   );
 };
 
-Contact.propTypes = {
+SubscribePage.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default injectSheet(styles)(Contact);
+export default injectSheet(styles)(SubscribePage);

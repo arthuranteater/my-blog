@@ -1,0 +1,5 @@
+---
+title: Gitignore
+---
+
+```#.gitignore file```
