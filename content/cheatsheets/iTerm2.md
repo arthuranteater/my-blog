@@ -4,6 +4,9 @@ title: iTerm2
 
 
 
+Window new = control + D
 
+Configure PATH = open ~/.zshrc
 
-open ~/.zshrc
+Configure theme = open ~/ .zshrc
+
