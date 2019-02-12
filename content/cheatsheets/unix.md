@@ -16,7 +16,7 @@ Directory Back Two = cd...
 
 Directory Path of Working Directory = pwd
 
-Directory List Files = ls
+Directory List Files = ls or echo *
 
 ***
 
@@ -41,6 +41,8 @@ File Run = program filename
 File Read = cat
 
 File Filter = grep
+
+File Input = echo input > 
 
 
 

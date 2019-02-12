@@ -4,7 +4,7 @@ module.exports = {
   siteTitle: "arthuranter - code review", // <title>
   shortSiteTitle: "arthuranter - cr", // <title> ending for posts and pages
   siteDescription: "Place to share best practices for coding and new technologies!",
-  siteUrl: "",
+  siteUrl: "http://wwww.arthuranteater.com",
   pathPrefix: "",
   siteImage: "",
   siteLanguage: "en",
