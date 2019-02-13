@@ -124,7 +124,6 @@ class ContactForm extends React.Component {
           label="Message"
           value={message}
           onChange={this.handleChange}
-          validators={["required"]}
           errorMessages={["this field is required"]}
           multiline
           fullWidth
