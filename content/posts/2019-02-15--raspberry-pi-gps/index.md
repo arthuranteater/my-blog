@@ -9,14 +9,16 @@ For my Glavanzie capstone project the assignment was to create a new full CRUD (
 
 Checklist:
 
-1) Raspberry Pi 3B
-2) Arduino NEO 6M GPS module
-3) Input and Output Wires (Comes with Pi Cana Kit - see picture)
-4) Sautering iron and female blocks (helpful, not necessary)
-4) External moniter with HDMI connection for Pi (TV or similar display) or Pi USB wireless connector or ethernet cable with adapter
-5) Mac (helpful, but can be done on PC)
-6) Wireless internet connection
-7) Patience
+1) [Raspberry Pi 3 B+](https://www.amazon.com/CanaKit-Raspberry-Ultimate-Starter-Clear/dp/B07BC567TW/ref=sr_1_6?s=electronics&ie=UTF8&qid=1550094539&sr=1-6&keywords=canakit+raspberry+pi+3)
+2) [NEO 6M GPS module](https://www.amazon.com/DIYmall-AeroQuad-Antenna-Arduino-Aircraft/dp/B01H5FNA4K/ref=sr_1_1_sspa?s=electronics&ie=UTF8&qid=1550097557&sr=1-1-spons&keywords=neo6m+gps+module&psc=1)
+3) [4 Female-to-Male Wires](https://www.amazon.com/Elegoo-EL-CP-004-Multicolored-Breadboard-arduino/dp/B01EV70C78/ref=sr_1_2_sspa?s=electronics&ie=UTF8&qid=1550097630&sr=1-2-spons&keywords=female+to+male+jumper+wires&psc=1) (Comes with **some** CanaKits)
+4) [4 Female headers](https://www.amazon.com/VAPKER-2-54mm-Stackable-Straight-Arduino/dp/B01HHR77V8/ref=sr_1_4?s=electronics&ie=UTF8&qid=1550097290&sr=1-4&keywords=female+header) (Doesn't come with CanaKits)
+5) [Sautering iron](https://www.amazon.com/ANBES-Soldering-Iron-Kit-Electronics/dp/B06XZ31W3M/ref=sr_1_3?ie=UTF8&qid=1550097778&sr=8-3&keywords=sautering+iron)
+6) [Solder wire](https://www.amazon.com/dp/B07J55HD6J/ref=sspa_dk_detail_0?psc=1&pd_rd_i=B07J55HD6J&pd_rd_w=m3pql&pf_rd_p=10ebaf99-73de-4f5d-a994-e7f5fc52f86f&pd_rd_wg=2MT0g&pf_rd_r=FY6RAJHMG98ZTYNP9866&pd_rd_r=4cd82a47-2fe2-11e9-891e-bb622be878cb)
+7) External moniter with HDMI cord + [lightening port adpater (for Mac users)](https://www.amazon.com/AmazonBasics-Mini-DisplayPort-HDMI-Cable/dp/B0134V29UA/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550098951&sr=1-3&keywords=hdmi+to+lightning+port) Pi (TV or similar display) **OR** [Pi wireless dongle](https://www.amazon.com/Official-Raspberry-Pi-WiFi-dongle/dp/B014HTNO52/ref=sr_1_5?s=electronics&ie=UTF8&qid=1550098764&sr=1-5&keywords=raspberry+pi+wireless++dongle) **OR** ethernet cable + [USB adapter (for Mac users)](https://www.amazon.com/AmazonBasics-1000-Gigabit-Ethernet-Adapter/dp/B00M77HMU0/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550099115&sr=1-3&keywords=ethernet+to+usb+adapter)
+8) [Battery (not necessary for testing)](https://www.amazon.com/dp/B0137ITW46/ref=psdc_10112773011_t1_B0137IPVY6)
+9) Wifi (not necessary for testing)
+10) **Patience** (last but NOT LEAST!)
 
 Steps:
 
@@ -25,6 +27,9 @@ Steps:
 3) Testing the device
 4) Parsing and sending data
 5) Testing the server
+
+
+#1) Setting Up the Pi
 
 
 ```javascript
