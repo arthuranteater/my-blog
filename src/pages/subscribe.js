@@ -2,6 +2,7 @@ import React from "react";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import Obfuscate from "react-obfuscate";
+import ContactForm from "../components/ContactForm"
 
 import Main from "../components/Main";
 import Article from "../components/Main/Article";
@@ -21,7 +22,7 @@ const SubscribePage = () => {
           Enter your email below to subscribe!
         </Content>
         <br></br>
-        <Subscribe />
+        <ContactForm />
       </Article>
     </Main>
   );

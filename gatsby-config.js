@@ -44,6 +44,7 @@ module.exports = {
     }
   },
   plugins: [
+    `gatsby-plugin-sitemap`,
     `gatsby-plugin-react-next`,
     {
       resolve: `gatsby-plugin-algolia`,
@@ -220,9 +221,6 @@ module.exports = {
           }
         ]
       }
-    },
-    {
-      resolve: `gatsby-plugin-sitemap`
     },
     {
       resolve: "gatsby-plugin-react-svg",

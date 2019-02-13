@@ -1,3 +1,3 @@
 ---
-title: Postgresql & Knex Server
+title: Postgresql + Knex
 ---

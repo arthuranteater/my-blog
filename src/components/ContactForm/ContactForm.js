@@ -13,6 +13,7 @@ function encode(data) {
 
 const styles = theme => ({
   submit: {
+    backgroundColor: theme.main.colors.link,
     margin: "3em 0"
     //width: "100%"
   },
@@ -35,6 +36,9 @@ const styles = theme => ({
   submitError: {
     background: "red",
     color: "white"
+  },
+  button: {
+
   }
 });
 

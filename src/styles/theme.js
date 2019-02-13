@@ -7,30 +7,30 @@ const theme = createMuiTheme({
     colors: {
       background: colors.background,
       text: colors.dark,
-      link: colors.accent,
-      linkHover: Color(colors.accent)
+      link: colors.blue,
+      linkHover: Color(colors.bronze)
         .lighten(0.1)
         .string(),
-      accent: colors.accent,
+      accent: colors.bronze,
       lines: colors.superLightGray
     },
     sizes: {
       linesMargin: "20px"
     },
     fonts: {
-      unstyledFamily: `Arial`,
-      styledFamily: "Open Sans",
+      unstyledFamily: `Raleway`,
+      styledFamily: "Lato",
       styledFonts: "300,400,600"
     }
   },
   info: {
     colors: {
-      text: colors.gray,
-      background: colors.background,
-      socialIcons: colors.lightGray,
-      socialIconsHover: colors.accent,
-      menuLink: colors.gray,
-      menuLinkHover: colors.accent
+      text: colors.white,
+      background: colors.blue,
+      socialIcons: colors.white,
+      socialIconsHover: colors.bronze,
+      menuLink: colors.white,
+      menuLinkHover: colors.bronze
     },
     sizes: {
       width: 320,
@@ -45,9 +45,9 @@ const theme = createMuiTheme({
   navigator: {
     colors: {
       background: colors.background,
-      postsListItemLink: colors.gray,
-      postsListItemLinkHover: colors.accent,
-      postsHeader: colors.gray
+      postsListItemLink: colors.blue,
+      postsListItemLinkHover: colors.bronze,
+      postsHeader: colors.blue
     },
     sizes: {
       closedHeight: 80,
@@ -67,8 +67,8 @@ const theme = createMuiTheme({
       footer: colors.gray,
       contentHeading: colors.gray,
       blockquoteFrame: colors.lightGray,
-      link: colors.accent,
-      linkHover: colors.dark,
+      link: colors.blue,
+      linkHover: colors.bronze,
       fbCommentsColorscheme: "light"
     },
     sizes: {
@@ -116,8 +116,8 @@ const theme = createMuiTheme({
       text: Color(colors.gray)
         .lighten(0.5)
         .string(),
-      link: colors.accent,
-      linkHover: Color(colors.accent)
+      link: colors.blue,
+      linkHover: Color(colors.bronze)
         .lighten(0.2)
         .string()
     },
@@ -145,14 +145,14 @@ const theme = createMuiTheme({
   },
   palette: {
     primary: {
-      main: colors.accent
+      main: colors.bronze
     },
     action: {
       hover: "rgba(0, 0, 0, 0.01)"
     }
   },
   typography: {
-    fontFamily: `Arial, sans-serif`,
+    fontFamily: `Raleway, sans-serif`,
     fontSize: 16
   }
 });

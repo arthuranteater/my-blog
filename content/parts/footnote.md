@@ -2,4 +2,6 @@
 title: footnote
 ---
 
-dslakfds'flksdfkl
+Copyright 2019 | Powered by Gatsby
+
+

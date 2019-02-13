@@ -8,9 +8,7 @@ import config from "../../../content/meta/config";
 
 const styles = theme => ({
   postComments: {
-    margin: "3em 0 0",
-    padding: "3em 0 0",
-    borderTop: "1px solid #ddd"
+    padding: "2em 0 0"
   }
 });
 

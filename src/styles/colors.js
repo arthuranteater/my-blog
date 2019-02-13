@@ -6,5 +6,8 @@ module.exports = {
   dark: "#333333",
   gray: "#555555",
   lightGray: "#bbbbbb",
-  superLightGray: "#dedede"
+  superLightGray: "#dedede",
+  black: "#000000",
+  blue: "#293e60",
+  bronze: "#967540"
 };

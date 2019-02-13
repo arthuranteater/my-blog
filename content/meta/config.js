@@ -4,7 +4,7 @@ module.exports = {
   siteTitle: "arthuranter - code review", // <title>
   shortSiteTitle: "arthuranter - cr", // <title> ending for posts and pages
   siteDescription: "Place to share best practices for coding and new technologies!",
-  siteUrl: "http://wwww.arthuranteater.com",
+  siteUrl: "https://my-blog-3.firebaseapp.com",
   pathPrefix: "",
   siteImage: "",
   siteLanguage: "en",

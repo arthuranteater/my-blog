@@ -2,25 +2,24 @@ import React from 'react';
 import Main from "../components/Main";
 import Article from "../components/Main/Article";
 import PageHeader from "../components/Page/PageHeader";
-import Content from "../components/Main/Content";
 import Cheatsheet from "../components/Cheatsheet";
 
 
 
 export default class Cheatsheets extends React.Component {
 
-    render() {
-        const { data } = this.props
-        console.log(data.cheatsheets.edges)
-        return (
-            <Main>
-                <Article>
-                    <PageHeader title="Cheatsheets" />
-                    <Cheatsheet data={data.cheatsheets.edges} />
-                </Article>
-            </Main>
-        )
-    }
+  render() {
+    const { data } = this.props
+    console.log(data.cheatsheets.edges)
+    return (
+      <Main>
+        <Article>
+          <PageHeader title="Cheatsheets" />
+          <Cheatsheet data={data.cheatsheets.edges} />
+        </Article>
+      </Main>
+    )
+  }
 }
 
 
