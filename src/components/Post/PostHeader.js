@@ -1,6 +1,7 @@
 import React from "react";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
+import HashtagList from "./HashtagList"
 
 const styles = theme => ({
   header: {
@@ -41,7 +42,7 @@ const styles = theme => ({
 });
 
 const PostHeader = props => {
-  const { classes, title, subTitle, date } = props;
+  const { classes, title, subTitle, date, hashtag } = props;
 
   function myDate(dateString) {
     const dateObj = new Date(dateString).toUTCString();
@@ -57,6 +58,8 @@ const PostHeader = props => {
     <header className={classes.header}>
       <h1 className={classes.title}>{title}</h1>
       <h2 className={classes.subTitle}>{subTitle}</h2>
+      <HashtagList data={hashtag} />
+      <br></br>
       <div className={classes.meta}>{myDate(date)}</div>
     </header>
   );

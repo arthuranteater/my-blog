@@ -9,7 +9,7 @@ import withRoot from "../withRoot";
 import theme from "../styles/theme";
 import globals from "../styles/globals";
 
-import { setFontSizeIncrease, setIsWideScreen } from "../state/store";
+import { setFontSizeIncrease, setIsWideScreen, setHashtagClicked } from "../state/store";
 
 import asyncComponent from "../components/common/AsyncComponent/";
 import Loading from "../components/common/Loading/";
@@ -87,7 +87,7 @@ class Layout extends React.Component {
         <Navigator posts={data.posts.edges} />
         <ActionsBar categories={this.categories} />
         <InfoBar pages={data.pages.edges} parts={data.parts.edges} />
-        {this.props.isWideScreen && <InfoBox pages={data.pages.edges} parts={data.parts.edges} cheatsheets={data.cheatsheets.edges} />}
+        {this.props.isWideScreen && <InfoBox pages={data.pages.edges} parts={data.parts.edges} />}
       </LayoutWrapper>
     );
   }

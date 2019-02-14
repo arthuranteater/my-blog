@@ -1,13 +1,18 @@
 ---
 title: How To Build Raspberry Pi - GPS Device
 subTitle: Step-by-step instructions for building a GPS module and sending the data to a server
-category: "how-to"
+hashtag: gps pi python mongodb serialport
+category: "raspberry-pi"
 cover: photo-1490474418585-ba9bad8fd0ea-cover.jpg
+checklist: Raspberry Pi 3 B+, NEO 6M GPS module, 4 Female-to-Male wires, 4 Female headers, Sautering iron, Solder wire, External moniter with HDMI cord + lightening port adpater (for Mac users) + keyboard and mouse OR Pi wireless dongle OR ethernet cable + USB adapter (for Mac users), Battery (not necessary for testing), Wifi (not necessary for testing), Patience (last but NOT LEAST!)
+checklistLinks:
+steps:
+stepsLinks:
 ---
 
 For my Glavanzie capstone project the assignment was to create a new full CRUD (Create, Read, Update, Delete) application that solved a problem with at least one new technology in 10 days. My idea was to create a mobile app where people could track their pets via GPS. I was unable to find a great guide that encompassed all of the information I needed for this project, so I spent most of my time googling. I'm writing this in hopes that others can tackle this project with ease.
 
-Checklist:
+Checklist
 
 1) [Raspberry Pi 3 B+](https://www.amazon.com/CanaKit-Raspberry-Ultimate-Starter-Clear/dp/B07BC567TW/ref=sr_1_6?s=electronics&ie=UTF8&qid=1550094539&sr=1-6&keywords=canakit+raspberry+pi+3)
 2) [NEO 6M GPS module](https://www.amazon.com/DIYmall-AeroQuad-Antenna-Arduino-Aircraft/dp/B01H5FNA4K/ref=sr_1_1_sspa?s=electronics&ie=UTF8&qid=1550097557&sr=1-1-spons&keywords=neo6m+gps+module&psc=1)

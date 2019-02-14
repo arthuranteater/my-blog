@@ -1,7 +1,11 @@
 import React from "react";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
+import { connect } from "react-redux";
 import { InstantSearch, SearchBox, Hits, Stats, Pagination } from "react-instantsearch/dom";
+
+
+import { setHashtagClicked } from "../../state/store";
 
 import Hit from "./Hit";
 
@@ -77,31 +81,61 @@ const styles = theme => ({
   }
 });
 
-const Search = props => {
-  const { classes, algolia } = props;
+class Search extends React.Component {
+  hashtag = ''
 
-  return (
-    <div className={classes.search}>
-      {algolia &&
-        algolia.appId && (
-          <InstantSearch
-            appId={algolia.appId}
-            apiKey={algolia.searchOnlyApiKey}
-            indexName={algolia.indexName}
-          >
-            <SearchBox translations={{ placeholder: "Search" }} />
-            <Stats />
-            <Hits hitComponent={Hit} />
-            <Pagination />
-          </InstantSearch>
-        )}
-    </div>
-  );
-};
+  addToState = (e) => {
+    this.hashtag = this.props.setHashtagClicked(e.target.value)
+  }
+
+
+  render() {
+
+    const { hashtagClicked, algolia, classes } = this.props;
+
+    return (
+      <div className={classes.search}>
+        {algolia &&
+          algolia.appId && (
+            <InstantSearch
+              appId={algolia.appId}
+              apiKey={algolia.searchOnlyApiKey}
+              indexName={algolia.indexName}
+            >
+              <SearchBox defaultRefinement={hashtagClicked} translations={{ placeholder: "Search" }} onChange={this.addToState} />
+              <Stats />
+              <Hits hitComponent={Hit} />
+              <Pagination />
+            </InstantSearch>
+          )
+        }
+      </div>
+    );
+  };
+}
+
 
 Search.propTypes = {
   classes: PropTypes.object.isRequired,
-  algolia: PropTypes.object.isRequired
+  algolia: PropTypes.object.isRequired,
+  hashtagClicked: PropTypes.string.isRequired,
+  setHashtagClicked: PropTypes.func.isRequired
+
 };
 
-export default injectSheet(styles)(Search);
+const mapStateToProps = (state, ownProps) => {
+  return {
+    hashtagClicked: state.hashtagClicked
+  };
+};
+
+const mapDispatchToProps = {
+  setHashtagClicked
+};
+
+export default connect(
+  mapStateToProps,
+  mapDispatchToProps
+)(injectSheet(styles)(Search));
+
+// export default injectSheet(styles)(Search);

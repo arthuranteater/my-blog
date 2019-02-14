@@ -7,6 +7,10 @@ import Article from "../components/Main/Article";
 import PageHeader from "../components/Page/PageHeader";
 import Search from "../components/Search";
 
+
+
+
+
 const SearchPage = props => {
   const { data } = props;
 
@@ -20,9 +24,11 @@ const SearchPage = props => {
   );
 };
 
+
 SearchPage.propTypes = {
   data: PropTypes.object.isRequired
 };
+
 
 export default SearchPage;
 
