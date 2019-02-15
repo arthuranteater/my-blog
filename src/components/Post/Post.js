@@ -5,6 +5,7 @@ import Article from "../Main/Article";
 import PostHeader from "./PostHeader";
 import Content from "../Main/Content";
 import PostFooter from "./PostFooter";
+import CastImage from './CastImage'
 
 const Post = props => {
   const { post, author, slug, facebook } = props;
@@ -15,12 +16,16 @@ const Post = props => {
   const html = (post || {}).html;
   const htmlAst = (post || {}).htmlAst;
   const hashtag = ((post || {}).frontmatter || {}).hashtag;
+  const castImage = ((post || {}).frontmatter || {}).castImage;
 
   //console.log(htmlAst);
+  console.log(castImage)
+  console.log(typeof (castImage))
 
   return (
     <Article>
       <PostHeader title={title} subTitle={subTitle} hashtag={hashtag} date={date} />
+      <CastImage castImage={castImage} />
       <Content html={html} />
       <PostFooter author={author} post={post} slug={slug} facebook={facebook} />
     </Article>

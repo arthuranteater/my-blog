@@ -7,7 +7,7 @@ import { setHashtagClicked } from "../../state/store";
 
 const styles = theme => ({
     list: {
-        margin: "1em",
+        marginTop: "1em",
     }
 })
 

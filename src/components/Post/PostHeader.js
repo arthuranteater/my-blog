@@ -8,7 +8,7 @@ const styles = theme => ({
     margin: "0 0 3em"
   },
   title: {
-    color: theme.main.colors.title,
+    color: theme.main.colors.link,
     fontSize: `${theme.main.fonts.title.size}em`,
     letterSpacing: "-0.04em",
     fontWeight: theme.main.fonts.title.weight,
@@ -45,7 +45,7 @@ const PostHeader = props => {
   const { classes, title, subTitle, date, hashtag } = props;
 
   function myDate(dateString) {
-    const dateObj = new Date(dateString).toUTCString();
+    const dateObj = new Date(dateString).toDateString();
     const dateToShow = dateObj
       .split(" ")
       .slice(0, 4)
@@ -58,9 +58,8 @@ const PostHeader = props => {
     <header className={classes.header}>
       <h1 className={classes.title}>{title}</h1>
       <h2 className={classes.subTitle}>{subTitle}</h2>
-      <HashtagList data={hashtag} />
-      <br></br>
       <div className={classes.meta}>{myDate(date)}</div>
+      <HashtagList data={hashtag} />
     </header>
   );
 };

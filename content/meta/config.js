@@ -1,10 +1,10 @@
 const colors = require("../../src/styles/colors");
 
 module.exports = {
-  siteTitle: "arthuranter - code review", // <title>
+  siteTitle: "arthuranter - coding blog", // <title>
   shortSiteTitle: "arthuranter - cr", // <title> ending for posts and pages
   siteDescription: "Place to share best practices for coding and new technologies!",
-  siteUrl: "https://my-blog-3.firebaseapp.com",
+  siteUrl: "https://arthuranteater.com",
   pathPrefix: "",
   siteImage: "",
   siteLanguage: "en",
@@ -13,9 +13,9 @@ module.exports = {
   authorTwitterAccount: "Hunt Applegate",
   // info
   infoTitle: "arthurantear",
-  infoTitleNote: "nerd stuff",
+  infoTitleNote: "coding blog",
   // manifest.json
-  manifestName: "code review",
+  manifestName: "coding blog",
   manifestShortName: "cr", // max 12 characters
   manifestStartUrl: "/",
   manifestBackgroundColor: colors.background,

@@ -2,6 +2,6 @@
 title: footnote
 ---
 
-Copyright 2019 | Powered by Gatsby
+Copyright 2019 | huntCodes
 
 

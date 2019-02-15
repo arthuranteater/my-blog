@@ -138,6 +138,8 @@ export const guery = graphql`
             title
             subTitle
             category
+            hashtag
+            castImage
             cover {
               children {
                 ... on ImageSharp {

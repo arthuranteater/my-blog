@@ -69,7 +69,8 @@ const theme = createMuiTheme({
       blockquoteFrame: colors.lightGray,
       link: colors.blue,
       linkHover: colors.bronze,
-      fbCommentsColorscheme: "light"
+      fbCommentsColorscheme: "light",
+      castImage: colors.black
     },
     sizes: {
       articleMaxWidth: "50em"
@@ -131,8 +132,8 @@ const theme = createMuiTheme({
   bars: {
     colors: {
       background: colors.background,
-      icon: colors.gray,
-      text: colors.gray
+      icon: colors.blue,
+      text: colors.blue
     },
     sizes: {
       actionsBar: 60,
