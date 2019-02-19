@@ -13,8 +13,17 @@ stepsLinks:
 ---
 
 
+Your mission (should you choose to accept it!): 
 
-The project was to create a new full CRUD (Create, Read, Update, Delete) application that solved a problem with at least one new technology in 10 days. My idea was to create a mobile app where people could track their pets via GPS. Enter Gar, the GPS pet tracker! I really enjoyed the project, I was unable to find a great step-by-step guide, so I spent most of my time googling. I'm writing this in hopes that others can tackle this project with ease.
+Create a full CRUD (Create, Read, Update, Delete) application that solves a problem using at least one new technology in 10 days.
+
+After being pitched on IoT devices, I came up with an idea... 
+
+I like to walk Garf, my sister's dog. The only problem is he can get away real quick. What if he gets lost?
+
+Enter Gar, the pet tracker! I decided to build a GPS pet collar with a Raspberry Pi and a mobile app with React-Native and Google Maps. 
+
+I hope this tutorial inspires people to build more!
 
 Checklist
 
@@ -24,7 +33,7 @@ Checklist
 4) <a href="https://www.amazon.com/VAPKER-2-54mm-Stackable-Straight-Arduino/dp/B01HHR77V8/ref=sr_1_4?s=electronics&ie=UTF8&qid=1550097290&sr=1-4&keywords=female+header" target="_blank">4 Female headers</a> (Doesn't come with CanaKits)
 5) <a href="https://www.amazon.com/ANBES-Soldering-Iron-Kit-Electronics/dp/B06XZ31W3M/ref=sr_1_3?ie=UTF8&qid=1550097778&sr=8-3&keywords=sautering+iron" target="_blank">Sautering Iron</a>
 6) <a href="https://www.amazon.com/dp/B07J55HD6J/ref=sspa_dk_detail_0?psc=1&pd_rd_i=B07J55HD6J&pd_rd_w=m3pql&pf_rd_p=10ebaf99-73de-4f5d-a994-e7f5fc52f86f&pd_rd_wg=2MT0g&pf_rd_r=FY6RAJHMG98ZTYNP9866&pd_rd_r=4cd82a47-2fe2-11e9-891e-bb622be878cb" target="_blank">Solder wire</a>
-7) External moniter with HDMI cord <a href="https://www.amazon.com/AmazonBasics-Mini-DisplayPort-HDMI-Cable/dp/B0134V29UA/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550098951&sr=1-3&keywords=hdmi+to+lightning+port" target="_blank">lightening port adpater</a> (for Mac users) +  Pi (TV or similar display) **OR** <a href="https://www.amazon.com/Official-Raspberry-Pi-WiFi-dongle/dp/B014HTNO52/ref=sr_1_5?s=electronics&ie=UTF8&qid=1550098764&sr=1-5&keywords=raspberry+pi+wireless++dongle" target="_blank">Pi wireless dongle</a> **OR** ethernet cable + <a href="https://www.amazon.com/AmazonBasics-1000-Gigabit-Ethernet-Adapter/dp/B00M77HMU0/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550099115&sr=1-3&keywords=ethernet+to+usb+adapter" target="_blank">USB adapter</a> (for Mac users
+7) External moniter with HDMI cord + <a href="https://www.amazon.com/AmazonBasics-Mini-DisplayPort-HDMI-Cable/dp/B0134V29UA/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550098951&sr=1-3&keywords=hdmi+to+lightning+port" target="_blank">lightening port adpater</a> (for Mac users) **OR** USB Drive > 8 GB **OR** ethernet cable + <a href="https://www.amazon.com/AmazonBasics-1000-Gigabit-Ethernet-Adapter/dp/B00M77HMU0/ref=sr_1_3?s=electronics&ie=UTF8&qid=1550099115&sr=1-3&keywords=ethernet+to+usb+adapter" target="_blank">USB adapter</a> (for Mac users
 8) <a href="https://www.amazon.com/dp/B0137ITW46/ref=psdc_10112773011_t1_B0137IPVY6" target="_blank">Battery</a> (not necessary for testing)
 9) Wifi (not necessary for testing)
 10) **Patience** (last but NOT LEAST!)
@@ -40,12 +49,40 @@ Steps:
 
 ##1) Setting Up the Pi
 
-So you've got everything? Or so you think? Ok assmeble your to your case. If you purchased with CanaKit, there a ScanDisk with NOOBS uploaded on it. Insert the disk, turn on, and plug in external moniter, keyboard, and mouse.  You'll have your option of what version of Linux to download...RaspbianOS is most folks go with.
+After hastily tearing apart the box like a kid on Christmas, make sure to protect the Pi by sticking on the cooling waffles and snapping on the plastic case!
 
 
-```javascript
-code
+
+A) CanaKit:
+
+If you purchased a CanaKit, there is a NOOBS SD Card. Insert the SD Card into the bottom of the Pi, turn on, and plug in external moniter, keyboard, and mouse.  Select the Raspbian operating system from the list (Raspbian, LibreELEC, OSMC, Recalbox, Lakka, RISC OS, Screenly OSE, Windows 10 IoT Core, TLXOS).
+
+```pi@raspberrypi:~ $ cat /etc/os-release
+PRETTY_NAME="Raspbian GNU/Linux 9 (stretch)"
+NAME="Raspbian GNU/Linux"
+VERSION_ID="9"
+VERSION="9 (stretch)"
+ID=raspbian
+ID_LIKE=debian
+HOME_URL="http://www.raspbian.org/"
+SUPPORT_URL="http://www.raspbian.org/RaspbianForums"
+BUG_REPORT_URL="http://www.raspbian.org/RaspbianBugs"
 ```
+
+Skip to VNC
+
+B) Buy NOOBS SD Card:
+
+You can buy SD cards with NOOBS preinstalled are available from many of our distributors and independent retailers, including Pimoroni, Adafruit, and Pi Hut.
+
+C) Use Blank SD Card or USB Drive:
+
+<a href="https://www.raspberrypi.org/documentation/installation/noobs.md" target="_blank">Blank USD Card for NOOBS Instructions</a>
+
+<a href="https://www.raspberrypi.org/documentation/installation/installing-images/README.md" target="_blank">USB Drive, SD Card without NOOBS</a>
+
+ 
+
 
 
 > Block quote
