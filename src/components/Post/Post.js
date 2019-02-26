@@ -24,7 +24,7 @@ const Post = props => {
 
   return (
     <Article>
-      <PostHeader title={title} subTitle={subTitle} hashtag={hashtag} date={date} />
+      <PostHeader title={title} subTitle={subTitle} hashtag={hashtag} date={date} post={post} slug={slug} />
       <CastImage castImage={castImage} />
       <Content html={html} />
       <PostFooter author={author} post={post} slug={slug} facebook={facebook} />

@@ -25,6 +25,7 @@ title: Markdown
 
 ```⋅⋅⋅new paragraph```
 
+```⋅⋅return = new line```
 
 
 ```[clickable word or ref](http:// or repo file ./)```
@@ -35,19 +36,17 @@ title: Markdown
 
 
 
-``````code block language(javascript, python, etc)``` 
-
-```code```
-
-``````close```
-
-
-
 ```
-<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE
-" target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg" 
-alt="" width="" height="" border="" /></a>
+(```language(javascript) = opening code block)
+code
+(``` = closing code block)
 ```
+
+
+
+```<a href="http://www.youtube.com/watch?feature=player_embedded&v=YOUTUBE_VIDEO_ID_HERE"```
+```target="_blank"><img src="http://img.youtube.com/vi/YOUTUBE_VIDEO_ID_HERE/0.jpg"``` 
+```alt="" width="" height="" border="" /></a>```
 
 
 

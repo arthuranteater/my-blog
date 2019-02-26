@@ -8,7 +8,20 @@ import config from "../../../content/meta/config";
 
 const styles = theme => ({
   postComments: {
-    padding: "2em 0 0"
+    padding: "1em 0 0",
+  },
+  label: {
+    fontSize: "1.2em",
+    paddingTop: "1em",
+    margin: "0 1em 1em",
+    [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {
+      margin: "0 1em"
+    }
+  },
+  container: {
+    marginTop: "1em",
+    paddingTop: ".8em",
+    justifyContent: "left"
   }
 });
 
@@ -16,14 +29,17 @@ const PostComments = props => {
   const { classes, slug, facebook } = props;
 
   return (
-    <div id="post-comments" className={classes.postComments}>
-      <FacebookProvider appId={facebook}>
-        <Comments
-          href={`${config.siteUrl}${slug}`}
-          width="100%"
-          colorScheme={props.theme.main.colors.fbCommentsColorscheme}
-        />
-      </FacebookProvider>
+    <div className={classes.container}>
+      <span className={classes.label}>COMMENT</span>
+      <div id="post-comments" className={classes.postComments}>
+        <FacebookProvider appId={facebook}>
+          <Comments
+            href={`${config.siteUrl}${slug}`}
+            width="100%"
+            colorScheme={props.theme.main.colors.fbCommentsColorscheme}
+          />
+        </FacebookProvider>
+      </div>
     </div>
   );
 };

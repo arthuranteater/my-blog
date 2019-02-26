@@ -2,10 +2,14 @@ import React from "react";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import Avatar from "@material-ui/core/Avatar";
+import Button from '@material-ui/core/Button'
+import Chip from '@material-ui/core/Chip';
+import CreateLogo from './CreateLogo'
 
 import config from "../../../content/meta/config";
-import avatar from "../../images/jpg/avatar.png";
-
+import jshaun22 from "../../images/jpg/jshaun22.png";
+import jshaun22s from "../../images/jshaun/jshaun22-small.png"
+import noshaun from "../../images/jshaun/noshaun.png"
 
 import GithubIcon from "!svg-react-loader!../../images/svg-icons/github.svg?name=GithubIcon";
 import FacebookIcon from "!svg-react-loader!../../images/svg-icons/facebook.svg?name=FacebookIcon";
@@ -13,16 +17,16 @@ import TwitterIcon from "!svg-react-loader!../../images/svg-icons/twitter.svg?na
 
 const styles = theme => ({
   author: {
-    padding: "2em 0 0",
+    margin: "1em 0 0",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "left",
     "& a": {
       color: theme.base.colors.link
     },
     [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {
       flexDirection: "row",
-      justifyContent: "center"
+      justifyContent: "left"
     }
   },
   avatar: {
@@ -44,15 +48,22 @@ const styles = theme => ({
   },
   social: {
     display: "flex",
-    justifyContent: "center",
+    justifyContent: "left",
     flexWrap: "wrap",
-    fontSize: "1.2em",
-    font: "Lato",
-    margin: "1em 0 0"
+    font: "Lato"
+  },
+  contributors: {
+    display: "flex",
+    justifyContent: "left",
+    alignItems: "center",
+    flexWrap: "wrap",
+    marginBottom: "1em"
   },
   link: {
     display: "inline-block",
-    padding: "5px",
+    paddingTop: "10px",
+    margin: "0 .8em",
+    cursor: "pointer",
     "&:hover": {
       "& svg": {
         fill: theme.info.colors.socialIconsHover
@@ -66,14 +77,39 @@ const styles = theme => ({
     transition: "all .5s"
   },
   connect: {
-    padding: ".7em"
+    fontSize: "1.2em",
+    paddingTop: "1em",
+    margin: "0 1em 1em",
+    [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {
+      margin: "0 1em"
+    }
   },
-  border: {
-    borderTop: "1px solid #ddd",
-    borderBottom: "1px solid #ddd",
-    margin: "1em 0 0"
+  name: {
+    color: theme.main.colors.background
+
+  },
+  title: {
+    color: theme.main.colors.background,
+    fontSize: "12px"
+  },
+  logo: {
+    backgroundColor: theme.main.colors.link
+  },
+  chip: {
+    marginTop: "1em",
+    margin: "0 .8em",
+    color: theme.main.colors.background,
+    backgroundColor: theme.main.colors.link,
+    "&:hover": {
+      backgroundColor: theme.main.colors.link
+    },
+    "&:visited": {
+      backgroundColor: theme.main.colors.link
+    }
   }
+
 });
+
 
 const PostAuthor = props => {
   const { classes, author } = props;
@@ -83,16 +119,31 @@ const PostAuthor = props => {
     facebook: FacebookIcon,
     github: GithubIcon
   };
+  const name = `<Hunt Applegate />`
+  const title = <span>Software Engineer</span>
 
   return (
     <div className={classes.border}>
-      <div className={classes.author}>
-        <Avatar src={avatar} className={classes.avatar} alt={config.authorName} />
+      <div className={classes.contributors}>
+        <span className={classes.connect}>CONTRIBUTORS</span>
+        <Chip
+          label={<CreateLogo />}
+          avatar={<Avatar src={noshaun} />}
+          className={classes.chip}
+          component="a"
+          href="https://www.huntcodes.co"
+          target="_blank"
+          clickable
+        />
+        {/* <div className={classes.author}>
+        <Avatar src={jshaun22} className={classes.avatar} alt={config.authorName} />
+
         <div className={classes.box} dangerouslySetInnerHTML={{ __html: author.html }} />
+      </div> */}
       </div>
 
       <div className={classes.social}>
-        <span className={classes.connect}>CONNECT</span>
+        <span className={classes.connect}>FOLLOW</span>
         {items.map(item => {
           const Icon = icons[item.name];
           return (

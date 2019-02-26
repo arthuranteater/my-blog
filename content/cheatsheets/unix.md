@@ -40,6 +40,14 @@ File Run = program filename
 
 File Read = cat
 
+File Nano Open = nano filename
+
+File Nano Close = control + X, Y to save
+
+File Vim Open = vi filename
+
+File Vim Close = Press Esc, :wq
+
 File Filter = grep
 
 File Input = echo input > 

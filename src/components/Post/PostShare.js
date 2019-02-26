@@ -19,11 +19,11 @@ import config from "../../../content/meta/config";
 
 const styles = theme => ({
   share: {
+    marginTop: "1em",
     display: "flex",
     flexDirection: "column",
-    justifyContent: "center",
+    justifyContent: "left",
     alignItems: "center",
-    padding: "1em 0 0",
     [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {
       flexDirection: "row"
     }
