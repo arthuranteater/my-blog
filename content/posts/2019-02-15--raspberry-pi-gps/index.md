@@ -24,6 +24,7 @@ This step-by-step guide is designed to be an easy-to-follow, one-stop-shop for s
 
 picture of pi
 
+
 What's a Raspberry Pi?
 
 It's a small headless (without screen) computer created by a non-profit, The Raspberry Pi Foundation, to promote teaching of basic computer science. The Pi was designed to be affordable for schools in all countries. The latest model, the Pi 3 B+, is currently priced at $40. Due to the Pi's low cost, size, versatility, and ease-of-use, it's been heavily utilized in many IoT and robotics applications.
@@ -186,8 +187,6 @@ Write the OS image zip to an SD Card or USB with Etcher:
 -   Select the SD card or USB and click 'Flash!'
 -   Eject SD card or USB and reinsert into computer
 -   Follow the earlier instructions to enable SSH
-
-
 
 **SSH connections are blocked by default for security reasons!**
 
