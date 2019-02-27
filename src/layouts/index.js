@@ -55,7 +55,7 @@ class Layout extends React.Component {
       }
     }
 
-    this.getCategories();
+    // this.getCategories();
   }
 
   getCategories = () => {
@@ -79,6 +79,7 @@ class Layout extends React.Component {
 
   render() {
     const { children, data } = this.props;
+    console.log(data)
 
     // TODO: dynamic management of tabindexes for keybord navigation
     return (
@@ -140,15 +141,6 @@ export const guery = graphql`
             category
             hashtag
             castImage
-            cover {
-              children {
-                ... on ImageSharp {
-                  resolutions(width: 90, height: 90) {
-                    ...GatsbyImageSharpResolutions_withWebp_noBase64
-                  }
-                }
-              }
-            }
           }
         }
       }

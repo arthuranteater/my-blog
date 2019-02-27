@@ -25,8 +25,9 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
   }
 };
 
-exports.createPages = ({ graphql, boundActionCreators }) => {
+exports.createPages = ({ graphql, boundActionCreators, page }) => {
   const { createPage } = boundActionCreators;
+
 
   return new Promise((resolve, reject) => {
     const postTemplate = path.resolve("./src/templates/PostTemplate.js");
@@ -35,13 +36,20 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
       graphql(
         `
           {
-            allMarkdownRemark(filter: { id: { regex: "//posts|pages//" } }, limit: 1000) {
+            allMarkdownRemark(
+              filter: { id: { regex: "//posts|pages//" } }, 
+              limit: 1000,
+              sort: {fields: [fields___slug], order: ASC}) {
               edges {
                 node {
+                  html
                   id
                   fields {
                     slug
                     prefix
+                  }
+                  frontmatter {
+                    title
                   }
                 }
               }
@@ -53,24 +61,46 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
           console.log(result.errors);
           reject(result.errors);
         }
-
         // Create posts and pages.
-        _.each(result.data.allMarkdownRemark.edges, edge => {
-          const slug = edge.node.fields.slug;
-          const isPost = /posts/.test(edge.node.id);
-
+        const edges = result.data.allMarkdownRemark.edges
+        const titles = []
+        const ghtml = {}
+        const gslugs = []
+        const gids = []
+        edges.map((edge, i) => {
+          const title = edge.node.frontmatter.title
+          const html = edge.node.html
+          const slug = edge.node.fields.slug
+          const id = edge.node.id
+          if (!titles.includes(title)) {
+            titles.push(title)
+          }
+          if (ghtml[title]) {
+            ghtml[title] += html
+          } else {
+            ghtml[title] = html
+            gslugs.push(slug)
+            gids.push(id)
+          }
+        })
+        for (var i in titles) {
+          console.log(titles[i])
+          const isPost = /posts/.test(gids[i])
           createPage({
-            path: slug,
+            ...page,
+            path: gslugs[i],
             component: isPost ? postTemplate : pageTemplate,
             context: {
-              slug: slug
+              slug: gslugs[i],
+              html: ghtml[titles[i]]
             }
-          });
-        });
+          })
+        }
       })
-    );
+    )
   });
 };
+
 
 exports.modifyWebpackConfig = ({ config, stage }) => {
   switch (stage) {
