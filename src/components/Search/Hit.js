@@ -29,10 +29,23 @@ const styles = theme => ({
 
 const Hit = props => {
   const { classes, hit } = props;
+  const slug = hit.fields.slug
+  const link = slug.split('/')[1]
+  const step = slug.split('/')[2]
+  const split = step.match(/[a-zA-Z]+|[0-9]+/g)
+  let string = ''
+  let upper = ''
+  let num = ''
+  if (split !== null) {
+    num = split[1]
+    string = split.join(' ')
+    upper = string.charAt(0).toUpperCase() + string.slice(1)
+  }
 
   return (
-    <Link to={hit.fields.slug} className={classes.link}>
+    <Link to={`/${link}/#${num}`} className={classes.link}>
       {hit.frontmatter.title}
+      {upper && <span>{upper}</span>}
       {hit.frontmatter.subTitle && <span>{hit.frontmatter.subTitle}</span>}
     </Link>
   );
