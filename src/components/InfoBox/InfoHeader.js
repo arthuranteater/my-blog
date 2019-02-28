@@ -69,6 +69,7 @@ const styles = theme => ({
   title: {
     willChange: "transform, left, top",
     fontSize: `${theme.info.fonts.boxTitleSize}em`,
+    fontWeight: "bold",
     margin: 0,
     float: "left",
     transitionTimingFunction: "ease",

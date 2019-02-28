@@ -1,8 +1,8 @@
 const colors = require("../../src/styles/colors");
 
 module.exports = {
-  siteTitle: "arthuranter - coding blog", // <title>
-  shortSiteTitle: "arthuranter - cr", // <title> ending for posts and pages
+  siteTitle: "arthuranter - sharing dev projects, tech, and hacks", // <title>
+  shortSiteTitle: "arthuranteater", // <title> ending for posts and pages
   siteDescription: "Place to share best practices for coding and new technologies!",
   siteUrl: "https://arthuranteater.com",
   pathPrefix: "",
@@ -13,10 +13,10 @@ module.exports = {
   authorTwitterAccount: "Hunt Applegate",
   // info
   infoTitle: "arthurantear",
-  infoTitleNote: "coding blog",
+  infoTitleNote: "",
   // manifest.json
-  manifestName: "coding blog",
-  manifestShortName: "cr", // max 12 characters
+  manifestName: "arthuranteater",
+  manifestShortName: "art", // max 12 characters
   manifestStartUrl: "/",
   manifestBackgroundColor: colors.background,
   manifestThemeColor: colors.background,

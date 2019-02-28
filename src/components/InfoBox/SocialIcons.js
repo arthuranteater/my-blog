@@ -10,6 +10,7 @@ import TwitterIcon from "!svg-react-loader!../../images/svg-icons/twitter.svg?na
 
 const styles = theme => ({
   social: {
+    marginTop: "2em",
     display: "flex",
     justifyContent: "center",
     flexWrap: "wrap"

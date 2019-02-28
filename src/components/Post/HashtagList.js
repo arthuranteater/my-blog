@@ -22,14 +22,20 @@ class HashtagList extends React.Component {
 
 
     render() {
-        const { classes, data } = this.props
-        let narray = data.split(" ")
+        const { classes, hashtag } = this.props
 
-        return (
-            <div className={classes.list}>
-                {narray.map((item, i) => <HashtagItem addToState={this.addToState} item={item} key={i} />)}
-            </div>
-        )
+        if (hashtag === null) {
+            return (
+                <div></div>
+            )
+        } else {
+            let narray = hashtag.split(" ")
+            return (
+                <div className={classes.list}>
+                    {narray.map((item, i) => <HashtagItem addToState={this.addToState} item={item} key={i} />)}
+                </div>
+            )
+        }
     }
 }
 

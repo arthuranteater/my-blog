@@ -58,6 +58,7 @@ const PostShare = asyncComponent(() =>
 
 const PostHeader = props => {
   const { classes, title, subTitle, date, hashtag, post, slug } = props;
+  console.log(date)
 
   function myDate(dateString) {
     const dateObj = new Date(dateString).toDateString();
@@ -77,7 +78,7 @@ const PostHeader = props => {
       <h1 className={classes.title}>{title}</h1>
       <h2 className={classes.subTitle}>{subTitle}</h2>
       <div className={classes.meta}>{myDate(date)}</div>
-      <HashtagList data={hashtag} />
+      <HashtagList hashtag={hashtag} />
     </header>
   );
 };

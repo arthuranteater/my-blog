@@ -1,9 +1,9 @@
 import React from 'react';
 import injectSheet from "react-jss";
 import PropTypes from 'prop-types';
-import zero from '../../../content/post-cast-images/blink3.gif'
+import garf from '../../../content/post-cast-images/blink3.gif'
 
-const images = [zero]
+const images = { 1: garf }
 
 
 const styles = theme => ({
@@ -20,14 +20,9 @@ const styles = theme => ({
 
 
 const CastImage = ({ castImage, classes }) => {
-    let match = images.filter(image => image = castImage)
-    if (match) {
-        return (
-            <div className={classes.background}>
-                <img className={classes.image} alt="image" src={match[0]} />
-            </div>
-        )
-    }
+    return (<div>
+        {Object.keys(images).map((num, i) => (num == castImage) ? (<div key={i} className={classes.background}><img className={classes.image} alt="image" src={images[num]} /></div>) : (<div key={i}></div>))}
+    </div>)
 }
 
 CastImage.propTypes = {

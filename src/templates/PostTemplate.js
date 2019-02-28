@@ -23,12 +23,10 @@ class PostTemplate extends React.Component {
   render() {
     const { data, pathContext } = this.props;
     const facebook = (((data || {}).site || {}).siteMetadata || {}).facebook;
-    const house = pathContext.html
-    console.log(house)
 
     return (
       <Main>
-        <Post post={data.post} html={pathContext.html} slug={pathContext.slug} author={data.author} facebook={facebook} />
+        <Post post={data.post} html={pathContext.html} date={pathContext.date} slug={pathContext.slug} author={data.author} facebook={facebook} />
         <Footer footnote={data.footnote} />
         <Seo data={data.post} facebook={facebook} />
       </Main>
@@ -75,6 +73,13 @@ export const postQuery = graphql`
         category
         hashtag
         castImage
+        cover {
+          childImageSharp {
+            resize(width: 300) {
+              src
+            }
+          }
+        }
       }
     }
     author: markdownRemark(id: { regex: "/author/" }) {

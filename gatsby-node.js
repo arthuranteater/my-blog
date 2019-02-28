@@ -25,7 +25,7 @@ exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
   }
 };
 
-exports.createPages = ({ graphql, boundActionCreators, page }) => {
+exports.createPages = ({ graphql, boundActionCreators }) => {
   const { createPage } = boundActionCreators;
 
 
@@ -39,7 +39,7 @@ exports.createPages = ({ graphql, boundActionCreators, page }) => {
             allMarkdownRemark(
               filter: { id: { regex: "//posts|pages//" } }, 
               limit: 1000,
-              sort: {fields: [fields___slug], order: ASC}) {
+              sort: {fields: [fileAbsolutePath], order: ASC}) {
               edges {
                 node {
                   html
@@ -66,11 +66,13 @@ exports.createPages = ({ graphql, boundActionCreators, page }) => {
         const titles = []
         const ghtml = {}
         const gslugs = []
+        const dates = []
         const gids = []
         edges.map((edge, i) => {
           const title = edge.node.frontmatter.title
           const html = edge.node.html
           const slug = edge.node.fields.slug
+          const date = edge.node.fields.prefix
           const id = edge.node.id
           if (!titles.includes(title)) {
             titles.push(title)
@@ -81,18 +83,21 @@ exports.createPages = ({ graphql, boundActionCreators, page }) => {
             ghtml[title] = html
             gslugs.push(slug)
             gids.push(id)
+            dates.push(date)
+            console.log("date", date)
+
           }
         })
         for (var i in titles) {
           console.log(titles[i])
           const isPost = /posts/.test(gids[i])
           createPage({
-            ...page,
             path: gslugs[i],
             component: isPost ? postTemplate : pageTemplate,
             context: {
               slug: gslugs[i],
-              html: ghtml[titles[i]]
+              html: ghtml[titles[i]],
+              date: dates[i]
             }
           })
         }

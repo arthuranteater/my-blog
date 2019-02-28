@@ -14,7 +14,7 @@ const styles = theme => ({
   },
   link: {
     padding: ".5em",
-    fontWeight: 300,
+    fontWeight: "bold",
     textTransform: "lowercase",
     color: theme.info.colors.menuLink,
     "&:hover": {
@@ -29,12 +29,7 @@ const InfoMenu = props => {
 
   return (
     <nav className={classes.infoMenu}>
-      <Link to="/subscribe/" onClick={linkOnClick} className={classes.link} data-shape="closed">
-        Subscribe
-      </Link>
-      <Link cheatsheats={cheatsheets} to="/cheatsheets/" onClick={linkOnClick} className={classes.link} data-shape="closed">
-        cheatsheets
-      </Link>
+
       {pages.map((page, i) => {
         const { fields, frontmatter } = page.node;
         return (
@@ -49,9 +44,12 @@ const InfoMenu = props => {
           </Link>
         );
       })}
-      <a className={classes.link} href="https://www.huntcodes.co/#about" target="_blank" >about me</a>
-      <a className={classes.link} href="https://www.huntcodes.co/#projects" target="_blank">my projects</a>
-      <a className={classes.link} href="https://www.huntcodes.co/#contact" target="_blank" >contact me</a>
+      <Link cheatsheats={cheatsheets} to="/cheatsheets/" onClick={linkOnClick} className={classes.link} data-shape="closed">
+        cheatsheets
+      </Link>
+      <Link to="/subscribe/" onClick={linkOnClick} className={classes.link} data-shape="closed">
+        subscribe
+      </Link>
 
     </nav>
   );

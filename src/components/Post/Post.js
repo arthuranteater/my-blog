@@ -6,28 +6,25 @@ import PostHeader from "./PostHeader";
 import Content from "../Main/Content";
 import PostFooter from "./PostFooter";
 import CastImage from './CastImage'
-import ContentCollection from "../Main/ContentCollection";
 
 const Post = props => {
-  const { post, author, slug, facebook, html } = props;
-  const frontmatter = (post || {}).frontmatter;
+  const { post, author, slug, facebook, html, date } = props;
+
   const title = ((post || {}).frontmatter || {}).title;
   const subTitle = ((post || {}).frontmatter || {}).subTitle;
-  const date = ((post || {}).fields || {}).prefix;
-  //const htmlAst = (html || {}).htmlAst;
   const hashtag = ((post || {}).frontmatter || {}).hashtag;
   const castImage = ((post || {}).frontmatter || {}).castImage;
 
-  //console.log(htmlAst);
-  // console.log(castImage)
-  // console.log(typeof (castImage))
+  //const htmlAst = (html || {}).htmlAst;
+  // const frontmatter = (post || {}).frontmatter;
+
+
 
 
   return (
     <Article>
       <PostHeader title={title} subTitle={subTitle} hashtag={hashtag} date={date} post={post} slug={slug} />
       <CastImage castImage={castImage} />
-      {/* <ContentCollection html={html} title={frontmatter.title} /> */}
       <Content html={html} />
       <PostFooter author={author} post={post} slug={slug} facebook={facebook} />
     </Article>

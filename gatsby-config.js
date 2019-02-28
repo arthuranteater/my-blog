@@ -8,6 +8,7 @@ const query = `{
         objectID: id
         fields {
           slug
+          prefix
         }
         internal {
           content
@@ -198,7 +199,7 @@ module.exports = {
               {
                 allMarkdownRemark(
                   limit: 1000,
-                  sort: { order: DESC, fields: [fields___prefix] },
+                  sort: { order: ASC, fields: [fileAbsolutePath] },
                   filter: { id: { regex: "//posts//" } }
                 ) {
                   edges {
