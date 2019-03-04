@@ -1,5 +1,5 @@
 ---
-title: How To Build Raspberry Pi - GPS Device
+title: Build Raspberry Pi - GPS Device
 ---
 <h1 id="4" style="font-weight: bold">Step 4 - Parse Data</h1>
 
@@ -113,11 +113,43 @@ def main():
 if __name__ == '__main__':
     main()
 ```
-###**Behind the script** 
+Run the script.
+```
+python gps-parser.py
+```
+Terminal should log the following.
 
-I created an infinite loop using while True because I wanted the script to run forever. I made the function getLoc() to run a loop to keep checking the a serial port for valid data. We can control the timing and flow better with a functional component like this. I added a buffer with time.sleep() before making the call. Timing can be important when receiving a live stream of data. The more you can do to control the timing and flow of data the better. Inside getLoc() if we find that data is being received using ser.readline(), we are searching the GPGGA line for the latitude and longitude. If there are coordinates, they will be sent to decode() to be converted into a more useful format. We will log the result to the console and the number of satellites pinged. We'll try to send the new coordinates to our server and log the result.
+<img src="./assets/parser-failed.png" alt="GPIO setup" height="30" width="30">
 
-As you can see from the script, you are missing a key and name for your api call. You can go to <a href="https://thingspeak.com/" target="_blank">ThingSpeak</a> to create a profile. This is a limited free api where you can send your data to. Follow the instructions and create a channel. Post your name and the appropriate api key in the script, and the information should send to your channel. You can send your data anywhere from here. There are multiple request libraries for Python or you could write your own script in whatever lanaguage you choose to parse and/or send the data. The only limiting factor is the internet connectivity. 4G hotspot device?
+If you get a script error, it might be due to indentation.
+
+If you get no satelite data received, there might be another operation running on the port.
+
+Grep the port.
+```
+ps aux | grep serial0
+```
+Or.
+```
+ps -ef | grep serial0
+```
+Grab the operation id (the first number in line) from the operation you wish to stop, and insert in place of id-number below to stop the action.
+```
+sudo kill id-number
+```
+
+###**Script Logic** 
+
+We created an infinite loop using while True because we want the script to run forever. We made the function getLoc() to run another infinite loop to keep checking the serial port for valid data. We created two separate loops for more control over the timing. We added a buffer using time.sleep() before calling getLoc(). If data is being received by ser.readline(), we'll scan the line starting with GPGGA for the latitude and longitude. If there are coordinates, we'll send them to decode(). We'll log the result to the console along with the number of satellites pinged. And finally we'll send the new coordinates to our server and log the result.
+
+You are missing the api key and name for your api call. Go to <a href="https://thingspeak.com/" target="_blank">ThingSpeak</a>, a free api that stores data in JSON, to create a profile. Follow the instructions and create a channel. Add your name and api key in the script, and the coordinates will send to your channel.
+
+Run the script, and the terminal should log the following.
+
+<img src="./assets/parser-sent.png" alt="GPIO setup" height="30" width="30">
+
+
+You can access the data stored in ThingSpeak from anywhere. Or you could write your own script using another language, request library, database, api, or server. The only limiting factor is Wifi, but Pi's can connect to a cellular network! Future blog post?
 
 Create remote, add, commit, push.
 ```
@@ -136,39 +168,43 @@ You return should look like below.
 
 HIGH FIVE! You've accomplished the impossible!
 
-If not check for indentation errors first.
 
-An easier way to write code is through the Pi's GUI or a Web IDE. 
+An easier way to write code is with IDE through the Pi's GUI or using a Web IDE. To access the Pi's GUI, use VNC Viewer. 
 
-Or you could write the script in on your computer, push to git, then git pull. This seems a bit of a hassle.
+###**VNC Viewer**
 
-I highly recommend VNC Viewer to access the Pi's GUI. Make sure you set up a profile on VNC Viewer to cloud connect from any network. VNC works on mobile devices too!
+With VNC you can cloud connect to view the Pi's GUI from any network without messing with IP addresses.
+
+- Download in Pi terminal.
 ```
 sudo apt-get update
 sudo apt-get install realvnc-vnc-server realvnc-vnc-viewer
 ```
-From raspberrypi.org:
 
-You are entitled to use RealVNC's cloud service for free, provided that remote access is for educational or non-commercial purposes only.
+-   <a href="https://www.realvnc.com/raspberrypi/#sign-up" target="_blank">Sign up for a RealVNC account</a>. RealVNC's cloud service is free for educational or non-commercial purposes.
 
-Cloud connections are convenient and encrypted end-to-end. They are highly recommended for connecting to your Raspberry Pi over the internet. There's no firewall or router reconfiguration, and you don't need to know the IP address of your Raspberry Pi, or provide a static one.
+-   On Pi, sign in to VNC Server using your new RealVNC account credentials.
 
--   <a href="https://www.realvnc.com/raspberrypi/#sign-up" target="_blank">Sign up for a RealVNC account</a>.
+-   Download RealVNC app on computer or phone. <a href="https://www.realvnc.com/download/viewer/" target="_blank">Download RealVNC app</a>.
 
--   On your Raspberry Pi, sign in to VNC Server using your new RealVNC account credentials.
+-   Sign in to VNC Viewer using the same RealVNC account credentials.
 
--   On the device you'll use to take control, download VNC Viewer. You must use the <a href="https://www.realvnc.com/download/viewer/" target="_blank">compatible app from RealVNC</a>.
+###**IDE's**
 
--   Sign in to VNC Viewer using the same RealVNC account credentials, and then either tap or click to connect to your Raspberry Pi.
-
-With VNC Viewer, you can run <a href="https://realpython.com/python-thonny/Thonny" target="_blank">Thonny</a>, a Python IDE.
-
-Open Thonny.
+- <a href="https://realpython.com/python-thonny/Thonny" target="_blank">Thonny</a>, a Python IDE, comes already installed on RaspbianOS. Viewing the Pi's GUI, you can run Thonny from terminal with the following command.
 ```
 thonny
 ```
-There are many IDE options for Pi. <a href="https://www.raspberrypi.org/blog/mu-python-ide/" target="_blank">Mu</a>, a Python IDE released in 2018, looks cool! VS Code and Atom have 3rd party builds for Pi. I couldn't get the "headmelted" version of VS Code to show more than a blank screen. Geany IDE supports tons of programming languages like C, C++, C#, Java, HTML, PHP, Python, Perl, Ruby, Erlang and even LaTeX. 
 
-I like <a href="https://learn.adafruit.com/webide/overview" target="_blank">ADAfruit's Web IDE</a>. It's easy to install, runs headless in any Chrome or Firefox browser connected to the same network, and has dark theme sytnax highlighting for Python, Ruby, and Javascritpt.
+- <a href="https://learn.adafruit.com/webide/overview" target="_blank">ADAfruit's Web IDE</a> runs headless in any Chrome or Firefox browser connected to the same network, and provides dark theme with sytnax highlighting for Python, Ruby, and Javascritpt.
 
-Happy Coding!
+
+- <a href="https://www.raspberrypi.org/blog/mu-python-ide/" target="_blank">Mu</a>, a Python IDE released in 2018, looks cool! 
+
+- VS Code and Atom have 3rd party builds for Pi. 
+
+- <a href="https://www.geany.org/" target="_blank">Geany</a> supports tons of programming languages like C, C++, C#, Java, HTML, PHP, Python, Perl, Ruby, Erlang and even LaTeX. 
+
+**Stay tuned for Part II which will cover building the mobile application!**
+
+**Happy Coding!**

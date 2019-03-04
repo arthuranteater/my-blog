@@ -1,5 +1,5 @@
 ---
-title: How To Build Raspberry Pi - GPS Device
+title: Build Raspberry Pi - GPS Device
 
 ---
 
@@ -34,9 +34,9 @@ sudo reboot
 
 The final step is enable the getty service for ttyAMA0 or serial0. I'm not sure the reason why this must be done. I want my script to be the only thing accessing the port, but without enabling the getty my script doesn't work.
 
-First let's physically connect the device.
+Connect the device using pins.
 
-Photo of pin chart.
+<img src="./assets/gpio-setup.jpg" alt="GPIO setup" height="30" width="30">
 
 **VCC to Pin 1, which is 3.3v**
 
@@ -46,9 +46,13 @@ Photo of pin chart.
 
 **Gnd to Pin 6, which is Gnd**
 
-The red light on the GPS turns on with power, and the green light blinks when receiving a satellite signal.
+<img src="./assets/connect-pi.jpg" alt="GPIO setup" height="30" width="30">
 
-Cat port ttyAMA0 or serial0.
+<img src="./assets/connect-gps.jpeg" alt="GPIO setup" height="30" width="30">
+
+The red light on the GPS lights up when receiving power, and the green light blinks when receiving a satellite signal.
+
+Console log the stream of data.
 ```
 sudo cat /dev/serial0
 ```
@@ -64,11 +68,11 @@ sudo cat /dev/ttyAMA0
 ```
 If you get back a response like the picture below, your GPS cannot get a fix. Try placing the Pi next to a window or on a porch.
 
-picture of no signal
+<img src="./assets/cat-port-bad.png" alt="No fix" height="30" width="30">
 
 You want to get a response like the one below.
 
-picture of good response
+<img src="./assets/cat-port-good.png" alt="Good signal" height="30" width="30">
 
 Hooray! You are getting good data. What is it?
 

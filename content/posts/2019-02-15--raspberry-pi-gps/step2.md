@@ -1,5 +1,5 @@
 ---
-title: How To Build Raspberry Pi - GPS Device
+title: Build Raspberry Pi - GPS Device
 
 ---
 
@@ -98,15 +98,15 @@ passwd
 
 Pi 3 comes with Bluetooth which by default is setup on the serial port which we'll be connecting to. If there's a way to connect the GPS without disabling the bluetooth, please advise me.
 
-To verify SSH, Serial Port settings
+Verify SSH, Serial Port settings.
 ```
 sudo raspi-config
 ```
 Make sure SSH, VNC, SPI are enabled. Switch the serial console off, but keep the serial port on.
 
-picture of interface settings
+<img src="./assets/pi-config.png" alt="Pi settings" height="30" width="30">
 
-To get the lastest distribution:
+Update.
 ```
 sudo apt-get update
 sudo apt-get dist-upgrade

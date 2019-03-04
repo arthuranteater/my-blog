@@ -1,7 +1,7 @@
 ---
-title: How To Build Raspberry Pi - GPS Device
-subTitle: Step-by-step instructions for building a GPS module and sending the data to a server
-hashtag: gps pi python serialport
+title: Build Raspberry Pi - GPS Device
+subTitle: Step-by-step instructions for building a GPS module and sending the coordinates to a server
+hashtag: gps pi python serialport ttyAMA0 serial0 raspi-config ide vnc headless
 category: "raspberry-pi"
 time: 1 hour
 castImage: 1
@@ -13,23 +13,18 @@ stepsLinks:
 
 ---
 
+I like to walk Garf, my sister's dog. The problem is he can get away real quick. What if he gets lost? With **Garf**, the pet tracker with a GPS collar and a mobile app, I'll always be able to keep an eye on him!
 
-Your mission (should you choose to accept it!): 
+Let's build it! This step-by-step guide is designed to be an easy-to-follow, one-stop-shop for setup, questions, and troubleshooting for receiving and sending GPS data from a Raspberry Pi.
 
-Create a full CRUD (Create, Read, Update, Delete) application that solves a problem using at least one new technology in 10 days.
-
-I like to walk Garf, my sister's dog. The problem is he can get away real quick. What if he gets lost? Enter **Garf**, the pet tracker! With a GPS collar and a mobile app, I'll always be able to keep an eye on him!
-
-This step-by-step guide is designed to be an easy-to-follow, one-stop-shop for setup, questions, and troubleshooting for sending GPS data from a Raspberry Pi.
-
-picture of pi
+<img src="./assets/pi-logo-3.png" alt="Raspberry Pi" height="30" width="30">
 
 
-What's a Raspberry Pi?
+**What's a Raspberry Pi?**
 
 It's a small headless (without screen) computer created by a non-profit, The Raspberry Pi Foundation, to promote teaching of basic computer science. The Pi was designed to be affordable for schools in all countries. The latest model, the Pi 3 B+, is currently priced at $40. Due to the Pi's low cost, size, versatility, and ease-of-use, it's been heavily utilized in many IoT and robotics applications.
 
-Why the name Raspberry Pi?
+**Why the name Raspberry Pi?**
 
 From Eben Upton, the founder of the Pi Foundation...
 

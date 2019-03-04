@@ -12,7 +12,7 @@ module.exports = {
   authorName: "Hunt Applegate",
   authorTwitterAccount: "Hunt Applegate",
   // info
-  infoTitle: "arthurantear",
+  infoTitle: "arthuranteater",
   infoTitleNote: "",
   // manifest.json
   manifestName: "arthuranteater",

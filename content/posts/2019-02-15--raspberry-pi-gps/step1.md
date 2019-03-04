@@ -1,5 +1,5 @@
 ---
-title: How To Build Raspberry Pi - GPS Device
+title: Build Raspberry Pi - GPS Device
 
 ---
 
