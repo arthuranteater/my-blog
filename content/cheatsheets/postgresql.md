@@ -5,6 +5,7 @@ title: Postgresql
 Terminal
 
 - Download: brew install postgresql
+- Check Version: postgres --version
 - Upgrade: 
 
 Steps to install and run PostgreSQL 9.2 using Homebrew (Mac OS X)
