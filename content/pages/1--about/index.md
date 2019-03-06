@@ -5,7 +5,7 @@ menuTitle: About
 
 
 
-##Welcome to **arthuranteater**, built for sharing projects, coding challenges, new tech, and best practices!  
+## Welcome to **arthuranteater**, built for sharing projects, coding challenges, new tech, and best practices!  
 
 
 I'm Hunt Applegate, a software engineer from Denver, CO. I'm always looking to collaborate on awesome projects. Got an ideas for website, project, or post?  
@@ -41,7 +41,7 @@ Added Features:
 * Nodemailer for sending email alerts
 * Google recaptcha for bot protection
 
-## To recreate
+##### Recreate
 
 If you do not have Gatsby Cli installed yet...
 
@@ -64,7 +64,7 @@ Build to create static site.
 gatsby build
 ```
 
-##### External services
+##### Services
 
 All services are free to use or have generous free tiers big enough for a personal blog.
 
@@ -79,7 +79,7 @@ ALGOLIA_INDEX_NAME=...
 FB_APP_ID=...
 ```
 
-##### Email blaster
+##### Emails
 
 To offer a subscription service, you can use Netlify or build a server for emailing. I chose to build a server with Node. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
 
