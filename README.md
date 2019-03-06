@@ -1,5 +1,4 @@
-## Welcome to **arthuranteater**!  
-### Built for sharing projects, coding challenges, new tech, and best practices!  
+## Welcome to **arthuranteater**! ### Built for sharing projects, coding challenges, new tech, and best practices!  
 
 
 I'm Hunt Applegate, a software engineer from Denver, CO. I'm always looking to collaborate on awesome projects. Got an ideas for website, project, or post?  
