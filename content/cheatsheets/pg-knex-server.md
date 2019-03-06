@@ -2,13 +2,13 @@
 title: Postgresql + Knex
 ---
 
-$createdb db-name
-$take name-server
-$git init
-$npm init -y
-$knex init
-$npm i pg express knex morgan cors body-paser dotenv
-$touch app.js queries.js .gitignore .env
+$createdb db-name  
+$take name-server  
+$git init  
+$npm init -y  
+$knex init  
+$npm i pg express knex morgan cors body-paser dotenv  
+$touch app.js queries.js .gitignore .env  
 $code .
 
 1) Edit json to include script to run node app.js
@@ -20,14 +20,12 @@ const cors = require("cors");
 const app = express();
 const port = process.env.PORT || 4000;
 const queries = require("./queries.js");
-
 app.use(bodyParser.json());
 app.use(cors());
-
 app.listen(port, (req, res) => {
     console.log(`listening on ${port}`);
 });
-```
+```  
 $npm start
 
 3) Edit knexfile.js:
@@ -43,8 +41,8 @@ development: {
     connection: process.env.DATABASE_URL
   }
   ```
-  $knex migrate:make migration_name
-  $knex seed:make seed_name
+  $knex migrate:make migration-name  
+  $knex seed:make seed-name
 
   5) Fill migration(s):
   ```javascript
@@ -59,7 +57,7 @@ development: {
 
   6) Fill seed(s)
 
-  $knex migrate:latest
+  $knex migrate:latest  
   $knex seed:run
 
   7) Edit queries.js:
@@ -71,8 +69,8 @@ development: {
 ```javascript
 module.exports = {
   create(callItWhatYouWill) {
-    return database("students").insert(callItWhatYouWill);
-  },
+    return database("students").insert(callItWhatYouWill
+    },
   list() {
     return knex("classmates");
   },
@@ -89,19 +87,15 @@ app.get("/", (request, response) => {
     //res.send('working')
   queries.list().then(result => response.json({ result }));
 });
-
 app.get("/:id", (req, res) => {
   queries.getById(req.params.id).then(data => res.json({ data }));
 });
-
 app.post("/", (req, res) => {
   queries.createStudent(req.body).then(data => res.json({ data }));
 });
-
 app.delete("/:id", (req, res) => {
   queries.deleteStudent(req.params.id).then(data => res.json({ data }));
 });
-
 app.put("/:id", (req, res) => {
   queries
     .updateStudent(req.params.id, req.body)
