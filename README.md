@@ -6,13 +6,13 @@ I'm Hunt Applegate, a software engineer from Denver, CO. I'm always looking to c
 
 **<a href="https://www.huntcodes.co/" target="_blank">Contact Me</a>**
 
-When I'm not coding, I'm outside enjoying the beautiful mountains. I enjoy hiking, fly-fishing, camping, and skiing. I'm a member of social clubs for travel, learning Spanish, and coding. I'm a believer in meditation and living a healthy lifestyle.
-
 Thanks for visiting!
 
 The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux, Material UI, React JSS, Node, Express, Postgresql, Agolia, and Facebook.
 
-Built-in Features:
+##### Features
+
+Built-in:
 
 * Editable Markdown files for posting
 * Sitemap, robot, meta, OpenGraph for SEO
@@ -25,7 +25,7 @@ Built-in Features:
 * Customizable base styles for styling
 * Webpack plugin for monitoring load time
 
-Added Features:
+Added:
 
 * Cheatsheets for quick reference guide
 * Choice of categories for subscribers
