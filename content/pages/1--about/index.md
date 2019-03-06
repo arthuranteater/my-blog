@@ -35,11 +35,15 @@ Built-in Features:
 Added Features:
 
 * Cheatsheets for quick reference guide
+* Choice of categories for subscribers
 * Chips for mulitple contributors
 * Chips for hashtags searches #awesome
+* Dark mode for mood change (coming soon)
+* Google recaptcha for bot protection (coming soon)
 * Optimized Algolia search for longer posts
-* Nodemailer for sending email alerts
-* Google recaptcha for bot protection
+* Secure storage for subscriber emails
+* Server for sending bulk email alerts
+* Unsubscribe feature with passcode
 
 ##### Recreate
 
