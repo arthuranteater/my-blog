@@ -10,7 +10,7 @@ Thanks for visiting!
 
 The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux, Material UI, React JSS, Node, Express, Postgresql, Agolia, and Facebook.
 
-##### Features
+#### Features
 
 Built-in:
 
@@ -39,7 +39,7 @@ Added:
 * Unsubscribe feature with passcode
 
 
-##### Recreate
+#### Recreate
 
 If you do not have Gatsby Cli installed yet...
 
@@ -62,7 +62,7 @@ Build to create static site.
 gatsby build
 ```
 
-##### Services
+#### Services
 
 All services are free to use or have generous free tiers big enough for a personal blog.
 
@@ -77,11 +77,11 @@ ALGOLIA_INDEX_NAME=...
 FB_APP_ID=...
 ```
 
-##### Emails
+#### Emails
 
 To offer a subscription service, you can use Netlify or build a server for emailing. I chose to build a server with Node. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
 
-##### Contributors
+#### Contributors
 
 The starter template was built by Greg Lobinski. See also the list of **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>** who participated in this project.
 
