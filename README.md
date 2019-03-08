@@ -12,20 +12,7 @@ The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux
 
 #### Features
 
-Built-in:
-
-* Editable Markdown files for posting
-* Sitemap, robot, meta, OpenGraph for SEO
-* Social icons for sharing the posts
-* Facebook comments for leaving remarks
-* Lazy loading items for better time
-* Categories for post list filtering
-* Algolia search for scanning the site
-* Google Analytics for viewing traffic
-* Customizable base styles for styling
-* Webpack plugin for monitoring load time
-
-Added:
+What I'm Adding:
 
 * Cheatsheets for quick reference guide
 * Choice of categories for subscribers
@@ -38,6 +25,18 @@ Added:
 * Server for sending bulk email alerts
 * Unsubscribe feature with passcode
 
+What was built-in:
+
+* Editable Markdown files for posting
+* Sitemap, robot, meta, OpenGraph for SEO
+* Social icons for sharing the posts
+* Facebook comments for leaving remarks
+* Lazy loading items for better time
+* Categories for post list filtering
+* Algolia search for scanning the site
+* Google Analytics for viewing traffic
+* Customizable base styles for styling
+* Webpack plugin for monitoring load time
 
 #### Recreate
 
