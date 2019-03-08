@@ -12,7 +12,7 @@ The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux
 
 #### Features
 
-What I'm Adding:
+What I'm adding:
 
 * Cheatsheets for quick reference guide
 * Choice of categories for subscribers
