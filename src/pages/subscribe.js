@@ -13,7 +13,11 @@ import config from "../../content/meta/config";
 
 const styles = theme => ({});
 
-const SubscribePage = () => {
+const SubscribePage = props => {
+  const { data } = props
+  const apiKey = data.site.siteMetadata.addSub
+  console.log("api", apiKey)
+
   return (
     <Main>
       <Article>
@@ -22,7 +26,7 @@ const SubscribePage = () => {
           Enter your email below to subscribe!
         </Content>
         <br></br>
-        <ContactForm />
+        <ContactForm api={data.site.siteMetadata} />
       </Article>
     </Main>
   );
@@ -33,3 +37,13 @@ SubscribePage.propTypes = {
 };
 
 export default injectSheet(styles)(SubscribePage);
+
+export const query = graphql`
+  query postQuery {
+    site {
+      siteMetadata {
+        addSub
+      }
+    }
+  }
+`;

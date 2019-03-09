@@ -5,6 +5,8 @@ import Button from "@material-ui/core/Button";
 import { navigateTo } from "gatsby-link";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 
+
+
 function encode(data) {
   return Object.keys(data)
     .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
@@ -43,11 +45,15 @@ const styles = theme => ({
 });
 
 class ContactForm extends React.Component {
+  constructor(props) {
+    super(props);
+    this.submitError = '';
+  }
+
   state = {
-    name: "",
-    email: "",
-    message: "",
-    submitError: ""
+    Name: "",
+    Email: "",
+    Categories: ''
   };
 
   handleChange = event => {
@@ -59,30 +65,32 @@ class ContactForm extends React.Component {
   };
 
   handleNetworkError = e => {
-    this.setState({ submitError: "There was a network error." });
+    this.submitError = `Error!`
   };
 
   handleSubmit = e => {
-    fetch("/", {
+    const devUrl = `http://localhost:4000/${this.props.api.addSub}`
+    const jshaun = JSON.stringify(this.state)
+    console.log(jshaun)
+    fetch(devUrl, {
       method: "POST",
-      headers: { "Content-Type": "application/x-www-form-urlencoded" },
-      body: encode({ "form-name": "contact", ...this.state })
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(this.state)
+    }).then(res => {
+      console.log("Success", res.json())
+      navigateTo("/success")
+    }).catch(err => {
+      console.error("Error:", err);
+      this.handleNetworkError();
     })
-      .then(() => {
-        console.log("Form submission success");
-        navigateTo("/success");
-      })
-      .catch(error => {
-        console.error("Form submission error:", error);
-        this.handleNetworkError();
-      });
-
-    e.preventDefault();
   };
 
   render() {
     const { classes } = this.props;
-    const { email, name, message, submitError } = this.state;
+    const { Email, Name } = this.state;
 
     return (
       <ValidatorForm
@@ -93,12 +101,12 @@ class ContactForm extends React.Component {
         data-netlify="true"
         data-netlify-honeypot="bot-field"
       >
-        {submitError && <p className={classes.submitError}>{submitError}</p>}
+        {this.submitError && <p className={classes.submitError}>{this.submitError}</p>}
         <TextValidator
           id="name"
-          name="name"
+          name="Name"
           label="Name"
-          value={name}
+          value={Name}
           onChange={this.handleChange}
           validators={["required"]}
           errorMessages={["this field is required"]}
@@ -108,27 +116,15 @@ class ContactForm extends React.Component {
         />
         <TextValidator
           id="email"
-          name="email"
+          name="Email"
           label="E-mail"
-          value={email}
+          value={Email}
           onChange={this.handleChange}
           validators={["required", "isEmail"]}
           errorMessages={["this field is required", "email is not valid"]}
           fullWidth
           margin="normal"
           className={classes.singleLineInput}
-        />
-        <TextValidator
-          id="message"
-          name="message"
-          label="Message"
-          value={message}
-          onChange={this.handleChange}
-          errorMessages={["this field is required"]}
-          multiline
-          fullWidth
-          margin="normal"
-          className={classes.multilineInput}
         />
         <input name="bot-field" style={{ display: "none" }} />
         <Button
@@ -138,7 +134,7 @@ class ContactForm extends React.Component {
           type="submit"
           className={classes.submit}
         >
-          Send
+          Subscribe
         </Button>
       </ValidatorForm>
     );
@@ -150,3 +146,17 @@ ContactForm.propTypes = {
 };
 
 export default injectSheet(styles)(ContactForm);
+
+
+{/* <TextValidator
+          id="message"
+          name="message"
+          label="Message"
+          value={message}
+          onChange={this.handleChange}
+          errorMessages={["this field is required"]}
+          multiline
+          fullWidth
+          margin="normal"
+          className={classes.multilineInput}
+        /> */}
