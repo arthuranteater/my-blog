@@ -4,14 +4,9 @@ import injectSheet from "react-jss";
 import Button from "@material-ui/core/Button";
 import { navigateTo } from "gatsby-link";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
+import CatList from './CatList'
 
 
-
-function encode(data) {
-  return Object.keys(data)
-    .map(key => encodeURIComponent(key) + "=" + encodeURIComponent(data[key]))
-    .join("&");
-}
 
 const styles = theme => ({
   submit: {
@@ -39,58 +34,88 @@ const styles = theme => ({
     background: "red",
     color: "white"
   },
-  button: {
-
-  }
 });
 
 class ContactForm extends React.Component {
   constructor(props) {
     super(props);
-    this.submitError = '';
+    this.submitError = ''
+    this.saved = false
   }
 
   state = {
-    Name: "",
-    Email: "",
-    Categories: ''
-  };
+    Name: '',
+    Email: '',
+    Categories: '',
+    Passcode: ''
+  }
 
-  handleChange = event => {
-    const target = event.target;
-    const value = target.value;
-    const name = target.name;
+  addCats = (selected) => {
+    this.saved = true
+    let strCats = selected.join(' ')
+    console.log('cats added', strCats)
+    this.setState({ Categories: strCats })
+    console.log(this.state)
+  }
 
-    this.setState({ [name]: value });
-  };
+  createCode = () => {
+    var code = ''
+    var val = this.props.values
+
+    for (var i = 0; i < 6; i++) {
+      code += val.charAt(Math.floor(Math.random() * val.length));
+    }
+    console.log(code)
+    this.setState({
+      Passcode: code
+    })
+  }
+
+  handleChange = e => {
+    const value = e.target.value
+    const name = e.target.name
+    if (this.state.Passcode === '') {
+      this.createCode()
+    }
+    this.setState({ [name]: value })
+  }
 
   handleNetworkError = e => {
-    this.submitError = `Error!`
-  };
+    this.submitError = 'There was a network error!'
+  }
+
+  handleNoSelect = e => {
+    this.submitError = 'Please select categories and click save!'
+  }
 
   handleSubmit = e => {
-    const devUrl = `http://localhost:4000/${this.props.api.addSub}`
-    const jshaun = JSON.stringify(this.state)
-    console.log(jshaun)
-    fetch(devUrl, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify(this.state)
-    }).then(res => {
-      console.log("Success", res.json())
-      navigateTo("/success")
-    }).catch(err => {
-      console.error("Error:", err);
-      this.handleNetworkError();
-    })
+    e.preventDefault()
+    if (this.saved === false) {
+      this.handleNoSelect()
+    } else {
+      const devUrl = `http://localhost:4000/${this.props.api}`
+      const jshaun = JSON.stringify(this.state)
+      console.log(jshaun)
+      fetch(devUrl, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(this.state)
+      }).then(res => {
+        console.log("Success", res.json())
+        navigateTo("/success")
+      }).catch(err => {
+        console.error("Error:", err);
+        this.handleNetworkError();
+      })
+    }
   };
 
   render() {
-    const { classes } = this.props;
-    const { Email, Name } = this.state;
+    const { classes } = this.props
+    const { Email, Name } = this.state
 
     return (
       <ValidatorForm
@@ -126,16 +151,8 @@ class ContactForm extends React.Component {
           margin="normal"
           className={classes.singleLineInput}
         />
+        <CatList add={this.addCats} />
         <input name="bot-field" style={{ display: "none" }} />
-        <Button
-          variant="raised"
-          color="primary"
-          size="large"
-          type="submit"
-          className={classes.submit}
-        >
-          Subscribe
-        </Button>
       </ValidatorForm>
     );
   }

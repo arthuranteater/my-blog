@@ -15,8 +15,7 @@ const styles = theme => ({});
 
 const SubscribePage = props => {
   const { data } = props
-  const apiKey = data.site.siteMetadata.addSub
-  console.log("api", apiKey)
+  const meta = data.site.siteMetadata
 
   return (
     <Main>
@@ -26,7 +25,7 @@ const SubscribePage = props => {
           Enter your email below to subscribe!
         </Content>
         <br></br>
-        <ContactForm api={data.site.siteMetadata} />
+        <ContactForm api={meta.addSub} values={meta.values} />
       </Article>
     </Main>
   );
@@ -43,6 +42,7 @@ export const query = graphql`
     site {
       siteMetadata {
         addSub
+        values
       }
     }
   }
