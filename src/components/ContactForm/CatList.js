@@ -1,12 +1,12 @@
-import React from 'react';
-import PropTypes from 'prop-types';
-import injectSheet from "react-jss";
-import FormLabel from '@material-ui/core/FormLabel';
-import FormControl from '@material-ui/core/FormControl';
-import FormGroup from '@material-ui/core/FormGroup';
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import FormHelperText from '@material-ui/core/FormHelperText';
-import Checkbox from '@material-ui/core/Checkbox';
+import React from 'react'
+import PropTypes from 'prop-types'
+import injectSheet from "react-jss"
+import FormLabel from '@material-ui/core/FormLabel'
+import FormControl from '@material-ui/core/FormControl'
+import FormGroup from '@material-ui/core/FormGroup'
+import FormControlLabel from '@material-ui/core/FormControlLabel'
+import FormHelperText from '@material-ui/core/FormHelperText'
+import Checkbox from '@material-ui/core/Checkbox'
 import Button from "@material-ui/core/Button"
 
 
@@ -26,45 +26,44 @@ const styles = theme => ({
         background: "red",
         color: "white"
     },
-});
+})
 
 class CatList extends React.Component {
     constructor(props) {
-        super(props);
+        super(props)
         this.cats = ['redux', 'pi', 'gatsby']
+        this.catO = {}
+        this.cats.map(cat => {
+            this.catO[`${cat}`] = true
+        })
+        this.state = this.catO
         this.noSelect = ''
     }
-    state = { None: false }
 
-    createState = (cats) => {
-        this.cats.map(cat => {
-            this.setState({ [cat]: true })
-        })
-
-    }
 
     handleChange = name => event => {
         this.setState({ [name]: event.target.checked })
+    }
+
+    resetNone = () => {
         this.setState({ None: false })
-    };
+    }
 
     getChecked = () => {
-        if (Object.keys(this.state).length == 1) {
-            this.setState({ None: true })
-            console.log('none', this.state)
-            this.noSelect = 'Please select categories!'
-        }
-        else {
-            console.log('some', this.state)
-            let keys = []
-            for (var key in this.state) {
-                if (this.state[key] == true) {
-                    keys.push(key)
-                }
+        let keys = []
+        for (var key in this.state) {
+            if (this.state[key] == true) {
+                keys.push(key)
+                console.log(key)
             }
-            console.log('keys', keys)
+        }
+        if (keys.length == 0) {
+            this.setState({ None: true })
+            this.noSelect = 'Please select categories!'
+        } else {
             this.props.add(keys)
         }
+
     }
 
     render() {
@@ -73,7 +72,7 @@ class CatList extends React.Component {
 
 
         return (
-            <div className={classes.root}>
+            <div className={classes.root} onClick={this.resetNone}>
                 <FormControl component="fieldset" className={classes.formControl}>
                     <FormLabel component="legend">Categories</FormLabel>
                     <FormHelperText>Click on boxes to select</FormHelperText>
@@ -113,41 +112,13 @@ class CatList extends React.Component {
                 >
                     Subscribe
                 </Button>
-                {/* <FormControl required error={error} component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Pick two</FormLabel>
-                    <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={gilad} onChange={this.handleChange('gilad')} value="gilad" />
-                            }
-                            label="Gilad Gray"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={jason} onChange={this.handleChange('jason')} value="jason" />
-                            }
-                            label="Jason Killian"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={antoine}
-                                    onChange={this.handleChange('antoine')}
-                                    value="antoine"
-                                />
-                            }
-                            label="Antoine Llorca"
-                        />
-                    </FormGroup>
-                    <FormHelperText>You can display an error</FormHelperText>
-                </FormControl> */}
             </div>
-        );
+        )
     }
 }
 
 CatList.propTypes = {
     classes: PropTypes.object.isRequired,
-};
+}
 
-export default injectSheet(styles)(CatList);
+export default injectSheet(styles)(CatList)

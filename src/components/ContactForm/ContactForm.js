@@ -1,7 +1,6 @@
 import React from "react";
 import PropTypes from "prop-types";
 import injectSheet from "react-jss";
-import Button from "@material-ui/core/Button";
 import { navigateTo } from "gatsby-link";
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator";
 import CatList from './CatList'
@@ -90,9 +89,7 @@ class ContactForm extends React.Component {
 
   handleSubmit = e => {
     e.preventDefault()
-    if (this.saved === false) {
-      this.handleNoSelect()
-    } else {
+    if (this.saved == true) {
       const devUrl = `http://localhost:4000/${this.props.api}`
       const jshaun = JSON.stringify(this.state)
       console.log(jshaun)

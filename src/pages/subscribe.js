@@ -3,12 +3,10 @@ import PropTypes from "prop-types";
 import injectSheet from "react-jss";
 import Obfuscate from "react-obfuscate";
 import ContactForm from "../components/ContactForm"
-
 import Main from "../components/Main";
 import Article from "../components/Main/Article";
 import PageHeader from "../components/Page/PageHeader";
 import Content from "../components/Main/Content";
-import Subscribe from "../components/Subscribe";
 import config from "../../content/meta/config";
 
 const styles = theme => ({});
