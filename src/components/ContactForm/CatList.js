@@ -42,6 +42,7 @@ class CatList extends React.Component {
 
 
     handleChange = name => event => {
+        this.noSelect = ''
         this.setState({ [name]: event.target.checked })
     }
 
