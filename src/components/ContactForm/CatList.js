@@ -31,23 +31,25 @@ const styles = theme => ({
 class CatList extends React.Component {
     constructor(props) {
         super(props)
-        this.cats = ['redux', 'pi', 'gatsby']
-        this.catO = {}
-        this.cats.map(cat => {
-            this.catO[`${cat}`] = true
+        this.cats = {}
+        this.props.edges.map(edge => {
+            let cat = edge.node.frontmatter.category
+            this.cats[cat] = true
         })
-        this.state = this.catO
+        this.state = this.cats
         this.noSelect = ''
     }
 
 
     handleChange = name => event => {
+        console.log('name', name)
+        console.log('after', event.target.checked)
         this.noSelect = ''
         this.setState({ [name]: event.target.checked })
     }
 
     resetNone = () => {
-        this.setState({ None: false })
+        this.setState({ none: false })
     }
 
     getChecked = () => {
@@ -55,11 +57,12 @@ class CatList extends React.Component {
         for (var key in this.state) {
             if (this.state[key] == true) {
                 keys.push(key)
-                console.log(key)
             }
         }
         if (keys.length == 0) {
-            this.setState({ None: true })
+            this.setState({
+                none: true
+            })
             this.noSelect = 'Please select categories!'
         } else {
             this.props.add(keys)
@@ -69,7 +72,8 @@ class CatList extends React.Component {
 
     render() {
         const { classes } = this.props
-        const { redux, pi, gatsby } = this.state
+        const state = this.state
+        console.log('state', state)
 
 
         return (
@@ -79,28 +83,15 @@ class CatList extends React.Component {
                     <FormHelperText>Click on boxes to select</FormHelperText>
                     {this.noSelect && <p className={classes.submitError}>{this.noSelect}</p>}
                     <FormGroup>
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={redux} onChange={this.handleChange('redux')} value="redux" />
-                            }
-                            label="redux"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox checked={pi} onChange={this.handleChange('pi')} value="pi" />
-                            }
-                            label="pi"
-                        />
-                        <FormControlLabel
-                            control={
-                                <Checkbox
-                                    checked={gatsby}
-                                    onChange={this.handleChange('gatsby')}
-                                    value="gatsby"
-                                />
-                            }
-                            label="gatsby"
-                        />
+                        {state && Object.keys(state).map(cat => (cat !== 'none') ?
+                            <FormControlLabel
+                                control={
+                                    <Checkbox checked={state[cat]} onChange={this.handleChange(cat)} value={cat} />
+                                }
+                                label={cat}
+                                className={classes.item}
+                            /> : <div></div>
+                        )}
                     </FormGroup>
                 </FormControl>
                 <Button

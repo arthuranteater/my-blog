@@ -11,11 +11,6 @@ const styles = theme => ({
   submit: {
     backgroundColor: theme.main.colors.link,
     margin: "3em 0"
-    //width: "100%"
-  },
-  multilineInput: {
-    lineHeight: 1.4,
-    fontSize: "1.2em"
   },
   singleLineInput: {
     lineHeight: 1.4,
@@ -40,13 +35,17 @@ class ContactForm extends React.Component {
     super(props);
     this.submitError = ''
     this.saved = false
+    this.latest = {
+      title: this.props.edges[0].node.frontmatter.title, subTitle: this.props.edges[0].node.frontmatter.subTitle,
+      slug: this.props.edges[0].node.fields.slug
+    }
   }
 
   state = {
     Name: '',
     Email: '',
     Categories: '',
-    Passcode: ''
+    Passcode: '',
   }
 
   addCats = (selected) => {
@@ -54,7 +53,6 @@ class ContactForm extends React.Component {
     let strCats = selected.join(' ')
     console.log('cats added', strCats)
     this.setState({ Categories: strCats })
-    console.log(this.state)
   }
 
   createCode = () => {
@@ -91,8 +89,13 @@ class ContactForm extends React.Component {
     e.preventDefault()
     if (this.saved == true) {
       const devUrl = `http://localhost:4000/${this.props.api}`
-      const jshaun = JSON.stringify(this.state)
-      console.log(jshaun)
+
+      const jstate = JSON.stringify(this.state)
+      const jlatest = JSON.stringify(this.latest)
+      const bodyarr = { state: this.state, latest: this.latest }
+      console.log(JSON.stringify(bodyarr))
+      console.log('jshaun', bodyarr)
+      console.log('jstate', jstate)
       fetch(devUrl, {
         method: "POST",
         mode: "cors",
@@ -111,7 +114,7 @@ class ContactForm extends React.Component {
   };
 
   render() {
-    const { classes } = this.props
+    const { classes, edges } = this.props
     const { Email, Name } = this.state
 
     return (
@@ -148,7 +151,7 @@ class ContactForm extends React.Component {
           margin="normal"
           className={classes.singleLineInput}
         />
-        <CatList add={this.addCats} />
+        <CatList add={this.addCats} edges={edges} />
         <input name="bot-field" style={{ display: "none" }} />
       </ValidatorForm>
     );
@@ -159,18 +162,4 @@ ContactForm.propTypes = {
   classes: PropTypes.object.isRequired
 };
 
-export default injectSheet(styles)(ContactForm);
-
-
-{/* <TextValidator
-          id="message"
-          name="message"
-          label="Message"
-          value={message}
-          onChange={this.handleChange}
-          errorMessages={["this field is required"]}
-          multiline
-          fullWidth
-          margin="normal"
-          className={classes.multilineInput}
-        /> */}
+export default injectSheet(styles)(ContactForm)

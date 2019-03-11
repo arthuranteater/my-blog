@@ -13,7 +13,13 @@ const styles = theme => ({});
 
 const SubscribePage = props => {
   const { data } = props
-  const meta = data.site.siteMetadata
+  const meta = data.pass.siteMetadata
+  const edges = data.cat.edges
+  console.log('edges', edges)
+  const filtEdges = edges.filter((edge, i) => {
+    let cat = edge.node.frontmatter.category
+    return cat != null
+  })
 
   return (
     <Main>
@@ -23,7 +29,7 @@ const SubscribePage = props => {
           Enter your email below to subscribe!
         </Content>
         <br></br>
-        <ContactForm api={meta.addSub} values={meta.values} />
+        <ContactForm api={meta.addSub} values={meta.values} edges={filtEdges} />
       </Article>
     </Main>
   );
@@ -36,11 +42,29 @@ SubscribePage.propTypes = {
 export default injectSheet(styles)(SubscribePage);
 
 export const query = graphql`
-  query postQuery {
-    site {
+  query subQuery {
+    pass: site {
       siteMetadata {
         addSub
         values
+      }
+    }
+    cat: allMarkdownRemark(
+      filter: { id: { regex: "//posts//" } }
+      sort: { fields: [fields___prefix], order: DESC }
+    ) {
+      edges {
+        node {
+          fields {
+            slug
+            prefix
+          }
+          frontmatter {
+            category
+            title
+            subTitle
+          }
+        }
       }
     }
   }
