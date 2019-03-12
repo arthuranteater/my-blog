@@ -89,26 +89,21 @@ class ContactForm extends React.Component {
     e.preventDefault()
     if (this.saved == true) {
       const devUrl = `http://localhost:4000/${this.props.api}`
-
-      const jstate = JSON.stringify(this.state)
-      const jlatest = JSON.stringify(this.latest)
-      const bodyarr = { state: this.state, latest: this.latest }
-      console.log(JSON.stringify(bodyarr))
-      console.log('jshaun', bodyarr)
-      console.log('jstate', jstate)
+      const pkg = { ...this.state }
+      pkg['post'] = this.latest
       fetch(devUrl, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(this.state)
+        body: JSON.stringify(pkg)
       }).then(res => {
-        console.log("Success", res.json())
+        console.log('Status', res.status)
         navigateTo("/success")
       }).catch(err => {
-        console.error("Error:", err);
-        this.handleNetworkError();
+        console.error("Error:", err)
+        this.handleNetworkError()
       })
     }
   };
