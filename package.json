@@ -87,6 +87,7 @@
     "rebound": "^0.1.0",
     "redux": "^4.0.0",
     "redux-devtools-extension": "^2.13.5",
+    "request": "^2.88.0",
     "screenfull": "^3.3.2",
     "typography": "^0.16.18",
     "typography-theme-kirkham": "^0.16.18"

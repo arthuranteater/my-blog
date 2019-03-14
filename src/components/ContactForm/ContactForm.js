@@ -100,7 +100,7 @@ class ContactForm extends React.Component {
         body: JSON.stringify(pkg)
       }).then(res => {
         console.log('Status', res.status)
-        navigateTo("/success")
+        navigateTo("/subscribed")
       }).catch(err => {
         console.error("Error:", err)
         this.handleNetworkError()

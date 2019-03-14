@@ -36,6 +36,7 @@ module.exports = {
     siteUrl: config.siteUrl,
     pathPrefix: config.pathPrefix,
     addSub: process.env.ADDSUB,
+    delSub: process.env.DELSUB,
     values: process.env.VALUES,
     algolia: {
       appId: process.env.ALGOLIA_APP_ID ? process.env.ALGOLIA_APP_ID : "",

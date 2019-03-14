@@ -6,11 +6,6 @@ category: "redux"
 time: 15 min
 castImage:
 cover: a.png
-checklist: 
-checklistLinks:
-steps:
-stepsLinks:
-
 ---
 
 Coming Soon!

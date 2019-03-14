@@ -6,11 +6,6 @@ category: "raspberry-pi"
 time: 1 hour
 castImage: 1
 cover: circ-garf.png
-checklist: Raspberry Pi 3 B+, NEO 6M GPS module, 4 Female-to-Male wires, 4 Female headers, Sautering iron, Solder wire, External moniter with HDMI cord + lightening port adpater (for Mac users) + keyboard and mouse OR Pi wireless dongle OR ethernet cable + USB adapter (for Mac users), Battery (not necessary for testing), Wifi (not necessary for testing), Patience (last but NOT LEAST!)
-checklistLinks:
-steps:
-stepsLinks:
-
 ---
 
 I like to walk Garf, my sister's dog. The problem is he can get away real quick. What if he gets lost? With **Garf**, the pet tracker with a GPS collar and a mobile app, I'll always be able to keep an eye on him!

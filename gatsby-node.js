@@ -5,6 +5,8 @@ const Promise = require("bluebird");
 const path = require("path");
 const { createFilePath } = require(`gatsby-source-filesystem`);
 const { store } = require(`./node_modules/gatsby/dist/redux`);
+var request = require('request')
+require("dotenv").config()
 
 exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
   const { createNodeField } = boundActionCreators;
@@ -50,6 +52,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
                   }
                   frontmatter {
                     title
+                    subTitle
+                    category
                   }
                 }
               }
@@ -68,14 +72,54 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         const gslugs = []
         const dates = []
         const gids = []
+        let today = new Date
+        let dd = today.getDate();
+        let mm = today.getMonth() + 1; //January is 0!
+        const yyyy = today.getFullYear()
+        if (dd < 10) {
+          dd = '0' + dd;
+        }
+
+        if (mm < 10) {
+          mm = '0' + mm;
+        }
+        today = yyyy + '-' + mm + '-' + dd
+        console.log('today is', today)
+        const npost = {}
         edges.map((edge, i) => {
           const title = edge.node.frontmatter.title
+          const subTitle = edge.node.frontmatter.subTitle
+          const category = edge.node.frontmatter.category
           const html = edge.node.html
           const slug = edge.node.fields.slug
           const date = edge.node.fields.prefix
           const id = edge.node.id
           if (!titles.includes(title)) {
             titles.push(title)
+            if (date === today) {
+              npost["Title"] = title
+              npost["Subtitle"] = subTitle
+              npost["Category"] = category
+              npost["Slug"] = slug
+              npost["PDate"] = date
+              console.log('npost', npost)
+              let jshaun = JSON.stringify(npost)
+              request({
+                method: 'POST',
+                uri: `http://localhost:4000/${process.env.ADDPOST}`,
+                headers: {
+                  "Content-Type": "application/json",
+                  "Content-Length": Buffer.byteLength(jshaun)
+                },
+                body: jshaun
+              }, function (err, res, body) {
+                if (err) {
+                  console.log('error', err)
+                } else {
+                  console.log('success', res.body)
+                }
+              })
+            }
           }
           if (ghtml[title]) {
             ghtml[title] += html
@@ -85,7 +129,6 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
             gids.push(id)
             dates.push(date)
             console.log("date", date)
-
           }
         })
         for (var i in titles) {
