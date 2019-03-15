@@ -2,4 +2,4 @@
 title: Subscribed
 ---
 
-Thanks for subscribing! Please check your inbox or spam for a welcome email from no-reply@huntcodes.co.
+Your email has been verifed! Please add arthuranteater to your contacts, and keep your eyes peeled for new posts!

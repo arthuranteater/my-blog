@@ -99,14 +99,23 @@ class ContactForm extends React.Component {
         },
         body: JSON.stringify(pkg)
       }).then(res => {
-        console.log('Status', res.status)
-        navigateTo("/subscribed")
+        if (res.status == 200) {
+          return res.json()
+        } else {
+          throw new Error(res.statusText)
+        }
+      }).then(res => {
+        if (res.Response === 'subscriber added') {
+          navigateTo("/subscribed")
+        } else {
+          this.setState({ Error: res.Response })
+        }
       }).catch(err => {
         console.error("Error:", err)
         this.handleNetworkError()
       })
     }
-  };
+  }
 
   render() {
     const { classes, edges } = this.props

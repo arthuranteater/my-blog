@@ -10,7 +10,7 @@ import Link from 'gatsby-link';
 import PropTypes from 'prop-types';
 import React from 'react';
 import injectSheet from 'react-jss';
-import {Manager, Popper, Target} from 'react-popper';
+import { Manager, Popper, Target } from 'react-popper';
 
 const styles = theme => ({
   topMenu: {
@@ -20,6 +20,12 @@ const styles = theme => ({
   },
   open: {
     color: theme.bars.colors.icon
+  },
+  menuItem: {
+    color: theme.bars.colors.text,
+    "&:hover": {
+      color: theme.main.colors.linkHover
+    }
   },
   popperClose: {
     pointerEvents: "none"
@@ -76,12 +82,13 @@ class TopMenu extends React.Component {
             <ClickAwayListener onClickAway={this.handleClose}>
               <Grow in={open} id="menu-list" style={{ transformOrigin: "0 0 0" }}>
                 <Paper>
-                  <MenuList role="menu">
+                  <MenuList role="menu" >
                     <MenuItem
                       onClick={e => {
                         this.props.homeLinkOnClick(e);
                         this.handleClose();
                       }}
+                      className={classes.menuItem}
                     >
                       Home
                     </MenuItem>
@@ -95,20 +102,33 @@ class TopMenu extends React.Component {
                               this.props.pageLinkOnClick(e);
                               this.handleClose();
                             }}
+                            className={classes.menuItem}
                           >
                             {frontmatter.menuTitle ? frontmatter.menuTitle : frontmatter.title}
                           </MenuItem>
                         </Link>
                       );
                     })}
-                    <Link to="/contact/" style={{ display: "block" }}>
+                    <Link to="/subscribe/" style={{ display: "block" }}>
                       <MenuItem
                         onClick={e => {
                           this.props.pageLinkOnClick(e);
                           this.handleClose();
                         }}
+                        className={classes.menuItem}
                       >
-                        Contact
+                        Subscribe
+                      </MenuItem>
+                    </Link>
+                    <Link to="/cheatsheets/" style={{ display: "block" }}>
+                      <MenuItem
+                        onClick={e => {
+                          this.props.pageLinkOnClick(e);
+                          this.handleClose();
+                        }}
+                        className={classes.menuItem}
+                      >
+                        Cheatsheets
                       </MenuItem>
                     </Link>
                   </MenuList>

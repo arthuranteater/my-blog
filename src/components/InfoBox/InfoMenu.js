@@ -25,7 +25,7 @@ const styles = theme => ({
 
 const InfoMenu = props => {
   const { cheatsheets, classes, pages, linkOnClick } = props;
-  console.log(cheatsheets)
+  console.log('cheatsheets', cheatsheets)
 
   return (
     <nav className={classes.infoMenu}>

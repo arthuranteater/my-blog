@@ -2,7 +2,7 @@
 title: Build Raspberry Pi - GPS Device
 subTitle: Step-by-step instructions for building a GPS module and sending the coordinates to a server
 hashtag: gps pi python serialport ttyAMA0 serial0 raspi-config ide vnc headless
-category: "raspberry-pi"
+category: "Raspberry Pi"
 time: 1 hour
 castImage: 1
 cover: circ-garf.png

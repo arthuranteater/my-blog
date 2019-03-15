@@ -8,6 +8,23 @@ const { store } = require(`./node_modules/gatsby/dist/redux`);
 var request = require('request')
 require("dotenv").config()
 
+//today's date
+
+let today = new Date
+
+const getDate = () => {
+  let dd = today.getDate();
+  let mm = today.getMonth() + 1
+  const yyyy = today.getFullYear()
+  if (dd < 10) {
+    dd = '0' + dd;
+  }
+  if (mm < 10) {
+    mm = '0' + mm;
+  }
+  today = yyyy + '-' + mm + '-' + dd
+}
+
 exports.onCreateNode = ({ node, getNode, boundActionCreators }) => {
   const { createNodeField } = boundActionCreators;
   if (node.internal.type === `MarkdownRemark`) {
@@ -72,19 +89,8 @@ exports.createPages = ({ graphql, boundActionCreators }) => {
         const gslugs = []
         const dates = []
         const gids = []
-        let today = new Date
-        let dd = today.getDate();
-        let mm = today.getMonth() + 1; //January is 0!
-        const yyyy = today.getFullYear()
-        if (dd < 10) {
-          dd = '0' + dd;
-        }
-
-        if (mm < 10) {
-          mm = '0' + mm;
-        }
-        today = yyyy + '-' + mm + '-' + dd
-        console.log('today is', today)
+        getDate()
+        console.log('today: ', today)
         const npost = {}
         edges.map((edge, i) => {
           const title = edge.node.frontmatter.title

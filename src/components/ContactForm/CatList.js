@@ -31,7 +31,7 @@ const styles = theme => ({
 class CatList extends React.Component {
     constructor(props) {
         super(props)
-        this.cats = {}
+        this.cats = { All: true }
         this.props.edges.map(edge => {
             let cat = edge.node.frontmatter.category
             this.cats[cat] = true

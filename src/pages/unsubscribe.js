@@ -54,7 +54,7 @@ class UnsubscribePage extends React.Component {
                 throw new Error(res.statusText)
             }
         }).then(res => {
-            if (res.Response === 'subscriber removed') {
+            if (res.Response === 'Subscriber removed') {
                 navigateTo("/unsubscribed")
             } else {
                 this.setState({ Error: res.Response })
