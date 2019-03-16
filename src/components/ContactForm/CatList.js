@@ -36,20 +36,51 @@ class CatList extends React.Component {
             let cat = edge.node.frontmatter.category
             this.cats[cat] = true
         })
-        this.state = this.cats
-        this.noSelect = ''
+        this.state = { cats: this.cats, views: { error: '', success: '' } }
     }
 
 
-    handleChange = name => event => {
-        console.log('name', name)
-        console.log('after', event.target.checked)
-        this.noSelect = ''
-        this.setState({ [name]: event.target.checked })
+    handleAll = e => {
+        if (e.target.checked === true) {
+            Object.keys(this.state.cats).map(cat => {
+                this.setState(prevState => ({
+                    cats: {
+                        ...prevState.cats,
+                        [cat]: true
+                    }
+                }))
+            })
+        } else {
+            this.setState(prevState => ({
+                cats: {
+                    ...prevState.cats,
+                    All: false
+                }
+            }))
+        }
     }
 
-    resetNone = () => {
-        this.setState({ none: false })
+    handleChange = name => e => {
+        if (e.target.checked === false) {
+            this.setState(prevState => ({
+                cats: {
+                    ...prevState.cats,
+                    All: false,
+                    [name]: false
+                }
+            }))
+        } else {
+            this.setState(prevState => ({
+                cats: {
+                    ...prevState.cats,
+                    [name]: true
+                },
+                views: {
+                    ...prevState.views,
+                    error: ''
+                }
+            }))
+        }
     }
 
     getChecked = () => {
@@ -60,20 +91,20 @@ class CatList extends React.Component {
             }
         }
         if (keys.length == 0) {
-            this.setState({
-                none: true
-            })
-            this.noSelect = 'Please select categories!'
+            this.setState(prevState => ({
+                views: {
+                    ...prevState.views,
+                    error: 'Please select a category!'
+                }
+            }))
         } else {
             this.props.add(keys)
         }
-
     }
 
     render() {
         const { classes } = this.props
         const state = this.state
-        console.log('state', state)
 
 
         return (
@@ -81,12 +112,19 @@ class CatList extends React.Component {
                 <FormControl component="fieldset" className={classes.formControl}>
                     <FormLabel component="legend">Categories</FormLabel>
                     <FormHelperText>Click on boxes to select</FormHelperText>
-                    {this.noSelect && <p className={classes.submitError}>{this.noSelect}</p>}
+                    {state.views.error && <p className={classes.submitError}>{state.views.error}</p>}
                     <FormGroup>
-                        {state && Object.keys(state).map(cat => (cat !== 'none') ?
+                        <FormControlLabel
+                            control={
+                                <Checkbox checked={state.cats.All} onChange={this.handleAll} value='All' />
+                            }
+                            label='All'
+                            className={classes.item}
+                        />
+                        {state.cats && Object.keys(state.cats).map(cat => (cat !== 'All') ?
                             <FormControlLabel
                                 control={
-                                    <Checkbox checked={state[cat]} onChange={this.handleChange(cat)} value={cat} />
+                                    <Checkbox checked={state.cats[cat]} onChange={this.handleChange(cat)} value={cat} />
                                 }
                                 label={cat}
                                 className={classes.item}
