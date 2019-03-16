@@ -26,6 +26,10 @@ const styles = theme => ({
         background: "red",
         color: "white"
     },
+    submitSuccess: {
+        background: "green",
+        color: "white"
+    },
 })
 
 class CatList extends React.Component {
@@ -36,7 +40,7 @@ class CatList extends React.Component {
             let cat = edge.node.frontmatter.category
             this.cats[cat] = true
         })
-        this.state = { cats: this.cats, views: { error: '', success: '' } }
+        this.state = { cats: this.cats, views: { error: '' } }
     }
 
 
@@ -84,13 +88,13 @@ class CatList extends React.Component {
     }
 
     getChecked = () => {
-        let keys = []
-        for (var key in this.state) {
-            if (this.state[key] == true) {
-                keys.push(key)
+        let selected = []
+        for (var cat in this.state.cats) {
+            if (this.state.cats[cat] == true) {
+                selected.push(cat)
             }
         }
-        if (keys.length == 0) {
+        if (selected.length == 0) {
             this.setState(prevState => ({
                 views: {
                     ...prevState.views,
@@ -98,7 +102,7 @@ class CatList extends React.Component {
                 }
             }))
         } else {
-            this.props.add(keys)
+            this.props.add(selected)
         }
     }
 
@@ -140,7 +144,7 @@ class CatList extends React.Component {
                     className={classes.submit}
                     onClick={this.getChecked}
                 >
-                    Subscribe
+                    Get ID
                 </Button>
             </div>
         )

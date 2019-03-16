@@ -38,6 +38,7 @@ module.exports = {
     addSub: process.env.ADDSUB,
     delSub: process.env.DELSUB,
     values: process.env.VALUES,
+    welcome: process.env.WELCOME,
     algolia: {
       appId: process.env.ALGOLIA_APP_ID ? process.env.ALGOLIA_APP_ID : "",
       searchOnlyApiKey: process.env.ALGOLIA_SEARCH_ONLY_API_KEY ? process.env.ALGOLIA_SEARCH_ONLY_API_KEY : "",
