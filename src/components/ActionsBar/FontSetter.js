@@ -18,7 +18,10 @@ const styles = theme => ({
     [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {}
   },
   open: {
-    color: theme.bars.colors.icon
+    color: theme.bars.colors.icon,
+    "&:hover": {
+      color: theme.main.colors.linkHover
+  }
   },
   popperClose: {
     pointerEvents: "none"

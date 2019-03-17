@@ -10,9 +10,10 @@ require("dotenv").config()
 
 //today's date
 
-let today = new Date
+let today
 
 const getDate = () => {
+  today = new Date
   let dd = today.getDate()
   let mm = today.getMonth() + 1
   const yyyy = today.getFullYear()

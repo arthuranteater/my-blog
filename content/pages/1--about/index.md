@@ -19,18 +19,24 @@ The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux
 
 #### Features
 
-What I'm adding:
+Coming soon:
+
+* Dark mode for relaxed viewing
+* Google recaptcha for bot protection
+* Markdown commenting with caching
+
+What I've added:
 
 * Cheatsheets for quick reference guide
 * Choice of categories for subscribers
 * Chips for mulitple contributors
 * Chips for hashtags searches #awesome
-* Dark mode for mood change (coming soon)
-* Google recaptcha for bot protection (coming soon)
 * Optimized Algolia search for longer posts
+* Subscribe with email verification
 * Secure storage for subscriber emails
-* Server for sending bulk email alerts
-* Unsubscribe feature with passcode
+* Secure storage for post information
+* Automated error logging for emailing
+* Automated email blasts for new posts
 
 What was built-in:
 
@@ -47,7 +53,7 @@ What was built-in:
 
 #### Contributors
 
-The starter template was built by Greg Lobinski. See also the list of **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>** who participated in this project.
+The original starter template was built by Greg Lobinski with the help of some **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>**.
 
 #### Recreate
 
@@ -89,7 +95,7 @@ FB_APP_ID=...
 
 #### Emails
 
-To offer a subscription service, you can use Netlify or build a server for emailing. I chose to build a server with Node. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
+To offer a subscription service, you can use Netlify without managing a server or build your own server. I chose to build a Node server and database. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
 
 #### License
 

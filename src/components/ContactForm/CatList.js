@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import FormHelperText from '@material-ui/core/FormHelperText'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from "@material-ui/core/Button"
+import Typography from '@material-ui/core/Typography'
 
 
 const styles = theme => ({
@@ -17,19 +18,21 @@ const styles = theme => ({
     formControl: {
         margin: '1em',
     },
-    submit: {
+    gbutton: {
         backgroundColor: theme.main.colors.link,
-        margin: "3em 0"
-        //width: "100%"
+        margin: "3em 0",
+        marginLeft: "5em"
     },
-    submitError: {
-        background: "red",
-        color: "white"
+    label: {
+        color: theme.main.colors.link,
+        "&:hover": {
+            color: theme.main.colors.linkHover
+        }
     },
-    submitSuccess: {
-        background: "green",
-        color: "white"
-    },
+    flabel: {
+        marginTop: '.5em',
+        marginBottom: '.5em'
+    }
 })
 
 class CatList extends React.Component {
@@ -40,26 +43,22 @@ class CatList extends React.Component {
             let cat = edge.node.frontmatter.category
             this.cats[cat] = true
         })
-        this.state = { cats: this.cats, views: { error: '' } }
+        this.state = this.cats
     }
 
 
     handleAll = e => {
         if (e.target.checked === true) {
-            Object.keys(this.state.cats).map(cat => {
+            Object.keys(this.state).map(cat => {
                 this.setState(prevState => ({
-                    cats: {
-                        ...prevState.cats,
-                        [cat]: true
-                    }
+                    ...prevState,
+                    [cat]: true
                 }))
             })
         } else {
             this.setState(prevState => ({
-                cats: {
-                    ...prevState.cats,
-                    All: false
-                }
+                ...prevState,
+                All: false
             }))
         }
     }
@@ -67,43 +66,26 @@ class CatList extends React.Component {
     handleChange = name => e => {
         if (e.target.checked === false) {
             this.setState(prevState => ({
-                cats: {
-                    ...prevState.cats,
-                    All: false,
-                    [name]: false
-                }
+                ...prevState,
+                All: false,
+                [name]: false
             }))
         } else {
             this.setState(prevState => ({
-                cats: {
-                    ...prevState.cats,
-                    [name]: true
-                },
-                views: {
-                    ...prevState.views,
-                    error: ''
-                }
+                ...prevState,
+                [name]: true
             }))
         }
     }
 
-    getChecked = () => {
+    getSelected = () => {
         let selected = []
-        for (var cat in this.state.cats) {
-            if (this.state.cats[cat] == true) {
+        for (var cat in this.state) {
+            if (this.state[cat] == true) {
                 selected.push(cat)
             }
         }
-        if (selected.length == 0) {
-            this.setState(prevState => ({
-                views: {
-                    ...prevState.views,
-                    error: 'Please select a category!'
-                }
-            }))
-        } else {
-            this.props.add(selected)
-        }
+        this.props.add(selected)
     }
 
     render() {
@@ -112,25 +94,23 @@ class CatList extends React.Component {
 
 
         return (
-            <div className={classes.root} onClick={this.resetNone}>
+            <div className={classes.root}>
                 <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel component="legend">Categories</FormLabel>
-                    <FormHelperText>Click on boxes to select</FormHelperText>
-                    {state.views.error && <p className={classes.submitError}>{state.views.error}</p>}
-                    <FormGroup>
+                    <FormLabel className={classes.flabel} component="legend">Categories</FormLabel>
+                    <FormGroup >
                         <FormControlLabel
                             control={
-                                <Checkbox checked={state.cats.All} onChange={this.handleAll} value='All' />
+                                <Checkbox color='default' checked={state.All} onChange={this.handleAll} value='All' />
                             }
-                            label='All'
+                            label={<Typography className={classes.label}>All</Typography>}
                             className={classes.item}
                         />
-                        {state.cats && Object.keys(state.cats).map(cat => (cat !== 'All') ?
+                        {state && Object.keys(state).map(cat => (cat !== 'All') ?
                             <FormControlLabel
                                 control={
-                                    <Checkbox checked={state.cats[cat]} onChange={this.handleChange(cat)} value={cat} />
+                                    <Checkbox color='default' checked={state[cat]} onChange={this.handleChange(cat)} value={cat} />
                                 }
-                                label={cat}
+                                label={<Typography className={classes.label}>{cat}</Typography>}
                                 className={classes.item}
                             /> : <div></div>
                         )}
@@ -141,8 +121,8 @@ class CatList extends React.Component {
                     color="primary"
                     size="large"
                     type="submit"
-                    className={classes.submit}
-                    onClick={this.getChecked}
+                    className={classes.gbutton}
+                    onClick={this.getSelected}
                 >
                     Get ID
                 </Button>

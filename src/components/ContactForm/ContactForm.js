@@ -9,7 +9,7 @@ import CatList from './CatList'
 
 
 const styles = theme => ({
-  submit: {
+  vbutton: {
     backgroundColor: theme.main.colors.link,
     margin: "3em 0"
   },
@@ -26,18 +26,23 @@ const styles = theme => ({
     }
   },
   err: {
-    background: "red",
-    color: "white",
-    padding: '.3em',
-    textAlign: 'center',
-    borderRadius: '15px'
+    color: "red",
   },
   success: {
     background: theme.main.colors.link,
     color: "white",
     padding: '.3em',
     textAlign: 'center',
-    borderRadius: '15px'
+    borderRadius: '50px'
+  },
+  wlink: {
+    color: theme.main.colors.background
+  },
+  blink: {
+    color: theme.main.colors.link
+  },
+  rlink: {
+    color: 'red'
   }
 })
 
@@ -47,7 +52,7 @@ class ContactForm extends React.Component {
     sub: {
       Name: '', Email: '', Categories: '', Passcode: '',
     }, send: {
-      hide: false, err: '', success: '', sent: 0,
+      hide: false, err: '', rts: false, success: '', sent: 0,
     }, verify: {
       err: '', id: '', attempts: 0
     }
@@ -60,7 +65,6 @@ class ContactForm extends React.Component {
     for (var i = 0; i < 6; i++) {
       this.pass += val.charAt(Math.floor(Math.random() * val.length));
     }
-    console.log('pass', this.pass)
   }
 
   addCats = (selected) => {
@@ -68,17 +72,25 @@ class ContactForm extends React.Component {
       this.setState(prevState => ({
         send: {
           ...prevState.send,
-          err: 'Please fill in missing fields!'
+          err: 'Please fill in missing fields',
+          rts: false
         }
       }))
-
+    } else if (selected.length == 0) {
+      this.setState(prevState => ({
+        send: {
+          ...prevState.send,
+          err: 'Please select a category',
+          rts: false
+        }
+      }))
     } else {
       this.createPass()
       let strCats = selected.join(' ')
       this.setState(prevState => ({
         send: {
           ...prevState.send,
-          success: `${strCats} added!`,
+          rts: true,
           err: ''
         },
         sub: {
@@ -116,14 +128,6 @@ class ContactForm extends React.Component {
     }))
   }
 
-  handleNetErr = e => {
-    this.setState = (prevState => ({
-      send: {
-        ...prevState.send,
-        err: 'There was a network error!'
-      }
-    }))
-  }
 
   handleVerify = e => {
     e.preventDefault()
@@ -156,14 +160,14 @@ class ContactForm extends React.Component {
           }))
         }
       }).catch(err => {
-        console.error("Error:", err)
-        this.handleNetErr()
+        console.log('test')
+        console.error("Err:", err)
       })
     } else {
       this.setState(prevState => ({
         verify: {
           ...prevState.verify,
-          err: 'Invalid ID! Please try again.',
+          err: 'Invalid ID, please try again.',
           attempts: prevState.verify.attempts + 1
         }
       }))
@@ -173,13 +177,14 @@ class ContactForm extends React.Component {
 
   handleSend = e => {
     e.preventDefault()
-    if (this.state.send.success !== '') {
+    if (this.state.send.rts) {
       console.log('sending welcome email')
       const welUrl = `http://localhost:4000/${this.props.welcome}`
       const welPkg = { ...this.state.sub }
+      const node = this.props.edges[0].node
       const latest = {
-        title: this.props.edges[0].node.frontmatter.title, subTitle: this.props.edges[0].node.frontmatter.subTitle,
-        slug: this.props.edges[0].node.fields.slug
+        title: node.frontmatter.title, subTitle: node.frontmatter.subTitle,
+        slug: node.fields.slug
       }
       welPkg['post'] = latest
       fetch(welUrl, {
@@ -215,16 +220,14 @@ class ContactForm extends React.Component {
           }))
         }
       }).catch(err => {
-        console.error("Error:", err)
-        this.handleNetErr()
+        console.error(err.toString())
+        this.setState(prevState => ({
+          send: {
+            ...prevState.send,
+            err: 'No response from server'
+          }
+        }))
       })
-    } else {
-      this.setState(prevState => ({
-        send: {
-          ...prevState.send,
-          err: 'Categories not added.'
-        }
-      }))
     }
   }
 
@@ -234,7 +237,7 @@ class ContactForm extends React.Component {
 
     return (
       <div>
-        <h2>Step 1: Get ID</h2>
+        <h2>Step 1 - Get ID</h2>
         <div>{(state.send.sent < 3) ?
           <ValidatorForm
             onSubmit={this.handleSend}
@@ -266,10 +269,10 @@ class ContactForm extends React.Component {
               margin="normal"
               className={classes.singleLineInput}
             />
-            {state.send.hide ? (<div className={classes.success}><p><strong>{state.send.success}</strong></p><p><strong> Please check your inbox and spam for email from no-reply@huntcodes.co</strong></p></div>) : <CatList add={this.addCats} edges={edges} />}
+            {state.send.hide ? (<div className={classes.success}><p><strong>{state.send.success}</strong></p><p><strong> Please check your inbox and spam for email from no-reply@huntcodes.co</strong></p><p><strong> If you did not receive an email, please <a className={classes.wlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></strong></p></div>) : <CatList add={this.addCats} edges={edges} />}
           </ValidatorForm>
-          : <p className={classes.err}>We are unable to handle your request at this time. Please <a href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
-        <h2>Step 2: Verify ID</h2>
+          : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
+        <h2>Step 2 - Verify ID</h2>
         <div> {(state.verify.attempts < 3) ?
           <ValidatorForm
             onSubmit={this.handleVerify}
@@ -295,13 +298,13 @@ class ContactForm extends React.Component {
               color="primary"
               size="large"
               type="submit"
-              className={classes.submit}
+              className={classes.vbutton}
             >
               Verify ID
                 </Button>
           </ValidatorForm>
-          : <p className={classes.err}>We are unable to handle your request at this time. Please <a href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
-        <p>Protecting your information is our top priority. We use SSL encryption on all requests, .env variables containing lengthy security keys, and email verification. If you spot any issues, please <a href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a>.</p>
+          : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
+        <p>arthuranteater uses SSL encryption on all requests, .env variables containing lengthy keys, and email verification to keep your information protected. If you have any concerns or issues signing up, please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a>.</p>
       </div>
     )
   }

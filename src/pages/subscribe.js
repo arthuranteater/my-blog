@@ -26,7 +26,7 @@ const SubscribePage = props => {
       <Article>
         <PageHeader title="Subscribe" />
         <Content>
-          Enter your email below to subscribe!
+          Sign up to receive email alerts for new posts!
         </Content>
         <br></br>
         <ContactForm welcome={meta.welcome} addSub={meta.addSub} values={meta.values} edges={filtEdges} />
