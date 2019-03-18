@@ -12,26 +12,41 @@ import Button from "@material-ui/core/Button"
 
 const styles = theme => ({
     submit: {
-        backgroundColor: theme.main.colors.link,
-        margin: "3em 0"
-        //width: "100%"
+        backgroundColor: theme.main.colors.link
     },
-    submitError: {
-        background: "red",
-        color: "white"
+    err: {
+        color: "red"
     },
+    singleLineInput: {
+        lineHeight: 1.4,
+        fontSize: "1.2em",
+        [`@media (min-width: ${theme.mediaQueryTresholds.M}px)`]: {
+            width: "47%",
+            marginLeft: "3%",
+            "&:first-child": {
+                marginRight: "3%",
+                marginLeft: 0
+            }
+        }
+    },
+    rlink: {
+        color: 'red'
+    }
 })
 
 class UnsubscribePage extends React.Component {
     state = {
-        Email: '',
-        Error: '',
+        email: '',
+        err: '',
+        attempts: 0
     }
 
-    handleChange = e => {
+    handleEmail = e => {
         const value = e.target.value
-        const name = e.target.name
-        this.setState({ [name]: value })
+        this.setState(prevState => ({
+            ...prevState,
+            email: value
+        }))
     }
 
     handleSubmit = e => {
@@ -39,7 +54,6 @@ class UnsubscribePage extends React.Component {
         let api = this.props.data.site.siteMetadata.delSub
         const devUrl = `http://localhost:4000/${api}`
         const pkg = { ...this.state }
-        delete pkg['Error']
         fetch(devUrl, {
             method: "POST",
             mode: "cors",
@@ -51,23 +65,33 @@ class UnsubscribePage extends React.Component {
             if (res.status == 200) {
                 return res.json()
             } else {
-                throw new Error(res.statusText)
+                this.setState(prevState => ({
+                    ...prevState,
+                    attempts: prevState.attempts + 1,
+                    err: `Connection error (${res.statusText})`
+                }))
             }
         }).then(res => {
             if (res.Response === 'Subscriber removed') {
                 navigateTo("/unsubscribed")
             } else {
-                this.setState({ Error: res.Response })
+                this.setState(prevState => ({
+                    ...prevState,
+                    err: res.Response,
+                    attempts: prevState.attempts + 1
+                }))
             }
         }).catch(err => {
-            console.log('Network Error:', err)
-            this.setState({ Error: 'There was a network error!' })
+            this.setState(prevState => ({
+                ...prevState,
+                err: `Connection error (${err.toString()})`
+            }))
         })
     }
 
     render() {
         const { classes } = this.props
-        const { Email } = this.state
+        const { email, err, attempts } = this.state
 
         return (
             <Main>
@@ -77,35 +101,33 @@ class UnsubscribePage extends React.Component {
                         Enter your email below to unsubscribe.
                         </Content>
                     <br></br>
-                    <ValidatorForm
-                        onSubmit={this.handleSubmit}
-                        onError={errors => console.log(errors)}
-                        name="unsubscribe"
-                        ref={f => (this.form = f)}
-                        data-netlify="true"
-                        data-netlify-honeypot="bot-field"
-                    >
-                        {this.state.Error && <p className={classes.submitError}>{this.state.Error}</p>}
-                        <TextValidator
-                            id="email"
-                            name="Email"
-                            label="E-mail"
-                            value={Email}
-                            onChange={this.handleChange}
-                            validators={["required", "isEmail"]}
-                            errorMessages={["this field is required", "email is not valid"]}
-                            fullWidth
-                            margin="normal"
-                            className={classes.singleLineInput}
-                        />
-                        <Button
-                            variant="raised"
-                            color="primary"
-                            size="large"
-                            type="submit"
-                            className={classes.submit}
-                        >Unsubscribe</Button>
-                    </ValidatorForm>
+                    <div>{attempts < 3 ?
+                        <ValidatorForm
+                            onSubmit={this.handleSubmit}
+                            onError={errs => console.log(errs)}
+                            name="unsubscribe"
+                        >
+                            {err && <p className={classes.err}>{err}</p>}
+                            <TextValidator
+                                id="email"
+                                name="Email"
+                                label="E-mail"
+                                value={email}
+                                onChange={this.handleEmail}
+                                validators={["required", "isEmail"]}
+                                errorMessages={["this field is required", "email is not valid"]}
+                                fullWidth
+                                margin="normal"
+                                className={classes.singleLineInput}
+                            />
+                            <Button
+                                variant="raised"
+                                color="primary"
+                                size="large"
+                                type="submit"
+                                className={classes.submit}
+                            >Unsubscribe</Button>
+                        </ValidatorForm> : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
                 </Article>
             </Main>
         )

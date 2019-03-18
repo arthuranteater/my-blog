@@ -33,10 +33,7 @@ const styles = theme => ({
     color: "white",
     padding: '.3em',
     textAlign: 'center',
-    borderRadius: '50px'
-  },
-  wlink: {
-    color: theme.main.colors.background
+    borderRadius: '25px'
   },
   blink: {
     color: theme.main.colors.link
@@ -58,13 +55,15 @@ class ContactForm extends React.Component {
     }
   }
 
-  pass = ''
+  pass
 
   createPass = () => {
+    this.pass = ''
     var val = this.props.values
     for (var i = 0; i < 6; i++) {
       this.pass += val.charAt(Math.floor(Math.random() * val.length));
     }
+    console.log('pass', this.pass)
   }
 
   addCats = (selected) => {
@@ -145,10 +144,16 @@ class ContactForm extends React.Component {
         if (res.status == 200) {
           return res.json()
         } else {
-          throw new Error(res.statusText)
+          this.setState(prevState => ({
+            verify: {
+              ...prevState.verify,
+              attempts: prevState.verify.attempts + 1,
+              err: `Connection error (${res.StatusText})`
+            }
+          }))
         }
       }).then(res => {
-        if (res.Response === 'subscriber added') {
+        if (res.Response === 'Subscriber added') {
           navigateTo("/subscribed")
         } else {
           this.setState(prevState => ({
@@ -181,12 +186,6 @@ class ContactForm extends React.Component {
       console.log('sending welcome email')
       const welUrl = `http://localhost:4000/${this.props.welcome}`
       const welPkg = { ...this.state.sub }
-      const node = this.props.edges[0].node
-      const latest = {
-        title: node.frontmatter.title, subTitle: node.frontmatter.subTitle,
-        slug: node.fields.slug
-      }
-      welPkg['post'] = latest
       fetch(welUrl, {
         method: "POST",
         mode: "cors",
@@ -198,7 +197,17 @@ class ContactForm extends React.Component {
         if (res.status == 200) {
           return res.json()
         } else {
-          throw new Error(res.statusText)
+          this.setState(prevState => ({
+            send: {
+              ...prevState.send,
+              sent: prevState.send.sent + 1,
+              err: `Connection error (${res.StatusText})`
+            },
+            verify: {
+              ...prevState.verify,
+              err: ''
+            }
+          }))
         }
       }).then(res => {
         if (res.Response.includes('Grid')) {
@@ -207,6 +216,10 @@ class ContactForm extends React.Component {
               ...prevState.send,
               err: res.Response,
               sent: prevState.send.sent + 1
+            },
+            verify: {
+              ...prevState.verify,
+              err: ''
             }
           }))
         } else {
@@ -216,15 +229,23 @@ class ContactForm extends React.Component {
               success: res.Response,
               sent: prevState.send.sent + 1,
               hide: true
+            },
+            verify: {
+              ...prevState.verify,
+              err: '',
+              attempts: 0
             }
           }))
         }
       }).catch(err => {
-        console.error(err.toString())
         this.setState(prevState => ({
           send: {
             ...prevState.send,
-            err: 'No response from server'
+            err: `Connection error (${err.toString()})`
+          },
+          verify: {
+            ...prevState.verify,
+            err: ''
           }
         }))
       })
@@ -233,23 +254,23 @@ class ContactForm extends React.Component {
 
   render() {
     const { classes, edges } = this.props
-    const state = this.state
+    const { sub, send, verify } = this.state
 
     return (
       <div>
         <h2>Step 1 - Get ID</h2>
-        <div>{(state.send.sent < 3) ?
+        <div>{(send.sent < 3) ?
           <ValidatorForm
             onSubmit={this.handleSend}
             onError={errs => console.log(errs)}
             name="send"
           >
-            {state.send.err && <p className={classes.err}><strong>{state.send.err}</strong></p>}
+            {send.err && <p className={classes.err}><strong>{send.err}</strong></p>}
             <TextValidator
               id="name"
               name="Name"
               label="Name"
-              value={state.sub.Name}
+              value={sub.Name}
               onChange={this.handleChange}
               validators={["required"]}
               errorMessages={["this field is required"]}
@@ -261,7 +282,7 @@ class ContactForm extends React.Component {
               id="email"
               name="Email"
               label="E-mail"
-              value={state.sub.Email}
+              value={sub.Email}
               onChange={this.handleChange}
               validators={["required", "isEmail"]}
               errorMessages={["this field is required", "email is not valid"]}
@@ -269,23 +290,23 @@ class ContactForm extends React.Component {
               margin="normal"
               className={classes.singleLineInput}
             />
-            {state.send.hide ? (<div className={classes.success}><p><strong>{state.send.success}</strong></p><p><strong> Please check your inbox and spam for email from no-reply@huntcodes.co</strong></p><p><strong> If you did not receive an email, please <a className={classes.wlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></strong></p></div>) : <CatList add={this.addCats} edges={edges} />}
+            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p></div>) : <CatList add={this.addCats} edges={edges} />}
           </ValidatorForm>
           : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
         <h2>Step 2 - Verify ID</h2>
-        <div> {(state.verify.attempts < 3) ?
+        <div> {(verify.attempts < 3) ?
           <ValidatorForm
             onSubmit={this.handleVerify}
             onError={errs => console.log(errs)}
             name="verify"
           >
-            {state.verify.err && <p className={classes.err}>{state.verify.err}</p>}
-            {state.verify.success && <p className={classes.success}>{state.verify.success}</p>}
+            {verify.err && <p className={classes.err}>{verify.err}</p>}
+            {verify.success && <p className={classes.success}>{verify.success}</p>}
             <TextValidator
               id="id"
               name="id"
               label="Subscriber ID"
-              value={state.verify.id}
+              value={verify.id}
               onChange={this.handleID}
               validators={["required"]}
               errorMessages={["this field is required"]}
@@ -299,6 +320,7 @@ class ContactForm extends React.Component {
               size="large"
               type="submit"
               className={classes.vbutton}
+              disabled={!send.hide}
             >
               Verify ID
                 </Button>
