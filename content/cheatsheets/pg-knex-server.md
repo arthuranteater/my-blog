@@ -1,7 +1,7 @@
 ---
 title: Postgresql + Knex
 ---
-
+```
 $createdb db-name  
 $take name-server  
 $git init  
@@ -10,6 +10,7 @@ $knex init
 $npm i pg express knex morgan cors body-paser dotenv  
 $touch app.js queries.js .gitignore .env  
 $code .
+```
 
 1) Edit json to include script to run node app.js
 2) Create server with Express:
@@ -62,18 +63,12 @@ development: {
 
   7) Edit queries.js:
   ```javascript
-  let connection = require('./knexfile')[process.env.DATABASE_URL || 'development']
+  let connection = require('./knexfile')[process.env.NODE_ENV || 'development']
   let run = require('knex')(connection)
 ```
 8) Write queries:
 ```javascript
 module.exports = {
-  create(callItWhatYouWill) {
-    return database("students").insert(callItWhatYouWill
-    },
-  list() {
-    return knex("classmates");
-  },
   getById(id) {
     return knex
       .select()
@@ -106,6 +101,19 @@ app.put("/:id", (req, res) => {
 11) Add error handling/auth
 12) Test routes with client
 13) Deploy, run migration, seeds
+```
+$npm i -g heroku
+$heroku create database_name
+$git remote -v // verify
+$heroku addons:create heroku-postgresql:hobby-dev // add db setup
+$heroku pg:info // get database name
+$heroku pg:credentials:url <database_name_from_last_step> // get database url
+$heroku info // get app name
+$heroku config:set DATABASE_URL='<the_database_url_from_the_last_step>//postgres...' -a <app_name_from_last_step> // set heroku env variable
+$git push heroku master
+$heroku run knex migrate:latest
+$heroku run knex seed:run
+```
 14) Test routes with client
 
 
