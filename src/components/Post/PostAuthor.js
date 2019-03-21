@@ -14,6 +14,7 @@ import noshaun from "../../images/jshaun/noshaun.png"
 import GithubIcon from "!svg-react-loader!../../images/svg-icons/github.svg?name=GithubIcon";
 import FacebookIcon from "!svg-react-loader!../../images/svg-icons/facebook.svg?name=FacebookIcon";
 import TwitterIcon from "!svg-react-loader!../../images/svg-icons/twitter.svg?name=TwitterIcon";
+import EmailIcon from '@material-ui/icons/Email'
 
 const styles = theme => ({
   author: {
@@ -112,8 +113,8 @@ const styles = theme => ({
 
 
 const PostAuthor = props => {
-  const { classes, author } = props;
-  const items = config.authorSocialLinks;
+  const { classes, author } = props
+  const items = config.authorSocialLinks
   const icons = {
     twitter: TwitterIcon,
     facebook: FacebookIcon,
@@ -157,8 +158,18 @@ const PostAuthor = props => {
             >
               <Icon className={classes.svg} />
             </a>
-          );
+          )
         })}
+        <a
+          href='/subscribe'
+          key='subscribe'
+          className={classes.link}
+          target="_blank"
+          rel="noopener noreferrer"
+          title='subscribe'
+        >
+          <EmailIcon className={classes.svg} />
+        </a>
       </div>
     </div>
   );
