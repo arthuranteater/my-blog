@@ -51,8 +51,8 @@ class UnsubscribePage extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault()
-        let api = this.props.data.site.siteMetadata.delSub
-        const devUrl = `http://localhost:4000/${api}`
+        const { server, delSub } = this.props.data.site.siteMetadata
+        const devUrl = server + delSub
         const pkg = { ...this.state }
         fetch(devUrl, {
             method: "POST",
@@ -146,6 +146,7 @@ export const query = graphql`
     site {
       siteMetadata {
         delSub
+        server
       }
     }
   }

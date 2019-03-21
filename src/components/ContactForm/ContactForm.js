@@ -67,7 +67,8 @@ class ContactForm extends React.Component {
   }
 
   addCats = (selected) => {
-    if (this.state.sub.Name === '' || this.state.sub.Email === '') {
+    const { Name, Email } = this.state.sub
+    if (Name === '' || Email === '') {
       this.setState(prevState => ({
         send: {
           ...prevState.send,
@@ -130,16 +131,18 @@ class ContactForm extends React.Component {
 
   handleVerify = e => {
     e.preventDefault()
-    if (this.state.verify.id === this.state.sub.Passcode) {
-      const devUrl = `http://localhost:4000/${this.props.addSub}`
-      const addSub = { ...this.state.sub }
+    const { verify, sub } = this.state
+    const { server, addSub } = this.props
+    if (verify.id === sub.Passcode) {
+      const devUrl = server + addSub
+      const nsub = { ...sub }
       fetch(devUrl, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
         },
-        body: JSON.stringify(addSub)
+        body: JSON.stringify(nsub)
       }).then(res => {
         if (res.status == 200) {
           return res.json()
@@ -165,8 +168,12 @@ class ContactForm extends React.Component {
           }))
         }
       }).catch(err => {
-        console.log('test')
-        console.error("Err:", err)
+        this.setState(prevState => ({
+          verify: {
+            ...prevState.verify,
+            err: `Connection error (${err.toString()})`
+          }
+        }))
       })
     } else {
       this.setState(prevState => ({
@@ -184,7 +191,7 @@ class ContactForm extends React.Component {
     e.preventDefault()
     if (this.state.send.rts) {
       console.log('sending welcome email')
-      const welUrl = `http://localhost:4000/${this.props.welcome}`
+      const welUrl = this.props.server + this.props.welcome
       const welPkg = { ...this.state.sub }
       fetch(welUrl, {
         method: "POST",

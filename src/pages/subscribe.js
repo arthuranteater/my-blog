@@ -29,7 +29,7 @@ const SubscribePage = props => {
           Sign up to receive email alerts for new posts!
         </Content>
         <br></br>
-        <ContactForm welcome={meta.welcome} addSub={meta.addSub} values={meta.values} edges={filtEdges} />
+        <ContactForm server={meta.server} welcome={meta.welcome} addSub={meta.addSub} values={meta.values} edges={filtEdges} />
       </Article>
     </Main>
   );
@@ -48,6 +48,7 @@ export const query = graphql`
         addSub
         values
         welcome
+        server
       }
     }
     cat: allMarkdownRemark(
