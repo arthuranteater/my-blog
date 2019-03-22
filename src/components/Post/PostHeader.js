@@ -57,8 +57,7 @@ const PostShare = asyncComponent(() =>
 );
 
 const PostHeader = props => {
-  const { classes, title, subTitle, date, hashtag, post, slug } = props;
-  console.log(date)
+  const { classes, title, subTitle, date, hashtag, post, slug } = props
 
   function myDate(dateString) {
     const dateObj = new Date(dateString).toDateString();

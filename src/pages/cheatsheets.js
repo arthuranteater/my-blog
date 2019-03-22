@@ -10,7 +10,6 @@ export default class Cheatsheets extends React.Component {
 
   render() {
     const { data } = this.props
-    console.log(data.cheatsheets.edges)
     return (
       <Main>
         <Article>

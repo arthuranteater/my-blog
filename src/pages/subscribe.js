@@ -15,7 +15,6 @@ const SubscribePage = props => {
   const { data } = props
   const meta = data.pass.siteMetadata
   const edges = data.cat.edges
-  console.log('edges', edges)
   const filtEdges = edges.filter((edge, i) => {
     let cat = edge.node.frontmatter.category
     return cat != null

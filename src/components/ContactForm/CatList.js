@@ -36,7 +36,7 @@ const styles = theme => ({
 })
 
 class CatList extends React.Component {
-    
+
     state = {}
 
     componentDidMount() {

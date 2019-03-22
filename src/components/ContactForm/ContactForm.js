@@ -63,7 +63,6 @@ class ContactForm extends React.Component {
     for (var i = 0; i < 6; i++) {
       this.pass += val.charAt(Math.floor(Math.random() * val.length));
     }
-    console.log('pass', this.pass)
   }
 
   addCats = (selected) => {
@@ -190,7 +189,6 @@ class ContactForm extends React.Component {
   handleSend = e => {
     e.preventDefault()
     if (this.state.send.rts) {
-      console.log('sending welcome email')
       const welUrl = this.props.server + this.props.welcome
       const welPkg = { ...this.state.sub }
       fetch(welUrl, {
