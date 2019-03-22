@@ -8,6 +8,7 @@ import FormControlLabel from '@material-ui/core/FormControlLabel'
 import Checkbox from '@material-ui/core/Checkbox'
 import Button from "@material-ui/core/Button"
 import Typography from '@material-ui/core/Typography'
+import CircularProgress from '@material-ui/core/CircularProgress'
 
 
 const styles = theme => ({
@@ -35,14 +36,16 @@ const styles = theme => ({
 })
 
 class CatList extends React.Component {
-    constructor(props) {
-        super(props)
-        this.cats = { All: true }
+    
+    state = {}
+
+    componentDidMount() {
+        let cats = { All: true }
         this.props.edges.map(edge => {
             let cat = edge.node.frontmatter.category
-            this.cats[cat] = true
+            cats[cat] = true
         })
-        this.state = this.cats
+        this.setState(cats)
     }
 
 
@@ -94,38 +97,40 @@ class CatList extends React.Component {
 
         return (
             <div className={classes.root}>
-                <FormControl component="fieldset" className={classes.formControl}>
-                    <FormLabel className={classes.flabel} component="legend">Categories</FormLabel>
-                    <FormGroup >
-                        <FormControlLabel
-                            control={
-                                <Checkbox color='default' checked={state.All} onChange={this.handleAll} value='All' />
-                            }
-                            label={<Typography className={classes.label}>All</Typography>}
-                            className={classes.item}
-                        />
-                        {state && Object.keys(state).map(cat => (cat !== 'All') ?
+                {(Object.keys(state).length === 0) ? <CircularProgress /> : <div>
+                    <FormControl component="fieldset" className={classes.formControl}>
+                        <FormLabel className={classes.flabel} component="legend">Categories</FormLabel>
+                        <FormGroup >
                             <FormControlLabel
                                 control={
-                                    <Checkbox color='default' checked={state[cat]} onChange={this.handleChange(cat)} value={cat} />
+                                    <Checkbox color='default' checked={state.All} onChange={this.handleAll} value='All' />
                                 }
-                                label={<Typography className={classes.label}>{cat}</Typography>}
+                                label={<Typography className={classes.label}>All</Typography>}
                                 className={classes.item}
-                            /> : <div></div>
-                        )}
-                    </FormGroup>
-                </FormControl>
-                <Button
-                    variant="raised"
-                    color="primary"
-                    size="large"
-                    type="submit"
-                    className={classes.gbutton}
-                    onClick={this.getSelected}
-                >
-                    Get ID
-                </Button>
-            </div>
+                            />
+                            {state && Object.keys(state).map((cat, i) => (cat !== 'All') ?
+                                <FormControlLabel
+                                    control={
+                                        <Checkbox color='default' checked={state[cat]} onChange={this.handleChange(cat)} value={cat} />
+                                    }
+                                    label={<Typography className={classes.label}>{cat}</Typography>}
+                                    className={classes.item}
+                                    key={i}
+                                /> : <div key={i}></div>
+                            )}
+                        </FormGroup>
+                    </FormControl>
+                    <Button
+                        variant="raised"
+                        color="primary"
+                        size="large"
+                        type="submit"
+                        className={classes.gbutton}
+                        onClick={this.getSelected}
+                    >
+                        Get ID
+                </Button></div>
+                }</div>
         )
     }
 }

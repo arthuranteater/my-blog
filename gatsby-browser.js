@@ -5,6 +5,10 @@ import PropTypes from "prop-types";
 
 import createStore from "./src/state/store";
 
+exports.onClientEntry = () => {
+  require('babel-polyfill')
+}
+
 // remove the JSS style tag generated on the server to avoid conflicts with the one added on the client
 // exports.onInitialClientRender = function() {
 //   // eslint-disable-next-line no-undef
