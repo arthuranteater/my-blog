@@ -7,7 +7,6 @@ import Button from "@material-ui/core/Button"
 import CatList from './CatList'
 
 
-
 const styles = theme => ({
   vbutton: {
     backgroundColor: theme.main.colors.link,
