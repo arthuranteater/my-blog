@@ -51,9 +51,66 @@ What was built-in:
 * Customizable base styles for styling
 * Webpack plugin for monitoring load time
 
+#### Write a Post
+
+Fork and clone
+Content -> posts
+Add new folder with same format as the prev posts
+folder-name-example = 2019-03-26--jasmine-vs-jest
+**Use yesterday's date as the post date**
+(Date will be updated after pull and final review)
+Add a markdown file with same format
+HTML will be arranged in order of markdown files
+
+1 - Create File
+
+Opt A) Terminal with VS Code
+```
+$ git clone https://github.com/<your-username>/my-blog.git
+$ cd my-blog
+$ code .
+```
+Opt B) Terminal without VS Code
+
+```
+$ git clone https://github.com/<your-username>/my-blog.git
+$ cd my-blog/content/posts
+$ take year-month-date--title 
+```
+folder-name-example = 2019-03-26--jasmine-vs-jest
+**Use yesterday's date as the post date**
+(Date will be updated after pull and final review)
+```
+$ touch index.md
+```
+Or move markdown into folder using cp or drag and drop!
+
+2 - Write a bunch of cool stuff
+
+Use your favorite markdown editor, feel free to reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
+
+3 - Pull latest from master to update
+
+```
+$ git pull https://github.com/arthuranteater/my-blog.git master
+$ git remote -v
+$ git push origin master
+```
+
+Your working branch should be updated without any merge conflicts.
+
+4 - Submit pull request
+
+Go to **<a href="https://github.com/arthuranteater/my-blog.git" target="_blank">our repo</a>**
+
+New pull request (top right) -> compare across forks (top right)
+
+Review changes and submit!
+
 #### Contributors
 
-The original starter template was built by Greg Lobinski with the help of some **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>**.
+The starter template was built by Greg Lobinski. See also the list of **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>** who participated in this project.
+
 
 #### Recreate
 
