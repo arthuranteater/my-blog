@@ -9,6 +9,7 @@ import PageHeader from "../components/Page/PageHeader";
 import Content from "../components/Main/Content";
 import Button from "@material-ui/core/Button"
 
+const testApi = 'http://localhost:4000/'
 
 const styles = theme => ({
     submit: {
@@ -51,7 +52,7 @@ class UnsubscribePage extends React.Component {
 
     handleSubmit = e => {
         e.preventDefault()
-        const { server, delSub } = this.props.data.site.siteMetadata
+        const { server, delSub, secret } = this.props.data.site.siteMetadata
         const devUrl = server + delSub
         const pkg = { ...this.state }
         fetch(devUrl, {
@@ -59,6 +60,7 @@ class UnsubscribePage extends React.Component {
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${secret}`
             },
             body: JSON.stringify(pkg)
         }).then(res => {
@@ -72,12 +74,13 @@ class UnsubscribePage extends React.Component {
                 }))
             }
         }).then(res => {
-            if (res.Response === 'Subscriber removed') {
+            const r = res.Response
+            if (r === 'success') {
                 navigateTo("/unsubscribed")
             } else {
                 this.setState(prevState => ({
                     ...prevState,
-                    err: res.Response,
+                    err: r,
                     attempts: prevState.attempts + 1
                 }))
             }
@@ -147,6 +150,7 @@ export const query = graphql`
       siteMetadata {
         delSub
         server
+        secret
       }
     }
   }

@@ -97,6 +97,18 @@ FB_APP_ID=...
 
 To offer a subscription service, you can use Netlify without managing a server or build your own server. I chose to build a Node server and database. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
 
+If you would like to use the Node server, please add security keys for the following in your .env file.
+
+```
+ADDSUB=''
+VALUES=''
+ADDPOST=''
+DELSUB=''
+WELCOME=''
+SERVER=''
+SECRET=''
+```
+
 #### License
 
 <p style="font-size: 8px">MIT License Copyright (c) 2017 gatsbyjs\

@@ -12,18 +12,24 @@ The dlog, dev blog, was built with Gatsby, Babel, Webpack, GraphQl, React, Redux
 
 #### Features
 
-What I'm adding:
+Coming soon:
+
+* Dark mode for relaxed viewing
+* Google recaptcha for bot protection
+* Markdown commenting with caching
+
+What I've added:
 
 * Cheatsheets for quick reference guide
 * Choice of categories for subscribers
 * Chips for mulitple contributors
 * Chips for hashtags searches #awesome
-* Dark mode for mood change (coming soon)
-* Google recaptcha for bot protection (coming soon)
 * Optimized Algolia search for longer posts
+* Subscribe with email verification
 * Secure storage for subscriber emails
-* Server for sending bulk email alerts
-* Unsubscribe feature with passcode
+* Secure storage for post information
+* Automated error logging for emailing
+* Automated email blasts for new posts
 
 What was built-in:
 
@@ -83,6 +89,18 @@ FB_APP_ID=...
 #### Emails
 
 To offer a subscription service, you can use Netlify or build a server for emailing. I chose to build a server with Node. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
+
+If you would like to use the Node server, please add security keys for the following in your .env file.
+
+```
+ADDSUB=''
+VALUES=''
+ADDPOST=''
+DELSUB=''
+WELCOME=''
+SERVER=''
+SECRET=''
+```
 
 #### License
 

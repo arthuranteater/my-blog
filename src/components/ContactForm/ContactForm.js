@@ -6,6 +6,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import Button from "@material-ui/core/Button"
 import CatList from './CatList'
 
+const testApi = 'http://localhost:4000/'
 
 const styles = theme => ({
   vbutton: {
@@ -58,7 +59,7 @@ class ContactForm extends React.Component {
 
   createPass = () => {
     this.pass = ''
-    var val = this.props.values
+    var val = this.props.meta.values
     for (var i = 0; i < 6; i++) {
       this.pass += val.charAt(Math.floor(Math.random() * val.length));
     }
@@ -130,7 +131,7 @@ class ContactForm extends React.Component {
   handleVerify = e => {
     e.preventDefault()
     const { verify, sub } = this.state
-    const { server, addSub } = this.props
+    const { server, addSub, secret } = this.props.meta
     if (verify.id === sub.Passcode) {
       const devUrl = server + addSub
       const nsub = { ...sub }
@@ -139,6 +140,7 @@ class ContactForm extends React.Component {
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${secret}`
         },
         body: JSON.stringify(nsub)
       }).then(res => {
@@ -154,13 +156,14 @@ class ContactForm extends React.Component {
           }))
         }
       }).then(res => {
-        if (res.Response === 'Subscriber added') {
+        const r = res.Response
+        if (r === 'success') {
           navigateTo("/subscribed")
         } else {
           this.setState(prevState => ({
             verify: {
               ...prevState.verify,
-              err: res.Response,
+              err: r,
               attempts: prevState.verify.attempts + 1
             }
           }))
@@ -187,18 +190,21 @@ class ContactForm extends React.Component {
 
   handleSend = e => {
     e.preventDefault()
-    if (this.state.send.rts) {
-      const welUrl = this.props.server + this.props.welcome
-      const welPkg = { ...this.state.sub }
+    const { send, sub } = this.state
+    const { server, welcome, secret } = this.props.meta
+    if (send.rts) {
+      const welUrl = server + welcome
+      const welPkg = { ...sub }
       fetch(welUrl, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
+          'Authorization': `Bearer ${secret}`
         },
         body: JSON.stringify(welPkg)
       }).then(res => {
-        if (res.status == 200) {
+        if (res.status === 200) {
           return res.json()
         } else {
           this.setState(prevState => ({
@@ -214,11 +220,12 @@ class ContactForm extends React.Component {
           }))
         }
       }).then(res => {
-        if (res.Response.includes('Grid')) {
+        let r = res.Response
+        if (r.includes('No')) {
           this.setState(prevState => ({
             send: {
               ...prevState.send,
-              err: res.Response,
+              err: r,
               sent: prevState.send.sent + 1
             },
             verify: {
@@ -230,7 +237,7 @@ class ContactForm extends React.Component {
           this.setState(prevState => ({
             send: {
               ...prevState.send,
-              success: res.Response,
+              success: r,
               sent: prevState.send.sent + 1,
               hide: true
             },
@@ -304,7 +311,7 @@ class ContactForm extends React.Component {
             onError={errs => console.log(errs)}
             name="verify"
           >
-            {verify.err && <p className={classes.err}>{verify.err}</p>}
+            {verify.err && <p className={classes.err}><strong>{verify.err}</strong></p>}
             {verify.success && <p className={classes.success}>{verify.success}</p>}
             <TextValidator
               id="id"

@@ -26,7 +26,7 @@ $ git checkout -b branch-name
 Merge branch:
 ```
 $ git checkout master
-$ git merge
+$ git merge branch-name
 $ git commit -m
 $ git push origin master
 ```

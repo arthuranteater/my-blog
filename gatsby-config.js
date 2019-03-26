@@ -40,6 +40,7 @@ module.exports = {
     values: process.env.VALUES,
     welcome: process.env.WELCOME,
     server: process.env.SERVER,
+    secret: process.env.SECRET,
     algolia: {
       appId: process.env.ALGOLIA_APP_ID ? process.env.ALGOLIA_APP_ID : "",
       searchOnlyApiKey: process.env.ALGOLIA_SEARCH_ONLY_API_KEY ? process.env.ALGOLIA_SEARCH_ONLY_API_KEY : "",
