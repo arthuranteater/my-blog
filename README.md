@@ -44,7 +44,7 @@ What was built-in:
 * Customizable base styles for styling
 * Webpack plugin for monitoring load time
 
-#### Write a Post
+#### Post
 
 Fork and clone
 Content -> posts
