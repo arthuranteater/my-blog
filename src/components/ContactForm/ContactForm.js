@@ -6,7 +6,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import Button from "@material-ui/core/Button"
 import CatList from './CatList'
 
-const testApi = 'http://localhost:4000/'
+const testApi = 'http://localhost:4000/site/'
 
 const styles = theme => ({
   vbutton: {

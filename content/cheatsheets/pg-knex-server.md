@@ -2,14 +2,14 @@
 title: Postgresql + Knex
 ---
 ```
-$createdb db-name  
-$take name-server  
-$git init  
-$npm init -y  
-$knex init  
-$npm i pg express knex morgan cors body-paser dotenv  
-$touch app.js queries.js .gitignore .env  
-$code .
+$ createdb db-name  
+$ take name-server  
+$ git init  
+$ npm init -y  
+$ knex init  
+$ npm i pg express knex morgan cors body-paser dotenv  
+$ touch app.js queries.js .gitignore .env  
+$ code .
 ```
 
 1) Edit json to include script to run node app.js
@@ -27,7 +27,7 @@ app.listen(port, (req, res) => {
     console.log(`listening on ${port}`);
 });
 ```  
-$npm start
+$ npm start
 
 3) Edit knexfile.js:
 
@@ -42,8 +42,8 @@ development: {
     connection: process.env.DATABASE_URL
   }
   ```
-  $knex migrate:make migration-name  
-  $knex seed:make seed-name
+  $ knex migrate:make migration-name  
+  $ knex seed:make seed-name
 
   5) Fill migration(s):
   ```javascript
@@ -58,8 +58,8 @@ development: {
 
   6) Fill seed(s)
 
-  $knex migrate:latest  
-  $knex seed:run
+  $ knex migrate:latest  
+  $ knex seed:run
 
   7) Edit queries.js:
   ```javascript
@@ -102,17 +102,18 @@ app.put("/:id", (req, res) => {
 12) Test routes with client
 13) Deploy, run migration, seeds
 ```
-$npm i -g heroku
-$heroku create database_name
-$git remote -v // verify
-$heroku addons:create heroku-postgresql:hobby-dev // add db setup
-$heroku pg:info // get database name
-$heroku pg:credentials:url <database_name_from_last_step> // get database url
-$heroku info // get app name
-$heroku config:set DATABASE_URL='<the_database_url_from_the_last_step>//postgres...' -a <app_name_from_last_step> // set heroku env variable
-$git push heroku master
-$heroku run knex migrate:latest
-$heroku run knex seed:run
+$ npm i -g heroku
+$ heroku create database_name
+$ git remote -v // verify
+$ heroku addons:create heroku-postgresql:hobby-dev // add db setup
+$ heroku pg:info // get database name
+$ heroku pg:credentials:url <database_name_from_last_step> // get database url
+$ heroku info // get app name
+$ heroku config:set DATABASE_URL='<the_database_url_from_the_last_step>//postgres...' -a <app_name_from_last_step> // set heroku env variable
+$ git push heroku master
+$ heroku run knex migrate:latest
+$ heroku run knex seed:run
+$ heroku logs -t
 ```
 14) Test routes with client
 
