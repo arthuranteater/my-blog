@@ -46,12 +46,20 @@ What was built-in:
 
 #### Post
 
-- Fork and clone  
+##### 1 - Create md
 
-- Content -> posts  
+- Fork and clone 
+
+VS Code:
+```
+$ git clone https://github.com/<your-username>/my-blog.git
+$ cd my-blog
+$ code .
+```
+- Content -> posts
 
 - Add new folder in same format  
-(folder-example = 2019-03-26--jasmine-vs-jest)  
+(folder-example = 2019-03-26--jasmine-vs-jest) 
 
 - **Use yesterday's date as the post date**  
 (Updated after pull request)  
@@ -59,16 +67,7 @@ What was built-in:
 - Add markdown file(s) in same format  
 (Markdowns will be combined into one post)
 
-##### 1 - Create File
-
-Terminal with VS Code:
-```
-$ git clone https://github.com/<your-username>/my-blog.git
-$ cd my-blog
-$ code .
-```
-
-Terminal without VS Code:
+Without VS Code:
 ```
 $ git clone https://github.com/<your-username>/my-blog.git
 $ cd my-blog/content/posts
@@ -84,13 +83,13 @@ $ touch index.md
 ```
 - Or move markdown into folder using cp or drag and drop!
 
-##### 2 - Write a bunch of cool stuff
+##### 2 - Write stuff
 
 - Use your favorite **<a href="https://dillinger.io/" target="_blank">markdown editor</a>**  
 
 - Reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
 
-##### 3 - Pull latest from master to update
+##### 3 - Pull latest
 
 ```
 $ git pull https://github.com/arthuranteater/my-blog.git master
@@ -100,7 +99,7 @@ $ git push origin master
 
 - Your working branch should be updated without any merge conflicts.
 
-##### 4 - Submit pull request
+##### 4 - Request pull
 
 - Go to **<a href="https://github.com/arthuranteater/my-blog.git" target="_blank">our repo</a>**
 
