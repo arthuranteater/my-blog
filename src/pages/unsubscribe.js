@@ -105,8 +105,8 @@ class UnsubscribePage extends React.Component {
         this.stopTimer()
         this.startTimer()
         const { server, bye } = this.props.data.site.siteMetadata
-        const { send, verify } = this.state
-        const devUrl = testApi + bye
+        const { send } = this.state
+        const devUrl = server + bye
         const byePkg = { ...send }
         fetch(devUrl, {
             method: "POST",
@@ -181,7 +181,7 @@ class UnsubscribePage extends React.Component {
         const { server, delSub } = this.props.data.site.siteMetadata
         const { send, verify } = this.state
         this.encrypt(verify.id)
-        const devUrl = testApi + delSub
+        const devUrl = server + delSub
         const delPkg = { ...send }
         fetch(devUrl, {
             method: "POST",

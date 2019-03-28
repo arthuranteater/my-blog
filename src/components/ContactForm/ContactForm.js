@@ -60,12 +60,9 @@ class ContactForm extends React.Component {
   token
 
   encrypt = (code) => {
-    console.log('code', code)
     this.token = ''
     const hash = HmacSHA256(code, this.props.meta.secret)
-    console.log('hash', hash)
     this.token = EncBase64.stringify(hash)
-    console.log('token', this.token)
   }
 
   refresh
@@ -149,10 +146,10 @@ class ContactForm extends React.Component {
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
+    const { server, addSub } = this.props.meta
     const { verify, sub } = this.state
     this.encrypt(verify.id)
-    const { server, addSub } = this.props.meta
-    const devUrl = testApi + addSub
+    const devUrl = server + addSub
     const nsub = { ...sub }
     fetch(devUrl, {
       method: "POST",
@@ -202,10 +199,10 @@ class ContactForm extends React.Component {
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
-    const { send, sub } = this.state
     const { server, welcome } = this.props.meta
+    const { send, sub } = this.state
     if (send.rts) {
-      const welUrl = testApi + welcome
+      const welUrl = server + welcome
       const welPkg = { ...sub }
       fetch(welUrl, {
         method: "POST",
