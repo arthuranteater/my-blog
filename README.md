@@ -46,14 +46,14 @@ What was built-in:
 
 #### Post
 
-Fork and clone
-Content -> posts
-Add new folder with same format as the prev posts
-folder-name-example = 2019-03-26--jasmine-vs-jest
-**Use yesterday's date as the post date**
-(Date will be updated after pull and final review)
-Add a markdown file with same format
-HTML will be arranged in order of markdown files
+- Fork and clone  
+- Content -> posts  
+- Add new folder with same format as the prev posts  
+folder-name-example = 2019-03-26--jasmine-vs-jest  
+**Use yesterday's date as the post date**  
+(Date will be updated after pull and final review)  
+- Add a markdown file with same format  
+**All markdowns in folder will be combined to one post**
 
 1 - Create File
 
@@ -76,11 +76,11 @@ folder-name-example = 2019-03-26--jasmine-vs-jest
 ```
 $ touch index.md
 ```
-Or move markdown into folder using cp or drag and drop!
+- Or move markdown into folder using cp or drag and drop!
 
 2 - Write a bunch of cool stuff
 
-Use your favorite markdown editor, feel free to reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
+- Use your favorite markdown editor, reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
 
 3 - Pull latest from master to update
 
@@ -90,15 +90,15 @@ $ git remote -v
 $ git push origin master
 ```
 
-Your working branch should be updated without any merge conflicts.
+- Your working branch should be updated without any merge conflicts.
 
 4 - Submit pull request
 
-Go to **<a href="https://github.com/arthuranteater/my-blog.git" target="_blank">our repo</a>**
+- Go to **<a href="https://github.com/arthuranteater/my-blog.git" target="_blank">our repo</a>**
 
-New pull request (top right) -> compare across forks (top right)
+- New pull request (top right) -> compare across forks (top right)
 
-Review changes and submit!
+- Review changes and submit!
 
 #### Contributors
 
