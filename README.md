@@ -106,12 +106,7 @@ $ git push origin master
 - New pull request (top right) -> compare across forks (top right)
 
 - Review changes and submit!
-
-#### Contributors
-
-The starter template was built by Greg Lobinski. See also the list of **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>** who participated in this project.
-
-
+  
 #### Recreate
 
 If you do not have Gatsby Cli installed yet...
@@ -165,6 +160,10 @@ BYE=''
 SECRET=''
 SERVER=''
 ```
+
+#### Contributors
+
+The starter template was built by Greg Lobinski. See also the list of **<a href="https://github.com/greglobinski/gatsby-starter-personal-blog/graphs/contributors" target="_blank">contributors</a>** who participated in this project.
 
 #### License
 
