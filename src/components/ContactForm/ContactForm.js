@@ -4,6 +4,8 @@ import injectSheet from "react-jss"
 import { navigateTo } from "gatsby-link"
 import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import Button from "@material-ui/core/Button"
+import HmacSHA256 from 'crypto-js/hmac-sha256'
+import EncBase64 from 'crypto-js/enc-base64'
 import CatList from './CatList'
 
 const testApi = 'http://localhost:4000/site/'
@@ -55,6 +57,30 @@ class ContactForm extends React.Component {
     }
   }
 
+  token
+
+  encrypt = (code) => {
+    console.log('code', code)
+    this.token = ''
+    const hash = HmacSHA256(code, this.props.meta.secret)
+    console.log('hash', hash)
+    this.token = EncBase64.stringify(hash)
+    console.log('token', this.token)
+  }
+
+  refresh
+
+  startTimer = () => {
+    this.refresh = setTimeout(() => {
+      alert("You've been timed out")
+      window.location.reload()
+    }, 300000)
+  }
+
+  stopTimer = () => {
+    clearTimeout(this.refresh)
+  }
+
   addCats = (selected) => {
     const { Name, Email } = this.state.sub
     if (Name === '' || Email === '') {
@@ -97,6 +123,8 @@ class ContactForm extends React.Component {
         id: value
       }
     }))
+    this.stopTimer()
+    this.startTimer()
   }
 
   handleChange = e => {
@@ -111,73 +139,69 @@ class ContactForm extends React.Component {
         ...prevState.send,
         hide: false
       },
-
     }))
+    this.stopTimer()
+    this.startTimer()
   }
 
 
   handleVerify = e => {
     e.preventDefault()
+    this.stopTimer()
+    this.startTimer()
     const { verify, sub } = this.state
+    this.encrypt(verify.id)
     const { server, addSub } = this.props.meta
-    if (verify.id === sub.Passcode) {
-      const devUrl = testApi + addSub
-      const nsub = { ...sub }
-      fetch(devUrl, {
-        method: "POST",
-        mode: "cors",
-        headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${sub.Passcode}`
-        },
-        body: JSON.stringify(nsub)
-      }).then(res => {
-        if (res.status == 200) {
-          return res.json()
-        } else {
-          this.setState(prevState => ({
-            verify: {
-              ...prevState.verify,
-              attempts: prevState.verify.attempts + 1,
-              err: `Connection error (${res.StatusText})`
-            }
-          }))
-        }
-      }).then(res => {
-        const r = res.Response
-        if (r === 'success') {
-          navigateTo("/subscribed")
-        } else {
-          this.setState(prevState => ({
-            verify: {
-              ...prevState.verify,
-              err: r,
-              attempts: prevState.verify.attempts + 1
-            }
-          }))
-        }
-      }).catch(err => {
+    const devUrl = testApi + addSub
+    const nsub = { ...sub }
+    fetch(devUrl, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: JSON.stringify(nsub)
+    }).then(res => {
+      if (res.status == 200) {
+        return res.json()
+      } else {
         this.setState(prevState => ({
           verify: {
             ...prevState.verify,
-            err: `Connection error (${err.toString()})`
+            attempts: prevState.verify.attempts + 1,
+            err: `Connection error (${res.StatusText})`
           }
         }))
-      })
-    } else {
+      }
+    }).then(res => {
+      const r = res.Response
+      if (r === 'success') {
+        navigateTo("/subscribed")
+      } else {
+        this.setState(prevState => ({
+          verify: {
+            ...prevState.verify,
+            err: r,
+            attempts: prevState.verify.attempts + 1
+          }
+        }))
+      }
+    }).catch(err => {
       this.setState(prevState => ({
         verify: {
           ...prevState.verify,
-          err: 'Invalid ID, please try again.',
-          attempts: prevState.verify.attempts + 1
+          err: `Connection error (${err.toString()})`
         }
       }))
-    }
+    })
   }
 
 
   handleSend = e => {
     e.preventDefault()
+    this.stopTimer()
+    this.startTimer()
     const { send, sub } = this.state
     const { server, welcome } = this.props.meta
     if (send.rts) {
@@ -208,7 +232,6 @@ class ContactForm extends React.Component {
         }
       }).then(res => {
         const r = res.Response
-        const p = res.Passcode
         if (r.includes('No')) {
           this.setState(prevState => ({
             send: {
@@ -233,10 +256,6 @@ class ContactForm extends React.Component {
               ...prevState.verify,
               err: '',
               attempts: 0
-            },
-            sub: {
-              ...prevState.sub,
-              Passcode: p,
             }
           }))
         }
@@ -295,7 +314,7 @@ class ContactForm extends React.Component {
             />
             {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p></div>) : <CatList add={this.addCats} edges={edges} />}
           </ValidatorForm>
-          : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
+          : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
         <h2>Step 2 - Verify ID</h2>
         <div> {(verify.attempts < 3) ?
           <ValidatorForm
@@ -304,7 +323,6 @@ class ContactForm extends React.Component {
             name="verify"
           >
             {verify.err && <p className={classes.err}><strong>{verify.err}</strong></p>}
-            {verify.success && <p className={classes.success}>{verify.success}</p>}
             <TextValidator
               id="id"
               name="id"

@@ -47,6 +47,7 @@ export const query = graphql`
         addSub
         welcome
         server
+        secret
       }
     }
     cat: allMarkdownRemark(
