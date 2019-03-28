@@ -67,7 +67,6 @@ $ git clone https://github.com/<your-username>/my-blog.git
 $ cd my-blog
 $ code .
 ```
-Or  
 
 Terminal without VS Code:
 ```
