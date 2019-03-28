@@ -37,59 +37,172 @@ const styles = theme => ({
 
 class UnsubscribePage extends React.Component {
     state = {
-        email: '',
-        err: '',
-        attempts: 0
+        send: {
+            email: '',
+            passcode: '',
+            err: '',
+            success: '',
+            hide: false,
+            sent: 0
+        },
+        verify: {
+            id: '',
+            err: '',
+            attempts: 0
+        }
     }
 
     handleEmail = e => {
         const value = e.target.value
         this.setState(prevState => ({
-            ...prevState,
-            email: value
+            email: {
+                ...prevState.send,
+                email: value
+            }
         }))
     }
 
-    handleSubmit = e => {
+    handleId = e => {
+        const value = e.target.value
+        this.setState(prevState => ({
+            verify: {
+                ...prevState.verify,
+                id: value
+            }
+        }))
+    }
+
+    handleSend = e => {
         e.preventDefault()
-        const { server, delSub, secret } = this.props.data.site.siteMetadata
-        const devUrl = server + delSub
-        const pkg = { ...this.state }
+        const { server, bye } = this.props.data.site.siteMetadata
+        const { send, verify } = this.state
+        const devUrl = testApi + bye
+        const byePkg = { ...send }
         fetch(devUrl, {
             method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
-                'Authorization': `Bearer ${secret}`
             },
-            body: JSON.stringify(pkg)
+            body: JSON.stringify(byePkg)
         }).then(res => {
             if (res.status == 200) {
                 return res.json()
             } else {
                 this.setState(prevState => ({
-                    ...prevState,
-                    attempts: prevState.attempts + 1,
-                    err: `Connection error (${res.statusText})`
+                    send: {
+                        ...prevState.send,
+                        sent: prevState.attempts + 1,
+                        err: `Connection error (${res.statusText})`
+                    },
+                    verify: {
+                        ...prevState.verify,
+                        err: ''
+                    }
                 }))
             }
         }).then(res => {
             const r = res.Response
-            if (r === 'success') {
-                navigateTo("/unsubscribed")
+            const p = res.Passcode
+            if (r.includes('No')) {
+                this.setState(prevState => ({
+                    send: {
+                        ...prevState.send,
+                        err: r,
+                        sent: prevState.send.sent + 1
+                    },
+                    verify: {
+                        ...prevState.verify,
+                        err: ''
+                    }
+                }))
             } else {
                 this.setState(prevState => ({
-                    ...prevState,
-                    err: r,
-                    attempts: prevState.attempts + 1
+                    send: {
+                        ...prevState.send,
+                        success: r,
+                        sent: prevState.send.sent + 1,
+                        hide: true,
+                        passcode: p
+                    },
+                    verify: {
+                        ...prevState.verify,
+                        err: '',
+                        attempts: 0
+                    }
                 }))
             }
         }).catch(err => {
             this.setState(prevState => ({
-                ...prevState,
-                err: `Connection error (${err.toString()})`
+                send: {
+                    ...prevState.send,
+                    err: `Connection error (${err.toString()})`
+                },
+                verify: {
+                    ...prevState.verify,
+                    err: ''
+                }
             }))
         })
+    }
+
+    handleVerify = e => {
+        e.preventDefault()
+        const { server, delSub } = this.props.data.site.siteMetadata
+        const { state } = this.state
+        if (state.verify === state.passcode) {
+            const devUrl = testApi + delSub
+            const delPkg = { ...state }
+            fetch(devUrl, {
+                method: "POST",
+                mode: "cors",
+                headers: {
+                    "Content-Type": "application/json",
+                    'Authorization': `Bearer ${state.passcode}`
+                },
+                body: JSON.stringify(delPkg)
+            }).then(res => {
+                if (res.status == 200) {
+                    return res.json()
+                } else {
+                    this.setState(prevState => ({
+                        verify: {
+                            ...prevState.verify,
+                            attempts: prevState.attempts + 1,
+                            err: `Connection error (${res.statusText})`
+                        }
+                    }))
+                }
+            }).then(res => {
+                const r = res.Response
+                if (r === 'success') {
+                    navigateTo("/unsubscribed")
+                } else {
+                    this.setState(prevState => ({
+                        verify: {
+                            ...prevState.verify,
+                            err: r,
+                            attempts: prevState.attempts + 1
+                        }
+                    }))
+                }
+            }).catch(err => {
+                this.setState(prevState => ({
+                    verify: {
+                        ...prevState.verify,
+                        err: `Connection error (${err.toString()})`
+                    }
+                }))
+            })
+        } else {
+            this.setState(prevState => ({
+                verify: {
+                    ...prevState.verify,
+                    err: 'Invalid ID, please try again.',
+                    attempts: prevState.verify.attempts + 1
+                }
+            }))
+        }
     }
 
     render() {
@@ -150,7 +263,7 @@ export const query = graphql`
       siteMetadata {
         delSub
         server
-        secret
+        bye
       }
     }
   }

@@ -55,16 +55,6 @@ class ContactForm extends React.Component {
     }
   }
 
-  pass
-
-  createPass = () => {
-    this.pass = ''
-    var val = this.props.meta.values
-    for (var i = 0; i < 6; i++) {
-      this.pass += val.charAt(Math.floor(Math.random() * val.length));
-    }
-  }
-
   addCats = (selected) => {
     const { Name, Email } = this.state.sub
     if (Name === '' || Email === '') {
@@ -84,7 +74,6 @@ class ContactForm extends React.Component {
         }
       }))
     } else {
-      this.createPass()
       let strCats = selected.join(' ')
       this.setState(prevState => ({
         send: {
@@ -94,7 +83,6 @@ class ContactForm extends React.Component {
         },
         sub: {
           ...prevState.sub,
-          Passcode: this.pass,
           Categories: strCats
         }
       }))
@@ -131,16 +119,16 @@ class ContactForm extends React.Component {
   handleVerify = e => {
     e.preventDefault()
     const { verify, sub } = this.state
-    const { server, addSub, secret } = this.props.meta
+    const { server, addSub } = this.props.meta
     if (verify.id === sub.Passcode) {
-      const devUrl = server + addSub
+      const devUrl = testApi + addSub
       const nsub = { ...sub }
       fetch(devUrl, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${secret}`
+          'Authorization': `Bearer ${sub.Passcode}`
         },
         body: JSON.stringify(nsub)
       }).then(res => {
@@ -191,16 +179,15 @@ class ContactForm extends React.Component {
   handleSend = e => {
     e.preventDefault()
     const { send, sub } = this.state
-    const { server, welcome, secret } = this.props.meta
+    const { server, welcome } = this.props.meta
     if (send.rts) {
-      const welUrl = server + welcome
+      const welUrl = testApi + welcome
       const welPkg = { ...sub }
       fetch(welUrl, {
         method: "POST",
         mode: "cors",
         headers: {
-          "Content-Type": "application/json",
-          'Authorization': `Bearer ${secret}`
+          "Content-Type": "application/json"
         },
         body: JSON.stringify(welPkg)
       }).then(res => {
@@ -220,7 +207,8 @@ class ContactForm extends React.Component {
           }))
         }
       }).then(res => {
-        let r = res.Response
+        const r = res.Response
+        const p = res.Passcode
         if (r.includes('No')) {
           this.setState(prevState => ({
             send: {
@@ -245,6 +233,10 @@ class ContactForm extends React.Component {
               ...prevState.verify,
               err: '',
               attempts: 0
+            },
+            sub: {
+              ...prevState.sub,
+              Passcode: p,
             }
           }))
         }

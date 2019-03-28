@@ -45,10 +45,8 @@ export const query = graphql`
     pass: site {
       siteMetadata {
         addSub
-        values
         welcome
         server
-        secret
       }
     }
     cat: allMarkdownRemark(
