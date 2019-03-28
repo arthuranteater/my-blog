@@ -47,42 +47,51 @@ What was built-in:
 #### Post
 
 - Fork and clone  
+
 - Content -> posts  
-- Add new folder with same format as the prev posts  
-folder-name-example = 2019-03-26--jasmine-vs-jest  
-**Use yesterday's date as the post date**  
-(Date will be updated after pull and final review)  
-- Add a markdown file with same format  
-**All markdowns in folder will be combined to one post**
 
-1 - Create File
+- Add new folder in same format  
+(folder-example = 2019-03-26--jasmine-vs-jest)  
 
-Opt A) Terminal with VS Code
+- **Use yesterday's date as the post date**  
+(Updated after pull request)  
+
+- Add markdown file(s) in same format  
+(Markdowns will be combined into one post)
+
+##### 1 - Create File
+
+Terminal with VS Code:
 ```
 $ git clone https://github.com/<your-username>/my-blog.git
 $ cd my-blog
 $ code .
 ```
-Opt B) Terminal without VS Code
+Or  
 
+Terminal without VS Code:
 ```
 $ git clone https://github.com/<your-username>/my-blog.git
 $ cd my-blog/content/posts
 $ take year-month-date--title 
 ```
-folder-name-example = 2019-03-26--jasmine-vs-jest  
-**Use yesterday's date as the post date**  
-(Date will be updated after pull and final review)
+(folder-example = 2019-03-26--jasmine-vs-jest)  
+  
+- **Use yesterday's date as the post date**  
+(Updated after pull request)  
+
 ```
 $ touch index.md
 ```
 - Or move markdown into folder using cp or drag and drop!
 
-2 - Write a bunch of cool stuff
+##### 2 - Write a bunch of cool stuff
 
-- Use your favorite markdown editor, reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
+- Use your favorite **<a href="https://dillinger.io/" target="_blank">markdown editor</a>**  
 
-3 - Pull latest from master to update
+- Reference our **<a href="https://arthuranteater.com/cheatsheets/" target="_blank">markdown cheatsheet</a>**
+
+##### 3 - Pull latest from master to update
 
 ```
 $ git pull https://github.com/arthuranteater/my-blog.git master
@@ -92,7 +101,7 @@ $ git push origin master
 
 - Your working branch should be updated without any merge conflicts.
 
-4 - Submit pull request
+##### 4 - Submit pull request
 
 - Go to **<a href="https://github.com/arthuranteater/my-blog.git" target="_blank">our repo</a>**
 
