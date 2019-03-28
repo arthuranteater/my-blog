@@ -70,8 +70,8 @@ $ git clone https://github.com/<your-username>/my-blog.git
 $ cd my-blog/content/posts
 $ take year-month-date--title 
 ```
-folder-name-example = 2019-03-26--jasmine-vs-jest
-**Use yesterday's date as the post date**
+folder-name-example = 2019-03-26--jasmine-vs-jest  
+**Use yesterday's date as the post date**  
 (Date will be updated after pull and final review)
 ```
 $ touch index.md
