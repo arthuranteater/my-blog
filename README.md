@@ -154,16 +154,16 @@ FB_APP_ID=...
 
 To offer a subscription service, you can use Netlify or build a server for emailing. I chose to build a server with Node. Click **<a href="https://github.com/arthuranteater/my-blog-server" target="_blank">here</a>** to view the Github repo.
 
-If you would like to use the Node server, please add security keys for the following in your .env file.
+If you would like to use the Node server, please create codes for the following keys to your .env file. You do not need not to hide your server and routes as we have because users can find them in the browser. But the SECRET is required as a "password/salt" for the encryption used.
 
 ```
 ADDSUB=''
-VALUES=''
 ADDPOST=''
 DELSUB=''
 WELCOME=''
-SERVER=''
+BYE=''
 SECRET=''
+SERVER=''
 ```
 
 #### License
