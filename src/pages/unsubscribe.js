@@ -11,7 +11,7 @@ import Button from "@material-ui/core/Button"
 import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncBase64 from 'crypto-js/enc-base64'
 
-const testApi = 'http://localhost:4000/site/'
+const dev = 'http://localhost:4000/site/'
 
 const styles = theme => ({
     submit: {
@@ -39,18 +39,14 @@ const styles = theme => ({
 
 class UnsubscribePage extends React.Component {
     state = {
+        sub: {
+            Email: '',
+        },
         send: {
-            email: '',
-            passcode: '',
-            err: '',
-            success: '',
-            hide: false,
-            sent: 0
+            err: '', success: '', hide: false, sent: 0
         },
         verify: {
-            id: '',
-            err: '',
-            attempts: 0
+            id: '', err: '', attempts: 0
         }
     }
 
@@ -76,43 +72,33 @@ class UnsubscribePage extends React.Component {
     }
 
 
-    handleEmail = e => {
+    handleEm = e => {
         const value = e.target.value
         this.setState(prevState => ({
-            send: {
-                ...prevState.send,
-                email: value
+            sub: {
+                ...prevState.sub,
+                Email: value
             }
         }))
         this.stopTimer()
         this.startTimer()
     }
 
-    handleId = e => {
-        const value = e.target.value
-        this.setState(prevState => ({
-            verify: {
-                ...prevState.verify,
-                id: value
-            }
-        }))
-        this.stopTimer()
-        this.startTimer()
-    }
-
-    handleSend = e => {
+    handleBye = e => {
         e.preventDefault()
         this.stopTimer()
         this.startTimer()
         const { server, bye } = this.props.data.site.siteMetadata
-        const { send } = this.state
-        const devUrl = server + bye
-        const byePkg = { ...send }
-        fetch(devUrl, {
+        const { sub } = this.state
+        this.encrypt(sub.Email)
+        const byeApi = dev + bye
+        const byePkg = { ...sub }
+        fetch(byeApi, {
             method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
+                'Authorization': `Bearer ${this.token}`
             },
             body: JSON.stringify(byePkg)
         }).then(res => {
@@ -174,23 +160,35 @@ class UnsubscribePage extends React.Component {
         })
     }
 
-    handleVerify = e => {
+    handleId = e => {
+        const value = e.target.value
+        this.setState(prevState => ({
+            verify: {
+                ...prevState.verify,
+                id: value
+            }
+        }))
+        this.stopTimer()
+        this.startTimer()
+    }
+
+    handleVer = e => {
         e.preventDefault()
         this.stopTimer()
         this.startTimer()
         const { server, delSub } = this.props.data.site.siteMetadata
-        const { send, verify } = this.state
+        const { verify } = this.state
         this.encrypt(verify.id)
-        const devUrl = server + delSub
-        const delPkg = { ...send }
-        fetch(devUrl, {
+        const verApi = dev + delSub
+        const verPkg = { ...verify }
+        fetch(verApi, {
             method: "POST",
             mode: "cors",
             headers: {
                 "Content-Type": "application/json",
                 'Authorization': `Bearer ${this.token}`
             },
-            body: JSON.stringify(delPkg)
+            body: JSON.stringify(verPkg)
         }).then(res => {
             if (res.status == 200) {
                 return res.json()
@@ -228,7 +226,7 @@ class UnsubscribePage extends React.Component {
 
     render() {
         const { classes } = this.props
-        const { send, verify } = this.state
+        const { send, verify, sub } = this.state
 
         return (
             <Main>
@@ -240,7 +238,7 @@ class UnsubscribePage extends React.Component {
                     <br></br>
                     <div>{send.sent < 3 ?
                         <ValidatorForm
-                            onSubmit={this.handleSend}
+                            onSubmit={this.handleBye}
                             onError={errs => console.log(errs)}
                             name="unsubscribe"
                         >
@@ -249,8 +247,8 @@ class UnsubscribePage extends React.Component {
                                 id="email"
                                 name="Email"
                                 label="E-mail"
-                                value={send.email}
-                                onChange={this.handleEmail}
+                                value={sub.Email}
+                                onChange={this.handleEm}
                                 validators={["required", "isEmail"]}
                                 errorMessages={["this field is required", "email is not valid"]}
                                 fullWidth
@@ -269,7 +267,7 @@ class UnsubscribePage extends React.Component {
                         </ValidatorForm> : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
                     <div>{verify.attempts < 3 ?
                         <ValidatorForm
-                            onSubmit={this.handleVerify}
+                            onSubmit={this.handleVer}
                             onError={errs => console.log(errs)}
                             name="verify"
                         >
@@ -292,7 +290,6 @@ class UnsubscribePage extends React.Component {
                                 size="large"
                                 type="submit"
                                 className={classes.submit}
-                                disabled={!send.hide}
                             >Verify</Button>
                         </ValidatorForm> : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
                 </Article>

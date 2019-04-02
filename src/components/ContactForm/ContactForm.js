@@ -8,7 +8,7 @@ import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncBase64 from 'crypto-js/enc-base64'
 import CatList from './CatList'
 
-const testApi = 'http://localhost:4000/site/'
+const dev = 'http://localhost:4000/site/'
 
 const styles = theme => ({
   vbutton: {
@@ -49,7 +49,7 @@ class ContactForm extends React.Component {
 
   state = {
     sub: {
-      Name: '', Email: '', Categories: '', Passcode: '',
+      Name: '', Email: '', Categories: '',
     }, send: {
       hide: false, err: '', rts: false, success: '', sent: 0,
     }, verify: {
@@ -68,17 +68,50 @@ class ContactForm extends React.Component {
   refresh
 
   startTimer = () => {
-    this.refresh = setTimeout(() => {
-      alert("You've been timed out")
-      window.location.reload()
-    }, 300000)
+    this.reset = setTimeout(() => {
+      this.setState(prevState => ({
+        sub: {
+          ...prevState.sub,
+          Name: '',
+          Email: ''
+        },
+        send: {
+          ...prevState.send,
+          err: 'You were timed out.',
+          success: '',
+          hide: false,
+          rts: false
+        },
+        verify: {
+          ...prevState.verify,
+          err: ''
+        }
+      }))
+    }, 480000)
   }
 
   stopTimer = () => {
-    clearTimeout(this.refresh)
+    clearTimeout(this.reset)
   }
 
-  addCats = (selected) => {
+  handleCh = e => {
+    const value = e.target.value
+    const name = e.target.name
+    this.setState(prevState => ({
+      sub: {
+        ...prevState.sub,
+        [name]: value
+      },
+      send: {
+        ...prevState.send,
+        hide: false
+      },
+    }))
+    this.stopTimer()
+    this.startTimer()
+  }
+
+  addCats = selected => {
     const { Name, Email } = this.state.sub
     if (Name === '' || Email === '') {
       this.setState(prevState => ({
@@ -112,103 +145,22 @@ class ContactForm extends React.Component {
     }
   }
 
-  handleID = e => {
-    let value = e.target.value
-    this.setState(prevState => ({
-      verify: {
-        ...prevState.verify,
-        id: value
-      }
-    }))
-    this.stopTimer()
-    this.startTimer()
-  }
-
-  handleChange = e => {
-    const value = e.target.value
-    const name = e.target.name
-    this.setState(prevState => ({
-      sub: {
-        ...prevState.sub,
-        [name]: value
-      },
-      send: {
-        ...prevState.send,
-        hide: false
-      },
-    }))
-    this.stopTimer()
-    this.startTimer()
-  }
-
-
-  handleVerify = e => {
-    e.preventDefault()
-    this.stopTimer()
-    this.startTimer()
-    const { server, addSub } = this.props.meta
-    const { verify, sub } = this.state
-    this.encrypt(verify.id)
-    const devUrl = server + addSub
-    const nsub = { ...sub }
-    fetch(devUrl, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${this.token}`
-      },
-      body: JSON.stringify(nsub)
-    }).then(res => {
-      if (res.status == 200) {
-        return res.json()
-      } else {
-        this.setState(prevState => ({
-          verify: {
-            ...prevState.verify,
-            attempts: prevState.verify.attempts + 1,
-            err: `Connection error (${res.StatusText})`
-          }
-        }))
-      }
-    }).then(res => {
-      const r = res.Response
-      if (r === 'success') {
-        navigateTo("/subscribed")
-      } else {
-        this.setState(prevState => ({
-          verify: {
-            ...prevState.verify,
-            err: r,
-            attempts: prevState.verify.attempts + 1
-          }
-        }))
-      }
-    }).catch(err => {
-      this.setState(prevState => ({
-        verify: {
-          ...prevState.verify,
-          err: `Connection error (${err.toString()})`
-        }
-      }))
-    })
-  }
-
-
-  handleSend = e => {
+  handleWel = e => {
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
     const { server, welcome } = this.props.meta
     const { send, sub } = this.state
+    this.encrypt(sub.Email)
     if (send.rts) {
-      const welUrl = server + welcome
+      const welApi = dev + welcome
       const welPkg = { ...sub }
-      fetch(welUrl, {
+      fetch(welApi, {
         method: "POST",
         mode: "cors",
         headers: {
-          "Content-Type": "application/json"
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${this.token}`
         },
         body: JSON.stringify(welPkg)
       }).then(res => {
@@ -271,6 +223,70 @@ class ContactForm extends React.Component {
     }
   }
 
+  handleId = e => {
+    let value = e.target.value
+    this.setState(prevState => ({
+      verify: {
+        ...prevState.verify,
+        id: value
+      }
+    }))
+    this.stopTimer()
+    this.startTimer()
+  }
+
+  handleVer = e => {
+    e.preventDefault()
+    this.stopTimer()
+    this.startTimer()
+    const { server, addSub } = this.props.meta
+    const { verify } = this.state
+    this.encrypt(verify.id)
+    const verApi = dev + addSub
+    const verPkg = { ...verify }
+    fetch(verApi, {
+      method: "POST",
+      mode: "cors",
+      headers: {
+        "Content-Type": "application/json",
+        'Authorization': `Bearer ${this.token}`
+      },
+      body: JSON.stringify(verPkg)
+    }).then(res => {
+      if (res.status == 200) {
+        return res.json()
+      } else {
+        this.setState(prevState => ({
+          verify: {
+            ...prevState.verify,
+            attempts: prevState.verify.attempts + 1,
+            err: `Connection error (${res.StatusText})`
+          }
+        }))
+      }
+    }).then(res => {
+      const r = res.Response
+      if (r === 'success') {
+        navigateTo("/subscribed")
+      } else {
+        this.setState(prevState => ({
+          verify: {
+            ...prevState.verify,
+            err: r,
+            attempts: prevState.verify.attempts + 1
+          }
+        }))
+      }
+    }).catch(err => {
+      this.setState(prevState => ({
+        verify: {
+          ...prevState.verify,
+          err: `Connection error (${err.toString()})`
+        }
+      }))
+    })
+  }
+
   render() {
     const { classes, edges } = this.props
     const { sub, send, verify } = this.state
@@ -280,7 +296,7 @@ class ContactForm extends React.Component {
         <h2>Step 1 - Get ID</h2>
         <div>{(send.sent < 3) ?
           <ValidatorForm
-            onSubmit={this.handleSend}
+            onSubmit={this.handleWel}
             onError={errs => console.log(errs)}
             name="send"
           >
@@ -290,7 +306,7 @@ class ContactForm extends React.Component {
               name="Name"
               label="Name"
               value={sub.Name}
-              onChange={this.handleChange}
+              onChange={this.handleCh}
               validators={["required"]}
               errorMessages={["this field is required"]}
               fullWidth
@@ -302,7 +318,7 @@ class ContactForm extends React.Component {
               name="Email"
               label="E-mail"
               value={sub.Email}
-              onChange={this.handleChange}
+              onChange={this.handleCh}
               validators={["required", "isEmail"]}
               errorMessages={["this field is required", "email is not valid"]}
               fullWidth
@@ -315,7 +331,7 @@ class ContactForm extends React.Component {
         <h2>Step 2 - Verify ID</h2>
         <div> {(verify.attempts < 3) ?
           <ValidatorForm
-            onSubmit={this.handleVerify}
+            onSubmit={this.handleVer}
             onError={errs => console.log(errs)}
             name="verify"
           >
@@ -325,7 +341,7 @@ class ContactForm extends React.Component {
               name="id"
               label="Subscriber ID"
               value={verify.id}
-              onChange={this.handleID}
+              onChange={this.handleId}
               validators={["required"]}
               errorMessages={["this field is required"]}
               fullWidth
@@ -338,7 +354,6 @@ class ContactForm extends React.Component {
               size="large"
               type="submit"
               className={classes.vbutton}
-              disabled={!send.hide}
             >
               Verify ID
                 </Button>
