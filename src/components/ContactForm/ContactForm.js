@@ -7,6 +7,7 @@ import Button from "@material-ui/core/Button"
 import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncBase64 from 'crypto-js/enc-base64'
 import CatList from './CatList'
+import Countdown from 'react-countdown-now'
 
 const dev = 'http://localhost:4000/site/'
 
@@ -84,14 +85,23 @@ class ContactForm extends React.Component {
         },
         verify: {
           ...prevState.verify,
-          err: ''
+          err: '',
+          id: ''
         }
       }))
-    }, 480000)
+    }, 600000)
   }
 
   stopTimer = () => {
     clearTimeout(this.reset)
+  }
+
+  countDown = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      return <span>Please request new ID.</span>
+    } else {
+      return <span>{minutes}:{seconds}</span>
+    }
   }
 
   handleCh = e => {
@@ -325,7 +335,8 @@ class ContactForm extends React.Component {
               margin="normal"
               className={classes.singleLineInput}
             />
-            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p></div>) : <CatList add={this.addCats} edges={edges} />}
+            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p>
+              <div>{<Countdown date={Date.now() + 420000} renderer={this.countDown} />}</div></div>) : <CatList add={this.addCats} edges={edges} />}
           </ValidatorForm>
           : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
         <h2>Step 2 - Verify ID</h2>
@@ -359,7 +370,7 @@ class ContactForm extends React.Component {
                 </Button>
           </ValidatorForm>
           : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
-        <p>arthuranteater uses SSL encryption on all requests, .env variables containing lengthy keys, and email verification to keep your information protected. If you have any concerns or issues signing up, please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a>.</p>
+        <p>arthuranteater uses hashed auth tokens, SSL encryption, database encryption, and passkeys on all requests. If you have any concerns or issues signing up, please <a className={classes.blink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a>.</p>
       </div>
     )
   }
