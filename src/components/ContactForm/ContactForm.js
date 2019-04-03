@@ -163,7 +163,7 @@ class ContactForm extends React.Component {
     const { send, sub } = this.state
     this.encrypt(sub.Email)
     if (send.rts) {
-      const welApi = dev + welcome
+      const welApi = server + welcome
       const welPkg = { ...sub }
       fetch(welApi, {
         method: "POST",
@@ -252,7 +252,7 @@ class ContactForm extends React.Component {
     const { server, addSub } = this.props.meta
     const { verify } = this.state
     this.encrypt(verify.id)
-    const verApi = dev + addSub
+    const verApi = server + addSub
     const verPkg = { ...verify }
     fetch(verApi, {
       method: "POST",

@@ -95,7 +95,6 @@ class UnsubscribePage extends React.Component {
         }
     }
 
-
     handleEm = e => {
         const value = e.target.value
         this.setState(prevState => ({
@@ -126,7 +125,7 @@ class UnsubscribePage extends React.Component {
         const { server, bye } = this.props.data.site.siteMetadata
         const { sub } = this.state
         this.encrypt(sub.Email)
-        const byeApi = dev + bye
+        const byeApi = server + bye
         const byePkg = { ...sub }
         fetch(byeApi, {
             method: "POST",
@@ -215,7 +214,7 @@ class UnsubscribePage extends React.Component {
         const { server, delSub } = this.props.data.site.siteMetadata
         const { verify } = this.state
         this.encrypt(verify.id)
-        const verApi = dev + delSub
+        const verApi = server + delSub
         const verPkg = { ...verify }
         fetch(verApi, {
             method: "POST",
