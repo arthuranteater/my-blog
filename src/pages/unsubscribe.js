@@ -10,6 +10,7 @@ import Content from "../components/Main/Content"
 import Button from "@material-ui/core/Button"
 import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncBase64 from 'crypto-js/enc-base64'
+import Countdown from 'react-countdown-now'
 
 const dev = 'http://localhost:4000/site/'
 
@@ -58,17 +59,40 @@ class UnsubscribePage extends React.Component {
         this.token = EncBase64.stringify(hash)
     }
 
-    refresh
+    reset
 
     startTimer = () => {
-        this.refresh = setTimeout(() => {
-            alert("You've been timed out")
-            window.location.reload()
-        }, 300000)
+        this.reset = setTimeout(() => {
+            this.setState(prevState => ({
+                sub: {
+                    ...prevState.sub,
+                    Email: ''
+                },
+                send: {
+                    ...prevState.send,
+                    err: 'You were timed out.',
+                    success: '',
+                    hide: false
+                },
+                verify: {
+                    ...prevState.verify,
+                    err: '',
+                    id: ''
+                }
+            }))
+        }, 600000)
     }
 
     stopTimer = () => {
-        clearTimeout(this.refresh)
+        clearTimeout(this.reset)
+    }
+
+    countDown = ({ minutes, seconds, completed }) => {
+        if (completed) {
+            return <span>Please request new ID.</span>
+        } else {
+            return <span>{minutes}:{seconds}</span>
+        }
     }
 
 
@@ -78,6 +102,17 @@ class UnsubscribePage extends React.Component {
             sub: {
                 ...prevState.sub,
                 Email: value
+            },
+            send: {
+                ...prevState.send,
+                err: '',
+                success: '',
+                hide: false
+            },
+            verify: {
+                ...prevState.verify,
+                err: '',
+                id: ''
             }
         }))
         this.stopTimer()
@@ -137,6 +172,7 @@ class UnsubscribePage extends React.Component {
                         ...prevState.send,
                         success: r,
                         sent: prevState.send.sent + 1,
+                        err: '',
                         hide: true,
                     },
                     verify: {
@@ -263,7 +299,7 @@ class UnsubscribePage extends React.Component {
                                 className={classes.submit}
                                 disabled={send.hide}
                             >Unsubscribe</Button>
-                            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p></div>) : <div></div>}
+                            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p><div>{<Countdown date={Date.now() + 420000} renderer={this.countDown} />}</div></div>) : <div></div>}
                         </ValidatorForm> : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
                     <div>{verify.attempts < 3 ?
                         <ValidatorForm

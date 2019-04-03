@@ -66,7 +66,7 @@ class ContactForm extends React.Component {
     this.token = EncBase64.stringify(hash)
   }
 
-  refresh
+  reset
 
   startTimer = () => {
     this.reset = setTimeout(() => {
