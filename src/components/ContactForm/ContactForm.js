@@ -6,6 +6,7 @@ import { TextValidator, ValidatorForm } from "react-material-ui-form-validator"
 import Button from "@material-ui/core/Button"
 import HmacSHA256 from 'crypto-js/hmac-sha256'
 import EncBase64 from 'crypto-js/enc-base64'
+import Aes from 'crypto-js/aes'
 import CatList from './CatList'
 import Countdown from 'react-countdown-now'
 
@@ -50,59 +51,47 @@ class ContactForm extends React.Component {
 
   state = {
     sub: {
-      Name: '', Email: '', Categories: '',
+      Name: '', Email: '', Categories: ''
     }, send: {
-      hide: false, err: '', rts: false, success: '', sent: 0,
+      err: '', success: '', cats: false, sent: 0,
     }, verify: {
-      err: '', id: '', attempts: 0
+      err: '', id: '', attempts: 0,
+    }, salt: {
+      key: '', rts: false
     }
   }
 
-  token
-
-  encrypt = (code) => {
-    this.token = ''
-    const hash = HmacSHA256(code, this.props.meta.secret)
-    this.token = EncBase64.stringify(hash)
-  }
-
-  reset
-
-  startTimer = () => {
-    this.reset = setTimeout(() => {
-      this.setState(prevState => ({
-        sub: {
-          ...prevState.sub,
-          Name: '',
-          Email: ''
-        },
-        send: {
-          ...prevState.send,
-          err: 'You were timed out.',
-          success: '',
-          hide: false,
-          rts: false
-        },
-        verify: {
-          ...prevState.verify,
-          err: '',
-          id: ''
-        }
-      }))
-    }, 600000)
-  }
+  startTimer = setTimeout(() => {
+    this.setState(prevState => ({
+      sub: {
+        ...prevState.sub,
+        Name: '',
+        Email: '',
+        Categories: ''
+      },
+      send: {
+        ...prevState.send,
+        err: 'You were timed out.',
+        success: '',
+        cats: false
+      },
+      verify: {
+        ...prevState.verify,
+        err: '',
+        id: ''
+      },
+      salt: {
+        ...prevState.salt,
+        key: '',
+        rts: false
+      }
+    }))
+  }, 600000)
 
   stopTimer = () => {
-    clearTimeout(this.reset)
+    clearTimeout(this.startTimer)
   }
 
-  countDown = ({ minutes, seconds, completed }) => {
-    if (completed) {
-      return <span>Please request new ID.</span>
-    } else {
-      return <span>{minutes}:{seconds}</span>
-    }
-  }
 
   handleCh = e => {
     const value = e.target.value
@@ -114,8 +103,12 @@ class ContactForm extends React.Component {
       },
       send: {
         ...prevState.send,
-        hide: false
+        cats: false
       },
+      salt: {
+        ...prevState.salt,
+        rts: false
+      }
     }))
     this.stopTimer()
     this.startTimer()
@@ -128,7 +121,7 @@ class ContactForm extends React.Component {
         send: {
           ...prevState.send,
           err: 'Please fill in missing fields',
-          rts: false
+          cats: false
         }
       }))
     } else if (selected.length == 0) {
@@ -136,7 +129,7 @@ class ContactForm extends React.Component {
         send: {
           ...prevState.send,
           err: 'Please select a category',
-          rts: false
+          cats: false
         }
       }))
     } else {
@@ -144,7 +137,7 @@ class ContactForm extends React.Component {
       this.setState(prevState => ({
         send: {
           ...prevState.send,
-          rts: true,
+          cats: true,
           err: ''
         },
         sub: {
@@ -155,22 +148,55 @@ class ContactForm extends React.Component {
     }
   }
 
+  createSalt = () => {
+    let salt = ''
+    const val = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = 0; i < 10; i++) {
+      salt += val.charAt(Math.floor(Math.random() * val.length))
+    }
+    return salt
+  }
+
+  encryptSalt = salt => {
+    const key = Aes.encrypt(salt, this.props.meta.secret).toString()
+    this.setState(prevState => ({
+      send: {
+        ...prevState.send,
+        err: ''
+      },
+      salt: {
+        ...prevState.sub,
+        key: key,
+        rts: true
+      }
+    }))
+  }
+
+  createToken = word => {
+    const salt = createSalt()
+    this.encrypt(salt)
+    console.log('salt', salt)
+    const hash = HmacSHA256(word, salt)
+    return EncBase64.stringify(hash)
+  }
+
+
   handleWel = e => {
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
     const { server, welcome } = this.props.meta
-    const { send, sub } = this.state
-    this.encrypt(sub.Email)
-    if (send.rts) {
+    const { send, sub, salt } = this.state
+    const token = this.createToken(sub.Email)
+    if (salt.rts && send.cats) {
       const welApi = server + welcome
-      const welPkg = { ...sub }
+      const welPkg = { ...sub, ...salt }
       fetch(welApi, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${this.token}`
+          'Authorization': `Bearer ${token}`
         },
         body: JSON.stringify(welPkg)
       }).then(res => {
@@ -181,11 +207,15 @@ class ContactForm extends React.Component {
             send: {
               ...prevState.send,
               sent: prevState.send.sent + 1,
-              err: `Connection error (${res.StatusText})`
+              err: `Connection error (${res.StatusText})`,
+              cats: false
             },
             verify: {
               ...prevState.verify,
               err: ''
+            },
+            salt: {
+              rts: false
             }
           }))
         }
@@ -196,11 +226,16 @@ class ContactForm extends React.Component {
             send: {
               ...prevState.send,
               err: r,
-              sent: prevState.send.sent + 1
+              sent: prevState.send.sent + 1,
+              cats: false
             },
             verify: {
               ...prevState.verify,
               err: ''
+            },
+            salt: {
+              ...prevState.salt,
+              rts: false
             }
           }))
         } else {
@@ -209,12 +244,16 @@ class ContactForm extends React.Component {
               ...prevState.send,
               success: r,
               sent: prevState.send.sent + 1,
-              hide: true
+              cats: true,
             },
             verify: {
               ...prevState.verify,
               err: '',
               attempts: 0
+            },
+            salt: {
+              ...prevState.salt,
+              rts: false
             }
           }))
         }
@@ -222,14 +261,27 @@ class ContactForm extends React.Component {
         this.setState(prevState => ({
           send: {
             ...prevState.send,
-            err: `Connection error (${err.toString()})`
+            err: `Connection error (${err.toString()})`,
+            cats: false
           },
           verify: {
             ...prevState.verify,
             err: ''
+          },
+          salt: {
+            ...prevState.salt,
+            rts: false
           }
         }))
       })
+    }
+  }
+
+  countDown = ({ minutes, seconds, completed }) => {
+    if (completed) {
+      return <span>Please request new ID.</span>
+    } else {
+      return <span>{minutes}:{seconds}</span>
     }
   }
 
@@ -239,6 +291,10 @@ class ContactForm extends React.Component {
       verify: {
         ...prevState.verify,
         id: value
+      },
+      salt: {
+        ...prevState.salt,
+        rts: false
       }
     }))
     this.stopTimer()
@@ -250,51 +306,65 @@ class ContactForm extends React.Component {
     this.stopTimer()
     this.startTimer()
     const { server, addSub } = this.props.meta
-    const { verify } = this.state
-    this.encrypt(verify.id)
-    const verApi = server + addSub
-    const verPkg = { ...verify }
-    fetch(verApi, {
-      method: "POST",
-      mode: "cors",
-      headers: {
-        "Content-Type": "application/json",
-        'Authorization': `Bearer ${this.token}`
-      },
-      body: JSON.stringify(verPkg)
-    }).then(res => {
-      if (res.status == 200) {
-        return res.json()
-      } else {
-        this.setState(prevState => ({
-          verify: {
-            ...prevState.verify,
-            attempts: prevState.verify.attempts + 1,
-            err: `Connection error (${res.StatusText})`
-          }
-        }))
-      }
-    }).then(res => {
-      const r = res.Response
-      if (r === 'success') {
-        navigateTo("/subscribed")
-      } else {
-        this.setState(prevState => ({
-          verify: {
-            ...prevState.verify,
-            err: r,
-            attempts: prevState.verify.attempts + 1
-          }
-        }))
-      }
-    }).catch(err => {
-      this.setState(prevState => ({
-        verify: {
-          ...prevState.verify,
-          err: `Connection error (${err.toString()})`
+    const { verify, salt } = this.state
+    const token = this.createToken(verify.id)
+    if (salt.rts) {
+      const verApi = server + addSub
+      const verPkg = { ...verify, ...salt }
+      fetch(verApi, {
+        method: "POST",
+        mode: "cors",
+        headers: {
+          "Content-Type": "application/json",
+          'Authorization': `Bearer ${token}`
+        },
+        body: JSON.stringify(verPkg)
+      }).then(res => {
+        if (res.status == 200) {
+          return res.json()
+        } else {
+          this.setState(prevState => ({
+            verify: {
+              ...prevState.verify,
+              attempts: prevState.verify.attempts + 1,
+              err: `Connection error (${res.StatusText})`
+            },
+            salt: {
+              ...prevState.salt,
+              rts: false
+            }
+          }))
         }
-      }))
-    })
+      }).then(res => {
+        const r = res.Response
+        if (r === 'success') {
+          navigateTo("/subscribed")
+        } else {
+          this.setState(prevState => ({
+            verify: {
+              ...prevState.verify,
+              err: r,
+              attempts: prevState.verify.attempts + 1
+            },
+            salt: {
+              ...prevState.salt,
+              rts: false
+            }
+          }))
+        }
+      }).catch(err => {
+        this.setState(prevState => ({
+          verify: {
+            ...prevState.verify,
+            err: `Connection error (${err.toString()})`
+          },
+          salt: {
+            ...prevState.salt,
+            rts: false
+          }
+        }))
+      })
+    }
   }
 
   render() {
@@ -335,7 +405,7 @@ class ContactForm extends React.Component {
               margin="normal"
               className={classes.singleLineInput}
             />
-            {send.hide ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p>
+            {send.cats ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p>
               <div>{<Countdown date={Date.now() + 420000} renderer={this.countDown} />}</div></div>) : <CatList add={this.addCats} edges={edges} />}
           </ValidatorForm>
           : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
