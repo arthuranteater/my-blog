@@ -53,53 +53,93 @@ class ContactForm extends React.Component {
     sub: {
       Name: '', Email: '', Categories: ''
     }, send: {
-      err: '', success: '', cats: false, sent: 0,
+      err: '', success: '', cats: false, sent: 0, next: false
     }, verify: {
       err: '', id: '', attempts: 0,
     }, salt: {
-      key: '', rts: false
+      key: '', token: '', rts: false
     }
   }
 
-  startTimer = setTimeout(() => {
-    this.setState(prevState => ({
-      sub: {
-        ...prevState.sub,
-        Name: '',
-        Email: '',
-        Categories: ''
-      },
-      send: {
-        ...prevState.send,
-        err: 'You were timed out.',
-        success: '',
-        cats: false
-      },
-      verify: {
-        ...prevState.verify,
-        err: '',
-        id: ''
-      },
-      salt: {
-        ...prevState.salt,
-        key: '',
-        rts: false
-      }
-    }))
-  }, 600000)
+  startTimer = () => {
+    console.log('started timer')
+    setTimeout(() => {
+      this.setState(prevState => ({
+        sub: {
+          ...prevState.sub,
+          Name: '',
+          Email: '',
+          Categories: ''
+        },
+        send: {
+          ...prevState.send,
+          err: 'You were timed out.',
+          success: '',
+          cats: false
+        },
+        verify: {
+          ...prevState.verify,
+          err: '',
+          id: ''
+        },
+        salt: {
+          ...prevState.salt,
+          key: '',
+          rts: false
+        }
+      }))
+    }, 600000)
+  }
 
   stopTimer = () => {
+    console.log('stopped timer')
     clearTimeout(this.startTimer)
   }
 
+  createSalt = () => {
+    let salt = ''
+    const val = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
+    for (let i = 0; i < 10; i++) {
+      salt += val.charAt(Math.floor(Math.random() * val.length))
+    }
+    return salt
+  }
 
-  handleCh = e => {
+  encryptSalt = salt => {
+    return Aes.encrypt(salt, this.props.meta.secret).toString()
+  }
+
+  createToken = (value, salt) => {
+    const hash = HmacSHA256(value, salt)
+    return EncBase64.stringify(hash)
+  }
+
+
+  handleName = e => {
     const value = e.target.value
-    const name = e.target.name
     this.setState(prevState => ({
       sub: {
         ...prevState.sub,
-        [name]: value
+        Name: value
+      },
+      send: {
+        ...prevState.send,
+        cats: false
+      }
+    }))
+    this.stopTimer()
+    this.startTimer()
+  }
+
+  handleEmail = e => {
+    const value = e.target.value
+    const salt = this.createSalt()
+    const key = this.encryptSalt(salt)
+    const token = this.createToken(value, salt)
+    this.setState(prevState => ({
+      sub: {
+        ...prevState.sub,
+        Email: value
       },
       send: {
         ...prevState.send,
@@ -107,7 +147,9 @@ class ContactForm extends React.Component {
       },
       salt: {
         ...prevState.salt,
-        rts: false
+        key: key,
+        token: token,
+        rts: true
       }
     }))
     this.stopTimer()
@@ -115,6 +157,7 @@ class ContactForm extends React.Component {
   }
 
   addCats = selected => {
+    console.log('cats added')
     const { Name, Email } = this.state.sub
     if (Name === '' || Email === '') {
       this.setState(prevState => ({
@@ -138,6 +181,7 @@ class ContactForm extends React.Component {
         send: {
           ...prevState.send,
           cats: true,
+          next: false,
           err: ''
         },
         sub: {
@@ -148,55 +192,26 @@ class ContactForm extends React.Component {
     }
   }
 
-  createSalt = () => {
-    let salt = ''
-    const val = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789'
-    for (let i = 0; i < 10; i++) {
-      salt += val.charAt(Math.floor(Math.random() * val.length))
-    }
-    return salt
-  }
-
-  encryptSalt = salt => {
-    const key = Aes.encrypt(salt, this.props.meta.secret).toString()
-    this.setState(prevState => ({
-      send: {
-        ...prevState.send,
-        err: ''
-      },
-      salt: {
-        ...prevState.sub,
-        key: key,
-        rts: true
-      }
-    }))
-  }
-
-  createToken = word => {
-    const salt = createSalt()
-    this.encrypt(salt)
-    console.log('salt', salt)
-    const hash = HmacSHA256(word, salt)
-    return EncBase64.stringify(hash)
-  }
-
 
   handleWel = e => {
+    console.log('handling wel req')
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
     const { server, welcome } = this.props.meta
     const { send, sub, salt } = this.state
-    const token = this.createToken(sub.Email)
+    console.log('state', this.state)
     if (salt.rts && send.cats) {
-      const welApi = server + welcome
+      console.log('sending wel')
+      const welApi = dev + welcome
       const welPkg = { ...sub, ...salt }
+      console.log('api', welApi)
       fetch(welApi, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${salt.token}`
         },
         body: JSON.stringify(welPkg)
       }).then(res => {
@@ -213,9 +228,6 @@ class ContactForm extends React.Component {
             verify: {
               ...prevState.verify,
               err: ''
-            },
-            salt: {
-              rts: false
             }
           }))
         }
@@ -232,10 +244,6 @@ class ContactForm extends React.Component {
             verify: {
               ...prevState.verify,
               err: ''
-            },
-            salt: {
-              ...prevState.salt,
-              rts: false
             }
           }))
         } else {
@@ -244,16 +252,12 @@ class ContactForm extends React.Component {
               ...prevState.send,
               success: r,
               sent: prevState.send.sent + 1,
-              cats: true,
+              next: true
             },
             verify: {
               ...prevState.verify,
               err: '',
               attempts: 0
-            },
-            salt: {
-              ...prevState.salt,
-              rts: false
             }
           }))
         }
@@ -267,10 +271,6 @@ class ContactForm extends React.Component {
           verify: {
             ...prevState.verify,
             err: ''
-          },
-          salt: {
-            ...prevState.salt,
-            rts: false
           }
         }))
       })
@@ -287,6 +287,9 @@ class ContactForm extends React.Component {
 
   handleId = e => {
     let value = e.target.value
+    const salt = this.createSalt()
+    const key = this.encryptSalt(salt)
+    const token = this.createToken(value, salt)
     this.setState(prevState => ({
       verify: {
         ...prevState.verify,
@@ -294,7 +297,9 @@ class ContactForm extends React.Component {
       },
       salt: {
         ...prevState.salt,
-        rts: false
+        key: key,
+        token: token,
+        rts: true
       }
     }))
     this.stopTimer()
@@ -302,21 +307,21 @@ class ContactForm extends React.Component {
   }
 
   handleVer = e => {
+    console.log('handle ver req')
     e.preventDefault()
     this.stopTimer()
     this.startTimer()
     const { server, addSub } = this.props.meta
     const { verify, salt } = this.state
-    const token = this.createToken(verify.id)
     if (salt.rts) {
-      const verApi = server + addSub
+      const verApi = dev + addSub
       const verPkg = { ...verify, ...salt }
       fetch(verApi, {
         method: "POST",
         mode: "cors",
         headers: {
           "Content-Type": "application/json",
-          'Authorization': `Bearer ${token}`
+          'Authorization': `Bearer ${salt.token}`
         },
         body: JSON.stringify(verPkg)
       }).then(res => {
@@ -367,6 +372,7 @@ class ContactForm extends React.Component {
     }
   }
 
+
   render() {
     const { classes, edges } = this.props
     const { sub, send, verify } = this.state
@@ -386,7 +392,7 @@ class ContactForm extends React.Component {
               name="Name"
               label="Name"
               value={sub.Name}
-              onChange={this.handleCh}
+              onChange={this.handleName}
               validators={["required"]}
               errorMessages={["this field is required"]}
               fullWidth
@@ -398,15 +404,25 @@ class ContactForm extends React.Component {
               name="Email"
               label="E-mail"
               value={sub.Email}
-              onChange={this.handleCh}
+              onChange={this.handleEmail}
               validators={["required", "isEmail"]}
               errorMessages={["this field is required", "email is not valid"]}
               fullWidth
               margin="normal"
               className={classes.singleLineInput}
             />
-            {send.cats ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p>
-              <div>{<Countdown date={Date.now() + 420000} renderer={this.countDown} />}</div></div>) : <CatList add={this.addCats} edges={edges} />}
+            {send.cats ? <Button
+              variant="raised"
+              color="primary"
+              size="large"
+              type="submit"
+              className={classes.vbutton}
+              disabled={send.next}
+            >
+              Get ID
+                </Button> : <CatList add={this.addCats} edges={edges} />}
+            {send.next ? (<div className={classes.success}><p>Check inbox and spam of <strong>{send.success}</strong> for email from <strong>no-reply@huntcodes.co</strong></p><p>Copy <strong>Subscriber ID</strong> from email and paste below to complete subscription.</p>
+              <div>{<Countdown date={Date.now() + 420000} renderer={this.countDown} />}</div></div>) : <div></div>}
           </ValidatorForm>
           : <p className={classes.err}>We are unable to handle your request at this time. Please <a className={classes.rlink} href='https://www.huntcodes.co/#contact' target='_blank'>contact us</a></p>}</div>
         <h2>Step 2 - Verify ID</h2>

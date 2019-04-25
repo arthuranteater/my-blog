@@ -121,14 +121,14 @@ class CatList extends React.Component {
                         </FormGroup>
                     </FormControl>
                     <Button
+                        onClick={this.getSelected}
                         variant="raised"
                         color="primary"
                         size="large"
-                        type="submit"
                         className={classes.gbutton}
-                        onClick={this.getSelected}
+
                     >
-                        Get ID
+                        Add Categories
                 </Button></div>
                 }</div>
         )
