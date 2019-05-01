@@ -1,6 +1,6 @@
 ---
-title: How To Redux
-subTitle: Step-by-step instructions for implementing redux
+title: How To React-Redux
+subTitle: all things Redux with React
 hashtag: redux store dispatch reducer
 category: "Redux"
 time: 15 min
@@ -8,7 +8,6 @@ castImage:
 cover: a.png
 ---
 
-Coming Soon!
 
 Skip the why- link
 
@@ -157,6 +156,8 @@ $ touch styling.js
 
 ```
 
+You just reduxed! High five!
+
 Pick one more example to try on your own. 
 
 Now we'll combine a couple.
@@ -186,7 +187,11 @@ redux website
 list of articles
 
 
+Please come up with something more original they said...
 
+Next post will be on Elm, Elixir, Crystal or Rust?
+
+Comment below!
 
 
 
