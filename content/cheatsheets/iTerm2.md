@@ -2,7 +2,7 @@
 title: iTerm2
 ---
 
-
+Search = control + R
 
 Window new = control + D
 

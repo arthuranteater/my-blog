@@ -138,9 +138,7 @@ Builds
 
 Some use cases: views (mobile, @media, buyer, renter), saving searches, tracking clicks, navbars, sidebars, toggles (language, dark mode, font size), steps (if complete...show)
 
-Let's make a dark mode toggle.
-
-Lightening!
+Let's make a dark mode toggle with lightening!
 
 ```
 npx create-react-app my-app
